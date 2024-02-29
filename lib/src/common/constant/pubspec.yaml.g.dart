@@ -124,13 +124,13 @@ sealed class Pubspec {
   /// Build date and time (UTC)
   static final DateTime timestamp = DateTime.utc(
     2024,
-    1,
-    3,
-    10,
-    33,
-    41,
-    865,
-    500,
+    2,
+    29,
+    17,
+    15,
+    5,
+    755,
+    842,
   );
 
   /// Name
@@ -150,7 +150,7 @@ sealed class Pubspec {
   /// Try to pick a name that is clear, terse, and not already in use.
   /// A quick search of packages on the [pub.dev site](https://pub.dev/packages)
   /// to make sure that nothing else is using your name is recommended.
-  static const String name = r'flutter_template_name';
+  static const String name = r'invoice';
 
   /// Description
   ///
@@ -165,7 +165,7 @@ sealed class Pubspec {
   /// Think of the description as the sales pitch for your package.
   /// Users see it when they [browse for packages](https://pub.dev/packages).
   /// The description is plain text: no markdown or HTML.
-  static const String description = r'flutter_template_description';
+  static const String description = r'Invoice Builder';
 
   /// Homepage
   ///
@@ -426,13 +426,15 @@ sealed class Pubspec {
     'platform_info': r'^4.0.2',
     'rxdart': r'^0.28.0-dev.0',
     'url_launcher': r'^6.2.2',
-    'l': r'^4.1.0-pre.1',
+    'l': r'^5.0.0-pre.2',
     'win32': r'^5.1.1',
     'window_manager': r'^0.3.4',
     'control': r'^0.0.1-pre.0',
     'shared_preferences': r'^2.2.2',
     'drift': r'^2.14.1',
     'sqlite3_flutter_libs': r'^0.5.18',
+    'dio': r'^5.4.0',
+    'dio_smart_retry': r'^6.0.0',
     'cupertino_icons': r'^1.0.5',
     'drift_db_viewer': r'^2.0.0',
   };
@@ -445,7 +447,7 @@ sealed class Pubspec {
     'integration_test': <String, Object>{
       'sdk': r'flutter',
     },
-    'flutter_lints': r'^2.0.1',
+    'flutter_lints': r'^3.0.1',
     'build_runner': r'^2.4.6',
     'drift_dev': r'^2.14.1',
     'pubspec_generator': r'^4.1.0-pre.1',
@@ -526,5 +528,4 @@ sealed class Pubspec {
       'line_length': 120,
     },
   };
-
 }

@@ -1,11 +1,11 @@
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
-import 'package:flutter_template_name/src/common/localization/localization.dart';
-import 'package:flutter_template_name/src/common/model/dependencies.dart';
-import 'package:flutter_template_name/src/common/widget/scaffold_padding.dart';
-import 'package:flutter_template_name/src/feature/developer/widget/logs_dialog.dart';
+import 'package:invoice/src/common/constant/pubspec.yaml.g.dart';
+import 'package:invoice/src/common/localization/localization.dart';
+import 'package:invoice/src/common/model/dependencies.dart';
+import 'package:invoice/src/common/widget/scaffold_padding.dart';
+import 'package:invoice/src/feature/developer/widget/logs_dialog.dart';
 import 'package:octopus/octopus.dart';
 import 'package:url_launcher/url_launcher_string.dart' as url_launcher;
 
@@ -32,11 +32,17 @@ class DeveloperScreen extends StatelessWidget {
             // --- Authentication --- //
 
             _GroupSeparator(title: Localization.of(context).authentication),
-            const _OpenUriTile(title: 'Profile', description: 'Information about current user'),
-            const _OpenUriTile(title: 'Refresh session', description: 'Refresh current user\'s session'),
-            const _OpenUriTile(title: 'Logout', description: 'Logout current user'),
+            const _OpenUriTile(
+                title: 'Profile',
+                description: 'Information about current user'),
+            const _OpenUriTile(
+                title: 'Refresh session',
+                description: 'Refresh current user\'s session'),
+            const _OpenUriTile(
+                title: 'Logout', description: 'Logout current user'),
             SliverPadding(
-              padding: ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
+              padding:
+                  ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
               sliver: const SliverToBoxAdapter(
                 child: SizedBox(
                   height: 48,
@@ -68,15 +74,24 @@ class DeveloperScreen extends StatelessWidget {
             // --- Useful links --- //
 
             _GroupSeparator(title: Localization.of(context).usefulLinks),
-            const _OpenUriTile(title: 'Flutter', description: 'Flutter website', uri: 'https://flutter.dev'),
-            const _OpenUriTile(title: 'Flutter API', description: 'Framework API', uri: 'https://api.flutter.dev'),
+            const _OpenUriTile(
+                title: 'Flutter',
+                description: 'Flutter website',
+                uri: 'https://flutter.dev'),
+            const _OpenUriTile(
+                title: 'Flutter API',
+                description: 'Framework API',
+                uri: 'https://api.flutter.dev'),
             const _OpenUriTile(title: 'Portal', description: 'User portal'),
             const _OpenUriTile(title: 'Tasks', description: 'Tasks tracker'),
-            const _OpenUriTile(title: 'Repository', description: 'Project repository'),
-            const _OpenUriTile(title: 'Pull requests', description: 'Pull requests list'),
+            const _OpenUriTile(
+                title: 'Repository', description: 'Project repository'),
+            const _OpenUriTile(
+                title: 'Pull requests', description: 'Pull requests list'),
             const _OpenUriTile(title: 'Jenkins', description: 'CI/CD pipeline'),
             const _OpenUriTile(title: 'Figma', description: 'Designs system'),
-            const _OpenUriTile(title: 'Firebase', description: 'Firebase console'),
+            const _OpenUriTile(
+                title: 'Firebase', description: 'Firebase console'),
             const _OpenUriTile(title: 'Sentry', description: 'Sentry console'),
 
             /* SliverPadding(
@@ -118,7 +133,10 @@ class _GroupSeparator extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(height: 1),
                 ),
                 const Expanded(
                   child: Divider(
@@ -152,11 +170,14 @@ class _CopyTile extends StatelessWidget {
               )
             : null,
         onTap: () {
-          Clipboard.setData(ClipboardData(text: content ?? (subtitle == null ? title : '$title: $subtitle')));
+          Clipboard.setData(ClipboardData(
+              text:
+                  content ?? (subtitle == null ? title : '$title: $subtitle')));
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
-            ..showSnackBar(
-                SnackBar(content: Text(Localization.of(context).copied), duration: const Duration(seconds: 3)));
+            ..showSnackBar(SnackBar(
+                content: Text(Localization.of(context).copied),
+                duration: const Duration(seconds: 3)));
         },
       );
 }
@@ -179,7 +200,8 @@ class _ShowApplicationInfoTile extends StatelessWidget {
               (context) => AboutDialog(
                 /* applicationName: pubspec.name, */
                 applicationVersion: Pubspec.version.representation,
-                applicationIcon: const SizedBox.square(dimension: 64, child: Icon(Icons.apps, size: 64)),
+                applicationIcon: const SizedBox.square(
+                    dimension: 64, child: Icon(Icons.apps, size: 64)),
                 children: <Widget>[
                   const _CopyTile(
                     title: 'Name',
@@ -222,7 +244,8 @@ class _ShowLicensePageTile extends StatelessWidget {
         padding: ScaffoldPadding.of(context),
         sliver: SliverToBoxAdapter(
           child: ListTile(
-            title: Text(MaterialLocalizations.of(context).viewLicensesButtonLabel),
+            title:
+                Text(MaterialLocalizations.of(context).viewLicensesButtonLabel),
             subtitle: Text(
               MaterialLocalizations.of(context).licensesPageTitle,
               maxLines: 1,
@@ -232,7 +255,8 @@ class _ShowLicensePageTile extends StatelessWidget {
               context: context,
               applicationName: Pubspec.name,
               applicationVersion: Pubspec.version.representation,
-              applicationIcon: const SizedBox.square(dimension: 64, child: Icon(Icons.apps, size: 64)),
+              applicationIcon: const SizedBox.square(
+                  dimension: 64, child: Icon(Icons.apps, size: 64)),
               useRootNavigator: true,
             ),
           ),
@@ -275,11 +299,13 @@ class _ShowApplicationDependenciesTile extends StatelessWidget {
                         const SizedBox(height: 16),
                         Wrap(
                           children: <Widget>[
-                            for (final dependency in Pubspec.dependencies.entries)
+                            for (final dependency
+                                in Pubspec.dependencies.entries)
                               Padding(
                                 padding: const EdgeInsets.all(4),
                                 child: Chip(
-                                  label: Text('${dependency.key}: ${dependency.value}'),
+                                  label: Text(
+                                      '${dependency.key}: ${dependency.value}'),
                                 ),
                               ),
                           ],
@@ -331,11 +357,13 @@ class _ShowApplicationDevDependenciesTile extends StatelessWidget {
                         const SizedBox(height: 16),
                         Wrap(
                           children: <Widget>[
-                            for (final dependency in Pubspec.devDependencies.entries)
+                            for (final dependency
+                                in Pubspec.devDependencies.entries)
                               Padding(
                                 padding: const EdgeInsets.all(4),
                                 child: Chip(
-                                  label: Text('${dependency.key}: ${dependency.value}'),
+                                  label: Text(
+                                      '${dependency.key}: ${dependency.value}'),
                                 ),
                               ),
                           ],
@@ -444,7 +472,9 @@ class _ClearDatabaseTile extends StatelessWidget {
                 }
               }).then<void>(
                 (_) => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Database cleared'), duration: Duration(seconds: 3)),
+                  const SnackBar(
+                      content: Text('Database cleared'),
+                      duration: Duration(seconds: 3)),
                 ),
                 // ignore: inference_failure_on_untyped_parameter
                 onError: (error) => ScaffoldMessenger.of(context).showSnackBar(
@@ -486,7 +516,9 @@ class _OpenUriTile extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              onTap: uri == null ? null : () => url_launcher.launchUrlString(uri!).ignore(),
+              onTap: uri == null
+                  ? null
+                  : () => url_launcher.launchUrlString(uri!).ignore(),
             ),
           ),
         ),

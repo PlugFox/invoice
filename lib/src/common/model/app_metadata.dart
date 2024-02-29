@@ -80,6 +80,7 @@ class AppMetadata {
         'X-Meta-Locale': locale,
         'X-Meta-Device-Version': deviceVersion,
         'X-Meta-Device-Screen-Size': deviceScreenSize,
-        'X-Meta-App-Launched-Timestamp': appLaunchedTimestamp.millisecondsSinceEpoch.toString(),
+        'X-Meta-App-Launched-Timestamp':
+            appLaunchedTimestamp.millisecondsSinceEpoch.toString(),
       };
 }

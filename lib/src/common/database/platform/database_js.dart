@@ -4,7 +4,7 @@ import 'dart:html' as html;
 
 import 'package:drift/drift.dart';
 import 'package:drift/web.dart' as web;
-import 'package:flutter_template_name/src/common/constant/config.dart';
+import 'package:invoice/src/common/constant/config.dart';
 import 'package:meta/meta.dart';
 
 /*

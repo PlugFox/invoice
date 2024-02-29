@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_foreach
 
 import 'package:drift/drift.dart';
-import 'package:flutter/widgets.dart' show WidgetsBindingObserver, WidgetsBinding, AppLifecycleState;
-import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/database/platform/database_vm.dart'
+import 'package:flutter/widgets.dart'
+    show WidgetsBindingObserver, WidgetsBinding, AppLifecycleState;
+import 'package:invoice/src/common/constant/config.dart';
+import 'package:invoice/src/common/database/platform/database_vm.dart'
     // ignore: uri_does_not_exist
-    if (dart.library.html) 'package:flutter_template_name/src/common/database/platform/database_js.dart';
-import 'package:flutter_template_name/src/common/database/queries.dart';
+    if (dart.library.html) 'package:invoice/src/common/database/platform/database_js.dart';
+import 'package:invoice/src/common/database/queries.dart';
 import 'package:meta/meta.dart';
 
 export 'package:drift/drift.dart' hide DatabaseOpener;
@@ -50,8 +51,15 @@ abstract interface class IKeyValueStorage {
   queries: $queries,
 )
 class Database extends _$Database
-    with _DatabaseKeyValueMixin, WidgetsBindingObserver, _CloseOnDetachedAppLifecycleState
-    implements GeneratedDatabase, DatabaseConnectionUser, QueryExecutorUser, IKeyValueStorage {
+    with
+        _DatabaseKeyValueMixin,
+        WidgetsBindingObserver,
+        _CloseOnDetachedAppLifecycleState
+    implements
+        GeneratedDatabase,
+        DatabaseConnectionUser,
+        QueryExecutorUser,
+        IKeyValueStorage {
   /// Creates a database that will store its result in the [path], creating it
   /// if it doesn't exist.
   ///
@@ -156,11 +164,15 @@ mixin _DatabaseKeyValueMixin on _$Database implements IKeyValueStorage {
   bool _$isInitialized = false;
   final Map<String, Object> _$store = <String, Object>{};
 
-  static KvTblCompanion? _kvCompanionFromKeyValue(String key, Object? value) => switch (value) {
-        String vstring => KvTblCompanion.insert(k: key, vstring: Value(vstring)),
+  static KvTblCompanion? _kvCompanionFromKeyValue(String key, Object? value) =>
+      switch (value) {
+        String vstring =>
+          KvTblCompanion.insert(k: key, vstring: Value(vstring)),
         int vint => KvTblCompanion.insert(k: key, vint: Value(vint)),
-        double vdouble => KvTblCompanion.insert(k: key, vdouble: Value(vdouble)),
-        bool vbool => KvTblCompanion.insert(k: key, vbool: Value(vbool ? 1 : 0)),
+        double vdouble =>
+          KvTblCompanion.insert(k: key, vdouble: Value(vdouble)),
+        bool vbool =>
+          KvTblCompanion.insert(k: key, vbool: Value(vbool ? 1 : 0)),
         _ => null,
       };
 
@@ -170,7 +182,8 @@ mixin _DatabaseKeyValueMixin on _$Database implements IKeyValueStorage {
         _$store
           ..clear()
           ..addAll(<String, Object>{
-            for (final kv in values) kv.k: kv.vstring ?? kv.vint ?? kv.vdouble ?? kv.vbool == 1,
+            for (final kv in values)
+              kv.k: kv.vstring ?? kv.vint ?? kv.vdouble ?? kv.vbool == 1,
           });
       });
 
@@ -224,10 +237,13 @@ mixin _DatabaseKeyValueMixin on _$Database implements IKeyValueStorage {
     assert(_$isInitialized, 'Database is not initialized');
     if (data.isEmpty) return;
     final entries = <(String, Object?, KvTblCompanion?)>[
-      for (final e in data.entries) (e.key, e.value, _kvCompanionFromKeyValue(e.key, e.value)),
+      for (final e in data.entries)
+        (e.key, e.value, _kvCompanionFromKeyValue(e.key, e.value)),
     ];
-    final toDelete = entries.where((e) => e.$3 == null).map<String>((e) => e.$1).toSet();
-    final toInsert = entries.expand<(String, Object, KvTblCompanion)>((e) sync* {
+    final toDelete =
+        entries.where((e) => e.$3 == null).map<String>((e) => e.$1).toSet();
+    final toInsert =
+        entries.expand<(String, Object, KvTblCompanion)>((e) sync* {
       final value = e.$2;
       final companion = e.$3;
       if (companion == null || value == null) return;
@@ -238,7 +254,8 @@ mixin _DatabaseKeyValueMixin on _$Database implements IKeyValueStorage {
     batch(
       (b) => b
         ..deleteWhere(kvTbl, (tbl) => tbl.k.isIn(toDelete))
-        ..insertAllOnConflictUpdate(kvTbl, toInsert.map((e) => e.$3).toList(growable: false)),
+        ..insertAllOnConflictUpdate(
+            kvTbl, toInsert.map((e) => e.$3).toList(growable: false)),
     ).ignore();
   }
 
@@ -255,7 +272,8 @@ mixin _DatabaseKeyValueMixin on _$Database implements IKeyValueStorage {
   }
 }
 
-mixin _CloseOnDetachedAppLifecycleState on WidgetsBindingObserver, GeneratedDatabase {
+mixin _CloseOnDetachedAppLifecycleState
+    on WidgetsBindingObserver, GeneratedDatabase {
   void _init() {
     WidgetsBinding.instance.addObserver(this);
   }

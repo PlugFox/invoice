@@ -21,7 +21,8 @@ extension DioProxyX on Dio {
           }
           ..badCertificateCallback = (cert, host, post) => true;
       default:
-        throw UnsupportedError('Cannot use proxy with ${httpClientAdapter.runtimeType}');
+        throw UnsupportedError(
+            'Cannot use proxy with ${httpClientAdapter.runtimeType}');
     }
   }
 }

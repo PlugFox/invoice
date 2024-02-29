@@ -1,11 +1,11 @@
 {
-    "name": "flutter_template_name",
-    "short_name": "flutter_template_name",
+    "name": "invoice",
+    "short_name": "invoice",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "flutter_template_description",
+    "description": "Invoice Builder",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

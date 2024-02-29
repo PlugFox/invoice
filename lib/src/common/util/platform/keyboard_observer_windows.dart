@@ -1,15 +1,19 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_template_name/src/common/model/virtual_key_codes.dart';
-import 'package:flutter_template_name/src/common/util/platform/keyboard_observer_interface.dart';
+import 'package:invoice/src/common/model/virtual_key_codes.dart';
+import 'package:invoice/src/common/util/platform/keyboard_observer_interface.dart';
 import 'package:meta/meta.dart';
-import 'package:win32/win32.dart' show GetKeyState; // GetAsyncKeyState, GetKeyboardState
+import 'package:win32/win32.dart'
+    show GetKeyState; // GetAsyncKeyState, GetKeyboardState
 
 IKeyboardObserver $getKeyboardObserver$Windows() => _KeyboardObserver$Windows();
 
 @sealed
-class _KeyboardObserver$Windows with _IsKeyPressed, ChangeNotifier implements IKeyboardObserver {
+class _KeyboardObserver$Windows
+    with _IsKeyPressed, ChangeNotifier
+    implements IKeyboardObserver {
   @override
-  bool get isControlPressed => isKeyPressed(VK.LCONTROL) || isKeyPressed(VK.RCONTROL);
+  bool get isControlPressed =>
+      isKeyPressed(VK.LCONTROL) || isKeyPressed(VK.RCONTROL);
 
   @override
   bool get isShiftPressed => isKeyPressed(VK.LSHIFT) || isKeyPressed(VK.RSHIFT);

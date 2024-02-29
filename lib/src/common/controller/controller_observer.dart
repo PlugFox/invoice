@@ -13,7 +13,8 @@ class ControllerObserver implements IControllerObserver {
   }
 
   @override
-  void onStateChanged<S extends Object>(StateController<S> controller, S prevState, S nextState) {
+  void onStateChanged<S extends Object>(
+      StateController<S> controller, S prevState, S nextState) {
     l.d('StateController | ${controller.runtimeType} | $prevState -> $nextState');
   }
 

@@ -3,8 +3,8 @@ import 'dart:io' as io;
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart' as ffi;
 import 'package:flutter/foundation.dart';
-import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:invoice/src/common/constant/config.dart';
+import 'package:invoice/src/common/constant/pubspec.yaml.g.dart';
 import 'package:l/l.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
@@ -45,7 +45,8 @@ Future<QueryExecutor> $createQueryExecutor({
       }
       file = io.File(p.join(dbFolder.path, '${Config.databaseName}.db'));
     } on Object catch (error, stackTrace) {
-      Error.throwWithStackTrace('Failed to get application documents directory "$error"', stackTrace);
+      Error.throwWithStackTrace(
+          'Failed to get application documents directory "$error"', stackTrace);
     }
   } else {
     file = io.File(path);

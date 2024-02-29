@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_name/src/common/router/routes.dart';
-import 'package:flutter_template_name/src/common/widget/form_placeholder.dart';
-import 'package:flutter_template_name/src/common/widget/scaffold_padding.dart';
-import 'package:flutter_template_name/src/common/widget/shimmer.dart';
-import 'package:flutter_template_name/src/common/widget/text_placeholder.dart';
-import 'package:flutter_template_name/src/feature/authentication/widget/log_out_button.dart';
+import 'package:invoice/src/common/router/routes.dart';
+import 'package:invoice/src/common/widget/form_placeholder.dart';
+import 'package:invoice/src/common/widget/scaffold_padding.dart';
+import 'package:invoice/src/common/widget/shimmer.dart';
+import 'package:invoice/src/common/widget/text_placeholder.dart';
+import 'package:invoice/src/feature/authentication/widget/log_out_button.dart';
 import 'package:octopus/octopus.dart';
 
 /// {@template profile_screen}
@@ -25,7 +25,8 @@ class ProfileScreen extends StatelessWidget {
               snap: true,
             ),
             SliverPadding(
-              padding: ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
+              padding:
+                  ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
               sliver: SliverList.list(
                 children: <Widget>[
                   Padding(

@@ -1,6 +1,6 @@
-name: flutter_template_name
+name: invoice
 
-description: "flutter_template_description"
+description: "Invoice Builder"
 
 publish_to: 'none'
 
@@ -65,7 +65,7 @@ dependencies:
   url_launcher: ^6.2.2
 
   # Logger
-  l: ^4.1.0-pre.1
+  l: ^5.0.0-pre.2
 
   # Desktop
   win32: ^5.1.1
@@ -98,7 +98,7 @@ dev_dependencies:
     sdk: flutter
 
   # Linting
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
 
   # Code generation
   build_runner: ^2.4.6

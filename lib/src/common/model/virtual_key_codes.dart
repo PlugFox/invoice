@@ -539,7 +539,8 @@ enum VK {
   const VK(this.code, {this.extendedKey = false});
 
   /// Returns the virtual key for the given [code].
-  factory VK.fromCode(int code) => _map[code] ?? (throw ArgumentError('Invalid code: $code'));
+  factory VK.fromCode(int code) =>
+      _map[code] ?? (throw ArgumentError('Invalid code: $code'));
 
   /// The map of virtual keys.
   static final Map<int, VK> _map = <int, VK>{

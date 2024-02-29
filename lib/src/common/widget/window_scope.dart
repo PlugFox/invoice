@@ -2,7 +2,7 @@ import 'dart:io' as io;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template_name/src/common/localization/localization.dart';
+import 'package:invoice/src/common/localization/localization.dart';
 import 'package:window_manager/window_manager.dart';
 
 /// {@template window_scope}
@@ -28,19 +28,20 @@ class WindowScope extends StatefulWidget {
 
 class _WindowScopeState extends State<WindowScope> {
   @override
-  Widget build(BuildContext context) => kIsWeb || io.Platform.isAndroid || io.Platform.isIOS
-      ? widget.child
-      : Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const _WindowTitle(),
-            Expanded(
-              child: widget.child,
-            ),
-          ],
-        );
+  Widget build(BuildContext context) =>
+      kIsWeb || io.Platform.isAndroid || io.Platform.isIOS
+          ? widget.child
+          : Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const _WindowTitle(),
+                Expanded(
+                  child: widget.child,
+                ),
+              ],
+            );
 }
 
 class _WindowTitle extends StatefulWidget {
@@ -115,7 +116,8 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
                       child: Center(
                         child: AnimatedSwitcher(
                           duration: const Duration(milliseconds: 250),
-                          transitionBuilder: (child, animation) => FadeTransition(
+                          transitionBuilder: (child, animation) =>
+                              FadeTransition(
                             opacity: animation,
                             child: ScaleTransition(
                               scale: animation,
@@ -123,10 +125,17 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
                             ),
                           ),
                           child: Text(
-                            context.findAncestorWidgetOfExactType<WindowScope>()?.title ?? Localization.of(context).app,
+                            context
+                                    .findAncestorWidgetOfExactType<
+                                        WindowScope>()
+                                    ?.title ??
+                                Localization.of(context).app,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.labelLarge?.copyWith(height: 1),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(height: 1),
                           ),
                         ),
                       ),

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter_template_name/src/common/router/routes.dart';
-import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
+import 'package:invoice/src/common/router/routes.dart';
+import 'package:invoice/src/feature/authentication/model/user.dart';
 import 'package:octopus/octopus.dart';
 
 /// Check routes always contain the home route at the first position.
