@@ -1,0 +1,131 @@
+name: flutter_template_name
+
+description: "flutter_template_description"
+
+publish_to: 'none'
+
+version: 0.0.1+1
+
+#homepage: https://github.com/
+
+#repository: https://github.com/
+
+#issue_tracker: https://github.com/
+
+#funding:
+#  - https://www.buymeacoffee.com/
+#  - https://www.patreon.com/
+#  - https://boosty.to/
+
+#topics:
+#  -
+#  -
+
+#platforms:
+#  android:
+#  ios:
+#  linux:
+#  macos:
+#  web:
+#  windows:
+
+#screenshots:
+#  - description: 'Screenshot 1'
+#    path: screenshot_1.png
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #flutter_web_plugins:
+  #  sdk: flutter
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # Routing
+  octopus: ^0.0.0
+
+  # Utility
+  meta: any
+  collection: any
+  async: any
+  path: any
+  convert: any
+  path_provider: ^2.1.1
+  platform_info: ^4.0.2
+  #multiline: ^3.0.0
+  rxdart: ^0.28.0-dev.0
+  url_launcher: ^6.2.2
+
+  # Logger
+  l: ^4.1.0-pre.1
+
+  # Desktop
+  win32: ^5.1.1
+  window_manager: ^0.3.4
+
+  # State management
+  control: ^0.0.1-pre.0
+
+  # Database
+  shared_preferences: ^2.2.2
+  drift: ^2.14.1
+  sqlite3_flutter_libs: ^0.5.18
+
+  # Networking
+  dio: ^5.4.0
+  dio_smart_retry: ^6.0.0
+
+  # UI and Widgets
+  cupertino_icons: ^1.0.5
+  #google_fonts: ^6.1.0
+  #font_awesome_flutter: ^10.6.0
+  drift_db_viewer: ^2.0.0
+
+dev_dependencies:
+  # Unit & Widget tests for Flutter
+  flutter_test:
+    sdk: flutter
+  # Integration tests for Flutter
+  integration_test:
+    sdk: flutter
+
+  # Linting
+  flutter_lints: ^2.0.1
+
+  # Code generation
+  build_runner: ^2.4.6
+  drift_dev: ^2.14.1
+  pubspec_generator: ^4.1.0-pre.1
+  flutter_gen_runner: ^5.3.2
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.8
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  shaders:
+    - assets/shaders/shimmer.frag
+
+  #assets:
+  #  - assets/images/
+
+flutter_intl:
+  enabled: true
+  class_name: GeneratedLocalization
+  main_locale: en
+  arb_dir: lib/src/common/localization
+  output_dir: lib/src/common/localization/generated
+  use_deferred_loading: false
+
+flutter_gen:
+  output: lib/src/common/constant/
+  line_length: 120
