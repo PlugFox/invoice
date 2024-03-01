@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/localization/localization.dart';
+import 'package:platform_info/platform_info.dart';
 import 'package:window_manager/window_manager.dart';
 
 /// {@template window_scope}
@@ -133,11 +134,12 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
                     );
                   },
                 ),
-                _WindowButtons$Windows(
-                  isFullScreen: _isFullScreen,
-                  isAlwaysOnTop: _isAlwaysOnTop,
-                  setAlwaysOnTop: setAlwaysOnTop,
-                ),
+                if (platform.isWindows)
+                  _WindowButtons$Windows(
+                    isFullScreen: _isFullScreen,
+                    isAlwaysOnTop: _isAlwaysOnTop,
+                    setAlwaysOnTop: setAlwaysOnTop,
+                  ),
               ],
             ),
           ),
