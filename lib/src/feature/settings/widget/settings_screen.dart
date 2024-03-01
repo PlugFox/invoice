@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:invoice/src/common/router/routes.dart';
 import 'package:invoice/src/common/widget/form_placeholder.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
 import 'package:invoice/src/common/widget/shimmer.dart';
 import 'package:invoice/src/common/widget/text_placeholder.dart';
-import 'package:octopus/octopus.dart';
 
-/// {@template profile_screen}
-/// ProfileScreen widget.
+/// {@template settings_screen}
+/// SettingsScreen widget.
 /// {@endtemplate}
-class ProfileScreen extends StatelessWidget {
+class SettingsScreen extends StatelessWidget {
   /// {@macro profile_screen}
-  const ProfileScreen({super.key});
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
             const SliverAppBar(
-              title: Text('Profile'),
+              title: Text('Settings'),
               pinned: true,
               floating: true,
               snap: true,
@@ -100,7 +98,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  SizedBox(
+                  /* SizedBox(
                     height: 68,
                     child: ListTile(
                       leading: const CircleAvatar(child: Icon(Icons.settings)),
@@ -129,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () => context.octopus.push(Routes.settingsDialog),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 24), */
                   const FormPlaceholder(title: false),
                   const SizedBox(height: 24),
                 ],
