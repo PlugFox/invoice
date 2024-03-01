@@ -3,8 +3,8 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:invoice/src/common/widget/history_button.dart';
-import 'package:invoice/src/feature/account/widget/profile_icon_button.dart';
 import 'package:invoice/src/feature/developer/widget/developer_button.dart';
+import 'package:invoice/src/feature/settings/widget/profile_icon_button.dart';
 
 class CommonActions extends ListBase<Widget> {
   CommonActions([List<Widget>? actions])
