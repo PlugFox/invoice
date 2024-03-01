@@ -56,7 +56,7 @@ class GeneratedLocalization {
     return Intl.message(
       'en_US',
       name: 'localeCode',
-      desc: '',
+      desc: 'Locale code',
       args: [],
     );
   }
@@ -66,7 +66,7 @@ class GeneratedLocalization {
     return Intl.message(
       'en',
       name: 'languageCode',
-      desc: '',
+      desc: 'Language code',
       args: [],
     );
   }
@@ -76,15 +76,15 @@ class GeneratedLocalization {
     return Intl.message(
       'English',
       name: 'language',
-      desc: '',
+      desc: 'Language',
       args: [],
     );
   }
 
-  /// `Title`
+  /// `Invoices`
   String get title {
     return Intl.message(
-      'Title',
+      'Invoices',
       name: 'title',
       desc: '',
       args: [],

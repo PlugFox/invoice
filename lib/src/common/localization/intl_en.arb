@@ -1,17 +1,26 @@
 {
   "@@locale": "en",
   "localeCode": "en_US",
+  "@localeCode": {
+    "type": "text",
+    "description": "Locale code"
+  },
   "languageCode": "en",
+  "@languageCode": {
+    "type": "text",
+    "description": "Language code"
+  },
   "language": "English",
-  "@ Title": {},
-  "title": "Title",
-  "@ ############# Routes #############": {},
+  "@language": {
+    "type": "text",
+    "description": "Language"
+  },
+  "title": "Invoices",
   "routes": "Routes",
   "recent": "Recent",
   "starred": "Starred",
   "settings": "Settings",
   "developer": "Developer",
-  "@ ############# Errors #############": {},
   "somethingWentWrong": "Something went wrong",
   "error": "Error",
   "exception": "Exception",
@@ -40,7 +49,6 @@
   "gatewayTimeout": "Gateway timeout",
   "unknownServerError": "Unknown server error",
   "anUnknownErrorWasReceivedFromTheServer": "An unknown error was received from the server",
-  "@ ############# Buttons #############": {},
   "logOutButton": "Log Out",
   "logInButton": "Log In",
   "exitButton": "Exit",
@@ -67,7 +75,6 @@
   "moveToTrashButton": "Move to trash",
   "restoreButton": "Restore",
   "profileButton": "Profile",
-  "@ ############# Labels #############": {},
   "email": "Email",
   "password": "Password",
   "confirmPassword": "Confirm password",
@@ -104,6 +111,5 @@
   "storage": "Storage",
   "help": "Help",
   "selected": "Selected",
-  "@ For example: 'of' in '5 of 20' is 25%": {},
   "ofSeparator": "of"
 }

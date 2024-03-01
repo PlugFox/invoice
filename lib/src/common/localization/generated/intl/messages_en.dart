@@ -136,7 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time": MessageLookupByLibrary.simpleMessage("Time"),
         "timeOutExceeded":
             MessageLookupByLibrary.simpleMessage("Time out exceeded"),
-        "title": MessageLookupByLibrary.simpleMessage("Title"),
+        "title": MessageLookupByLibrary.simpleMessage("Invoices"),
         "tooManyRequests":
             MessageLookupByLibrary.simpleMessage("Too many requests"),
         "tryAgainLater":
