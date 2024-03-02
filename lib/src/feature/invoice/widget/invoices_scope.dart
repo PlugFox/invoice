@@ -60,7 +60,7 @@ class _InvoicesScopeState extends State<InvoicesScope> {
 
   void _onStateChanged() {
     final newInvoices = _controller.state.data;
-    if (newInvoices.length == _invoices.length && newInvoices.lastOrNull == _invoices.lastOrNull) return;
+    if (newInvoices.length == _invoices.length) return;
     setState(() {
       _invoices = List<Invoice>.unmodifiable(newInvoices);
       _table = <InvoiceId, Invoice>{
@@ -124,7 +124,7 @@ class _InheritedInvoicesScope extends InheritedModel<InvoiceId> {
       ?.table[id];
 
   @override
-  bool updateShouldNotify(covariant _InheritedInvoicesScope oldWidget) => false;
+  bool updateShouldNotify(covariant _InheritedInvoicesScope oldWidget) => invoices.length != oldWidget.invoices.length;
 
   @override
   bool updateShouldNotifyDependent(covariant _InheritedInvoicesScope oldWidget, Set<InvoiceId> aspects) {

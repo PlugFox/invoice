@@ -30,7 +30,7 @@ class InvoicesLocalDataProviderDriftImpl implements IInvoicesLocalDataProvider {
 
   @override
   Future<Invoice> createInvoice() =>
-      _db.into(_db.invoiceTbl).insertOnConflictUpdate(InvoiceTblCompanion.insert()).then(getInvoiceById);
+      _db.into(_db.invoiceTbl).insert(InvoiceTblCompanion.insert(), mode: InsertMode.insert).then(getInvoiceById);
 
   @override
   Future<void> deleteInvoiceById(InvoiceId id) => _db.transaction(() async {
@@ -92,7 +92,7 @@ class InvoicesLocalDataProviderDriftImpl implements IInvoicesLocalDataProvider {
     return _db.transaction(() async {
       await _db.update(_db.invoiceTbl).replace(data.invoice);
       await (_db.delete(_db.serviceTbl)..where((tbl) => tbl.invoiceId.equals(invoice.id))).go();
-      await _db.batch((b) => b.insertAllOnConflictUpdate(_db.serviceTbl, data.services));
+      await _db.batch((b) => b.insertAll(_db.serviceTbl, data.services, mode: InsertMode.insertOrReplace));
     }).then((_) => getInvoiceById(invoice.id));
   }
 }

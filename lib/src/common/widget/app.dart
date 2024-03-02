@@ -4,6 +4,7 @@ import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/localization/localization.dart';
 import 'package:invoice/src/common/router/router_state_mixin.dart';
 import 'package:invoice/src/common/widget/window_scope.dart';
+import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
 import 'package:octopus/octopus.dart';
 
 /// {@template app}
@@ -53,7 +54,9 @@ class _AppState extends State<App> with RouterStateMixin {
             child: OctopusTools(
               enable: true,
               octopus: router,
-              child: child ?? const SizedBox.shrink(),
+              child: InvoicesScope(
+                child: child ?? const SizedBox.shrink(),
+              ),
             ),
           ),
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/widget/common_actions.dart';
+import 'package:invoice/src/common/widget/scaffold_padding.dart';
+import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
 
 /// {@template invoices_screen}
 /// InvoicesScreen widget.
@@ -9,8 +11,15 @@ class InvoicesScreen extends StatelessWidget {
   const InvoicesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-          body: CustomScrollView(
+  Widget build(BuildContext context) {
+    final invoices = InvoicesScope.getInvoices(context);
+
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => InvoicesScope.of(context).createInvoice(),
+        child: const Icon(Icons.add),
+      ),
+      body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             pinned: true,
@@ -30,12 +39,22 @@ class InvoicesScreen extends StatelessWidget {
             ),
           ), */
 
-          SliverList.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) => ListTile(
-              title: Text('Invoice $index'),
+          ScaffoldPadding.sliver(
+            context,
+            SliverList.builder(
+              itemCount: invoices.length,
+              itemBuilder: (context, index) {
+                final invoice = invoices[index];
+                return ListTile(
+                  title: Text(invoice.id.toString()),
+                  subtitle: Text(invoice.createdAt.toString()),
+                  onTap: () {},
+                );
+              },
             ),
           ),
         ],
-      ));
+      ),
+    );
+  }
 }
