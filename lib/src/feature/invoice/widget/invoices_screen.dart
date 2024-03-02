@@ -14,19 +14,26 @@ class InvoicesScreen extends StatelessWidget {
         slivers: <Widget>[
           SliverAppBar(
             pinned: true,
-            title: const Text('Home'),
+            title: const Text('Invoices'),
             leading: const SizedBox.shrink(),
             actions: CommonActions(),
           ),
-          const SliverFillRemaining(
+          /* const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Home'),
+                  Text('Invoices'),
                 ],
               ),
+            ),
+          ), */
+
+          SliverList.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) => ListTile(
+              title: Text('Invoice $index'),
             ),
           ),
         ],

@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS invoice_tbl (
     -- Unique identifier of the organization
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 
-    -- Time is the timestamp (in seconds) of the organization
+    -- Created date (unixtime in seconds)
     created_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
 
     -- Updated date (unixtime in seconds)
@@ -19,25 +19,26 @@ CREATE TABLE IF NOT EXISTS invoice_tbl (
     paid_at INTEGER,
 
     -- Organization identifier (organization_tbl)
-    organization_id INTEGER NOT NULL CHECK (organization_id > 0),
+    organization_id INTEGER,
 
     -- Counterparty identifier (organization_tbl)
-    counterparty_id INTEGER NOT NULL CHECK (counterparty_id > 0),
+    counterparty_id INTEGER,
 
     -- Invoice number
     number TEXT NOT NULL CHECK (length(number) > 0),
-
-    -- Invoice total amount
-    total REAL NOT NULL CHECK (total >= 0),
-
-    -- Currency code
-    currency TEXT NOT NULL CHECK (length(currency) > 0),
 
     -- Status of the invoice
     -- 0 - Draft
     -- 1 - Sent
     -- 2 - Paid
-    status INTEGER NOT NULL DEFAULT 0 CHECK (status >=0 AND status <= 2),
+    -- 3 - Overdue
+    status INTEGER NOT NULL DEFAULT 0 CHECK (status >=0 AND status <= 3),
+
+    -- Currency code
+    currency TEXT NOT NULL CHECK (length(currency) > 0),
+
+    -- Invoice total amount
+    total REAL NOT NULL CHECK (total >= 0),
 
     -- Description of the invoice
     description TEXT
@@ -54,7 +55,7 @@ CREATE INDEX IF NOT EXISTS invoice_counterparty_id_idx ON invoice_tbl (counterpa
 CREATE INDEX IF NOT EXISTS invoice_status_idx ON invoice_tbl (status);
 
 -- Triggers
-CREATE TRIGGER IF NOT EXISTS characteristic_updated_at_trig AFTER UPDATE ON invoice_tbl
+CREATE TRIGGER IF NOT EXISTS invoice_updated_at_trig AFTER UPDATE ON invoice_tbl
     BEGIN
         UPDATE invoice_tbl SET updated_at = strftime('%s', 'now') WHERE id = NEW.id;
     END;

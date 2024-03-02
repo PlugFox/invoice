@@ -52,43 +52,43 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
   static const VerificationMeta _organizationIdMeta =
       VerificationMeta('organizationId');
   late final GeneratedColumn<int> organizationId = GeneratedColumn<int>(
-      'organization_id', aliasedName, false,
+      'organization_id', aliasedName, true,
       type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _counterpartyIdMeta =
       VerificationMeta('counterpartyId');
   late final GeneratedColumn<int> counterpartyId = GeneratedColumn<int>(
-      'counterparty_id', aliasedName, false,
+      'counterparty_id', aliasedName, true,
       type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL CHECK (counterparty_id > 0)');
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _numberMeta = VerificationMeta('number');
   late final GeneratedColumn<String> number = GeneratedColumn<String>(
       'number', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL CHECK (length(number) > 0)');
-  static const VerificationMeta _totalMeta = VerificationMeta('total');
-  late final GeneratedColumn<double> total = GeneratedColumn<double>(
-      'total', aliasedName, false,
-      type: DriftSqlType.double,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL CHECK (total >= 0)');
-  static const VerificationMeta _currencyMeta = VerificationMeta('currency');
-  late final GeneratedColumn<String> currency = GeneratedColumn<String>(
-      'currency', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL CHECK (length(currency) > 0)');
   static const VerificationMeta _statusMeta = VerificationMeta('status');
   late final GeneratedColumn<int> status = GeneratedColumn<int>(
       'status', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints:
-          'NOT NULL DEFAULT 0 CHECK (status >= 0 AND status <= 2)',
+          'NOT NULL DEFAULT 0 CHECK (status >= 0 AND status <= 3)',
       defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _currencyMeta = VerificationMeta('currency');
+  late final GeneratedColumn<String> currency = GeneratedColumn<String>(
+      'currency', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(currency) > 0)');
+  static const VerificationMeta _totalMeta = VerificationMeta('total');
+  late final GeneratedColumn<double> total = GeneratedColumn<double>(
+      'total', aliasedName, false,
+      type: DriftSqlType.double,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (total >= 0)');
   static const VerificationMeta _descriptionMeta =
       VerificationMeta('description');
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
@@ -107,9 +107,9 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
         organizationId,
         counterpartyId,
         number,
-        total,
-        currency,
         status,
+        currency,
+        total,
         description
       ];
   @override
@@ -150,16 +150,12 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
           _organizationIdMeta,
           organizationId.isAcceptableOrUnknown(
               data['organization_id']!, _organizationIdMeta));
-    } else if (isInserting) {
-      context.missing(_organizationIdMeta);
     }
     if (data.containsKey('counterparty_id')) {
       context.handle(
           _counterpartyIdMeta,
           counterpartyId.isAcceptableOrUnknown(
               data['counterparty_id']!, _counterpartyIdMeta));
-    } else if (isInserting) {
-      context.missing(_counterpartyIdMeta);
     }
     if (data.containsKey('number')) {
       context.handle(_numberMeta,
@@ -167,11 +163,9 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
     } else if (isInserting) {
       context.missing(_numberMeta);
     }
-    if (data.containsKey('total')) {
-      context.handle(
-          _totalMeta, total.isAcceptableOrUnknown(data['total']!, _totalMeta));
-    } else if (isInserting) {
-      context.missing(_totalMeta);
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
     }
     if (data.containsKey('currency')) {
       context.handle(_currencyMeta,
@@ -179,9 +173,11 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
     } else if (isInserting) {
       context.missing(_currencyMeta);
     }
-    if (data.containsKey('status')) {
-      context.handle(_statusMeta,
-          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    if (data.containsKey('total')) {
+      context.handle(
+          _totalMeta, total.isAcceptableOrUnknown(data['total']!, _totalMeta));
+    } else if (isInserting) {
+      context.missing(_totalMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -211,17 +207,17 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
       paidAt: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}paid_at']),
       organizationId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
+          .read(DriftSqlType.int, data['${effectivePrefix}organization_id']),
       counterpartyId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}counterparty_id'])!,
+          .read(DriftSqlType.int, data['${effectivePrefix}counterparty_id']),
       number: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}number'])!,
-      total: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}total'])!,
-      currency: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}currency'])!,
       status: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}status'])!,
+      currency: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}currency'])!,
+      total: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}total'])!,
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
     );
@@ -242,7 +238,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   /// Unique identifier of the organization
   final int id;
 
-  /// Time is the timestamp (in seconds) of the organization
+  /// Created date (unixtime in seconds)
   final int createdAt;
 
   /// Updated date (unixtime in seconds)
@@ -258,25 +254,26 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   final int? paidAt;
 
   /// Organization identifier (organization_tbl)
-  final int organizationId;
+  final int? organizationId;
 
   /// Counterparty identifier (organization_tbl)
-  final int counterpartyId;
+  final int? counterpartyId;
 
   /// Invoice number
   final String number;
 
-  /// Invoice total amount
-  final double total;
-
-  /// Currency code
-  final String currency;
-
+  /// 3 - Overdue
   /// 2 - Paid
   /// 1 - Sent
   /// 0 - Draft
   /// Status of the invoice
   final int status;
+
+  /// Currency code
+  final String currency;
+
+  /// Invoice total amount
+  final double total;
 
   /// Description of the invoice
   final String? description;
@@ -287,12 +284,12 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
       required this.issuedAt,
       this.dueAt,
       this.paidAt,
-      required this.organizationId,
-      required this.counterpartyId,
+      this.organizationId,
+      this.counterpartyId,
       required this.number,
-      required this.total,
-      required this.currency,
       required this.status,
+      required this.currency,
+      required this.total,
       this.description});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -307,12 +304,16 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
     if (!nullToAbsent || paidAt != null) {
       map['paid_at'] = Variable<int>(paidAt);
     }
-    map['organization_id'] = Variable<int>(organizationId);
-    map['counterparty_id'] = Variable<int>(counterpartyId);
+    if (!nullToAbsent || organizationId != null) {
+      map['organization_id'] = Variable<int>(organizationId);
+    }
+    if (!nullToAbsent || counterpartyId != null) {
+      map['counterparty_id'] = Variable<int>(counterpartyId);
+    }
     map['number'] = Variable<String>(number);
-    map['total'] = Variable<double>(total);
-    map['currency'] = Variable<String>(currency);
     map['status'] = Variable<int>(status);
+    map['currency'] = Variable<String>(currency);
+    map['total'] = Variable<double>(total);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
@@ -329,12 +330,16 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
           dueAt == null && nullToAbsent ? const Value.absent() : Value(dueAt),
       paidAt:
           paidAt == null && nullToAbsent ? const Value.absent() : Value(paidAt),
-      organizationId: Value(organizationId),
-      counterpartyId: Value(counterpartyId),
+      organizationId: organizationId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(organizationId),
+      counterpartyId: counterpartyId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(counterpartyId),
       number: Value(number),
-      total: Value(total),
-      currency: Value(currency),
       status: Value(status),
+      currency: Value(currency),
+      total: Value(total),
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
@@ -351,12 +356,12 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
       issuedAt: serializer.fromJson<int>(json['issued_at']),
       dueAt: serializer.fromJson<int?>(json['due_at']),
       paidAt: serializer.fromJson<int?>(json['paid_at']),
-      organizationId: serializer.fromJson<int>(json['organization_id']),
-      counterpartyId: serializer.fromJson<int>(json['counterparty_id']),
+      organizationId: serializer.fromJson<int?>(json['organization_id']),
+      counterpartyId: serializer.fromJson<int?>(json['counterparty_id']),
       number: serializer.fromJson<String>(json['number']),
-      total: serializer.fromJson<double>(json['total']),
-      currency: serializer.fromJson<String>(json['currency']),
       status: serializer.fromJson<int>(json['status']),
+      currency: serializer.fromJson<String>(json['currency']),
+      total: serializer.fromJson<double>(json['total']),
       description: serializer.fromJson<String?>(json['description']),
     );
   }
@@ -370,12 +375,12 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
       'issued_at': serializer.toJson<int>(issuedAt),
       'due_at': serializer.toJson<int?>(dueAt),
       'paid_at': serializer.toJson<int?>(paidAt),
-      'organization_id': serializer.toJson<int>(organizationId),
-      'counterparty_id': serializer.toJson<int>(counterpartyId),
+      'organization_id': serializer.toJson<int?>(organizationId),
+      'counterparty_id': serializer.toJson<int?>(counterpartyId),
       'number': serializer.toJson<String>(number),
-      'total': serializer.toJson<double>(total),
-      'currency': serializer.toJson<String>(currency),
       'status': serializer.toJson<int>(status),
+      'currency': serializer.toJson<String>(currency),
+      'total': serializer.toJson<double>(total),
       'description': serializer.toJson<String?>(description),
     };
   }
@@ -387,12 +392,12 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
           int? issuedAt,
           Value<int?> dueAt = const Value.absent(),
           Value<int?> paidAt = const Value.absent(),
-          int? organizationId,
-          int? counterpartyId,
+          Value<int?> organizationId = const Value.absent(),
+          Value<int?> counterpartyId = const Value.absent(),
           String? number,
-          double? total,
-          String? currency,
           int? status,
+          String? currency,
+          double? total,
           Value<String?> description = const Value.absent()}) =>
       InvoiceTblData(
         id: id ?? this.id,
@@ -401,12 +406,14 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
         issuedAt: issuedAt ?? this.issuedAt,
         dueAt: dueAt.present ? dueAt.value : this.dueAt,
         paidAt: paidAt.present ? paidAt.value : this.paidAt,
-        organizationId: organizationId ?? this.organizationId,
-        counterpartyId: counterpartyId ?? this.counterpartyId,
+        organizationId:
+            organizationId.present ? organizationId.value : this.organizationId,
+        counterpartyId:
+            counterpartyId.present ? counterpartyId.value : this.counterpartyId,
         number: number ?? this.number,
-        total: total ?? this.total,
-        currency: currency ?? this.currency,
         status: status ?? this.status,
+        currency: currency ?? this.currency,
+        total: total ?? this.total,
         description: description.present ? description.value : this.description,
       );
   @override
@@ -421,9 +428,9 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
           ..write('organizationId: $organizationId, ')
           ..write('counterpartyId: $counterpartyId, ')
           ..write('number: $number, ')
-          ..write('total: $total, ')
-          ..write('currency: $currency, ')
           ..write('status: $status, ')
+          ..write('currency: $currency, ')
+          ..write('total: $total, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
@@ -440,9 +447,9 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
       organizationId,
       counterpartyId,
       number,
-      total,
-      currency,
       status,
+      currency,
+      total,
       description);
   @override
   bool operator ==(Object other) =>
@@ -457,9 +464,9 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
           other.organizationId == this.organizationId &&
           other.counterpartyId == this.counterpartyId &&
           other.number == this.number &&
-          other.total == this.total &&
-          other.currency == this.currency &&
           other.status == this.status &&
+          other.currency == this.currency &&
+          other.total == this.total &&
           other.description == this.description);
 }
 
@@ -470,12 +477,12 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
   final Value<int> issuedAt;
   final Value<int?> dueAt;
   final Value<int?> paidAt;
-  final Value<int> organizationId;
-  final Value<int> counterpartyId;
+  final Value<int?> organizationId;
+  final Value<int?> counterpartyId;
   final Value<String> number;
-  final Value<double> total;
-  final Value<String> currency;
   final Value<int> status;
+  final Value<String> currency;
+  final Value<double> total;
   final Value<String?> description;
   const InvoiceTblCompanion({
     this.id = const Value.absent(),
@@ -487,9 +494,9 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
     this.organizationId = const Value.absent(),
     this.counterpartyId = const Value.absent(),
     this.number = const Value.absent(),
-    this.total = const Value.absent(),
-    this.currency = const Value.absent(),
     this.status = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.total = const Value.absent(),
     this.description = const Value.absent(),
   });
   InvoiceTblCompanion.insert({
@@ -499,18 +506,16 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
     this.issuedAt = const Value.absent(),
     this.dueAt = const Value.absent(),
     this.paidAt = const Value.absent(),
-    required int organizationId,
-    required int counterpartyId,
+    this.organizationId = const Value.absent(),
+    this.counterpartyId = const Value.absent(),
     required String number,
-    required double total,
-    required String currency,
     this.status = const Value.absent(),
+    required String currency,
+    required double total,
     this.description = const Value.absent(),
-  })  : organizationId = Value(organizationId),
-        counterpartyId = Value(counterpartyId),
-        number = Value(number),
-        total = Value(total),
-        currency = Value(currency);
+  })  : number = Value(number),
+        currency = Value(currency),
+        total = Value(total);
   static Insertable<InvoiceTblData> custom({
     Expression<int>? id,
     Expression<int>? createdAt,
@@ -521,9 +526,9 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
     Expression<int>? organizationId,
     Expression<int>? counterpartyId,
     Expression<String>? number,
-    Expression<double>? total,
-    Expression<String>? currency,
     Expression<int>? status,
+    Expression<String>? currency,
+    Expression<double>? total,
     Expression<String>? description,
   }) {
     return RawValuesInsertable({
@@ -536,9 +541,9 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
       if (organizationId != null) 'organization_id': organizationId,
       if (counterpartyId != null) 'counterparty_id': counterpartyId,
       if (number != null) 'number': number,
-      if (total != null) 'total': total,
-      if (currency != null) 'currency': currency,
       if (status != null) 'status': status,
+      if (currency != null) 'currency': currency,
+      if (total != null) 'total': total,
       if (description != null) 'description': description,
     });
   }
@@ -550,12 +555,12 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
       Value<int>? issuedAt,
       Value<int?>? dueAt,
       Value<int?>? paidAt,
-      Value<int>? organizationId,
-      Value<int>? counterpartyId,
+      Value<int?>? organizationId,
+      Value<int?>? counterpartyId,
       Value<String>? number,
-      Value<double>? total,
-      Value<String>? currency,
       Value<int>? status,
+      Value<String>? currency,
+      Value<double>? total,
       Value<String?>? description}) {
     return InvoiceTblCompanion(
       id: id ?? this.id,
@@ -567,9 +572,9 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
       organizationId: organizationId ?? this.organizationId,
       counterpartyId: counterpartyId ?? this.counterpartyId,
       number: number ?? this.number,
-      total: total ?? this.total,
-      currency: currency ?? this.currency,
       status: status ?? this.status,
+      currency: currency ?? this.currency,
+      total: total ?? this.total,
       description: description ?? this.description,
     );
   }
@@ -604,14 +609,14 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
     if (number.present) {
       map['number'] = Variable<String>(number.value);
     }
-    if (total.present) {
-      map['total'] = Variable<double>(total.value);
+    if (status.present) {
+      map['status'] = Variable<int>(status.value);
     }
     if (currency.present) {
       map['currency'] = Variable<String>(currency.value);
     }
-    if (status.present) {
-      map['status'] = Variable<int>(status.value);
+    if (total.present) {
+      map['total'] = Variable<double>(total.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -631,9 +636,9 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
           ..write('organizationId: $organizationId, ')
           ..write('counterpartyId: $counterpartyId, ')
           ..write('number: $number, ')
-          ..write('total: $total, ')
-          ..write('currency: $currency, ')
           ..write('status: $status, ')
+          ..write('currency: $currency, ')
+          ..write('total: $total, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
@@ -915,6 +920,21 @@ class OrganizationTbl extends Table
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _createdAtMeta = VerificationMeta('createdAt');
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
+      defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
+  static const VerificationMeta _updatedAtMeta = VerificationMeta('updatedAt');
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints:
+          'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (updated_at >= created_at)',
+      defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
   static const VerificationMeta _typeMeta = VerificationMeta('type');
   late final GeneratedColumn<int> type = GeneratedColumn<int>(
       'type', aliasedName, false,
@@ -928,15 +948,15 @@ class OrganizationTbl extends Table
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL UNIQUE CHECK (length(name) > 0)');
-  static const VerificationMeta _innMeta = VerificationMeta('inn');
-  late final GeneratedColumn<String> inn = GeneratedColumn<String>(
-      'inn', aliasedName, true,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      $customConstraints: '');
   static const VerificationMeta _addressMeta = VerificationMeta('address');
   late final GeneratedColumn<String> address = GeneratedColumn<String>(
       'address', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _innMeta = VerificationMeta('inn');
+  late final GeneratedColumn<String> inn = GeneratedColumn<String>(
+      'inn', aliasedName, true,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       $customConstraints: '');
@@ -949,7 +969,7 @@ class OrganizationTbl extends Table
       $customConstraints: '');
   @override
   List<GeneratedColumn> get $columns =>
-      [id, type, name, inn, address, description];
+      [id, createdAt, updatedAt, type, name, address, inn, description];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -964,6 +984,14 @@ class OrganizationTbl extends Table
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
     if (data.containsKey('type')) {
       context.handle(
           _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
@@ -974,13 +1002,13 @@ class OrganizationTbl extends Table
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('inn')) {
-      context.handle(
-          _innMeta, inn.isAcceptableOrUnknown(data['inn']!, _innMeta));
-    }
     if (data.containsKey('address')) {
       context.handle(_addressMeta,
           address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    }
+    if (data.containsKey('inn')) {
+      context.handle(
+          _innMeta, inn.isAcceptableOrUnknown(data['inn']!, _innMeta));
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -999,14 +1027,18 @@ class OrganizationTbl extends Table
     return OrganizationTblData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
       type: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      inn: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}inn']),
       address: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      inn: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}inn']),
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
     );
@@ -1028,6 +1060,12 @@ class OrganizationTblData extends DataClass
   /// Unique identifier of the organization
   final int id;
 
+  /// Created date (unixtime in seconds)
+  final int createdAt;
+
+  /// Updated date (unixtime in seconds)
+  final int updatedAt;
+
   /// 1 - Counterparty
   /// 0 - Organization
   /// Organization or Counterparty?
@@ -1036,33 +1074,37 @@ class OrganizationTblData extends DataClass
   /// Name of the organization
   final String name;
 
+  /// Address of the organization
+  final String? address;
+
   /// Tax identification number of the organization
   final String? inn;
 
-  /// Address of the organization
-  /// NOT NULL PRIMARY CHECK (length(inn) > 0),
-  final String? address;
-
   /// Description of the organization
+  /// NOT NULL PRIMARY CHECK (length(inn) > 0),
   final String? description;
   const OrganizationTblData(
       {required this.id,
+      required this.createdAt,
+      required this.updatedAt,
       required this.type,
       required this.name,
-      this.inn,
       this.address,
+      this.inn,
       this.description});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<int>(createdAt);
+    map['updated_at'] = Variable<int>(updatedAt);
     map['type'] = Variable<int>(type);
     map['name'] = Variable<String>(name);
-    if (!nullToAbsent || inn != null) {
-      map['inn'] = Variable<String>(inn);
-    }
     if (!nullToAbsent || address != null) {
       map['address'] = Variable<String>(address);
+    }
+    if (!nullToAbsent || inn != null) {
+      map['inn'] = Variable<String>(inn);
     }
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
@@ -1073,12 +1115,14 @@ class OrganizationTblData extends DataClass
   OrganizationTblCompanion toCompanion(bool nullToAbsent) {
     return OrganizationTblCompanion(
       id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
       type: Value(type),
       name: Value(name),
-      inn: inn == null && nullToAbsent ? const Value.absent() : Value(inn),
       address: address == null && nullToAbsent
           ? const Value.absent()
           : Value(address),
+      inn: inn == null && nullToAbsent ? const Value.absent() : Value(inn),
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
@@ -1090,10 +1134,12 @@ class OrganizationTblData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return OrganizationTblData(
       id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<int>(json['created_at']),
+      updatedAt: serializer.fromJson<int>(json['updated_at']),
       type: serializer.fromJson<int>(json['type']),
       name: serializer.fromJson<String>(json['name']),
-      inn: serializer.fromJson<String?>(json['inn']),
       address: serializer.fromJson<String?>(json['address']),
+      inn: serializer.fromJson<String?>(json['inn']),
       description: serializer.fromJson<String?>(json['description']),
     );
   }
@@ -1102,110 +1148,135 @@ class OrganizationTblData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'created_at': serializer.toJson<int>(createdAt),
+      'updated_at': serializer.toJson<int>(updatedAt),
       'type': serializer.toJson<int>(type),
       'name': serializer.toJson<String>(name),
-      'inn': serializer.toJson<String?>(inn),
       'address': serializer.toJson<String?>(address),
+      'inn': serializer.toJson<String?>(inn),
       'description': serializer.toJson<String?>(description),
     };
   }
 
   OrganizationTblData copyWith(
           {int? id,
+          int? createdAt,
+          int? updatedAt,
           int? type,
           String? name,
-          Value<String?> inn = const Value.absent(),
           Value<String?> address = const Value.absent(),
+          Value<String?> inn = const Value.absent(),
           Value<String?> description = const Value.absent()}) =>
       OrganizationTblData(
         id: id ?? this.id,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
         type: type ?? this.type,
         name: name ?? this.name,
-        inn: inn.present ? inn.value : this.inn,
         address: address.present ? address.value : this.address,
+        inn: inn.present ? inn.value : this.inn,
         description: description.present ? description.value : this.description,
       );
   @override
   String toString() {
     return (StringBuffer('OrganizationTblData(')
           ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
           ..write('type: $type, ')
           ..write('name: $name, ')
-          ..write('inn: $inn, ')
           ..write('address: $address, ')
+          ..write('inn: $inn, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, type, name, inn, address, description);
+  int get hashCode => Object.hash(
+      id, createdAt, updatedAt, type, name, address, inn, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is OrganizationTblData &&
           other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
           other.type == this.type &&
           other.name == this.name &&
-          other.inn == this.inn &&
           other.address == this.address &&
+          other.inn == this.inn &&
           other.description == this.description);
 }
 
 class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   final Value<int> id;
+  final Value<int> createdAt;
+  final Value<int> updatedAt;
   final Value<int> type;
   final Value<String> name;
-  final Value<String?> inn;
   final Value<String?> address;
+  final Value<String?> inn;
   final Value<String?> description;
   const OrganizationTblCompanion({
     this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
     this.type = const Value.absent(),
     this.name = const Value.absent(),
-    this.inn = const Value.absent(),
     this.address = const Value.absent(),
+    this.inn = const Value.absent(),
     this.description = const Value.absent(),
   });
   OrganizationTblCompanion.insert({
     this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
     this.type = const Value.absent(),
     required String name,
-    this.inn = const Value.absent(),
     this.address = const Value.absent(),
+    this.inn = const Value.absent(),
     this.description = const Value.absent(),
   }) : name = Value(name);
   static Insertable<OrganizationTblData> custom({
     Expression<int>? id,
+    Expression<int>? createdAt,
+    Expression<int>? updatedAt,
     Expression<int>? type,
     Expression<String>? name,
-    Expression<String>? inn,
     Expression<String>? address,
+    Expression<String>? inn,
     Expression<String>? description,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
       if (type != null) 'type': type,
       if (name != null) 'name': name,
-      if (inn != null) 'inn': inn,
       if (address != null) 'address': address,
+      if (inn != null) 'inn': inn,
       if (description != null) 'description': description,
     });
   }
 
   OrganizationTblCompanion copyWith(
       {Value<int>? id,
+      Value<int>? createdAt,
+      Value<int>? updatedAt,
       Value<int>? type,
       Value<String>? name,
-      Value<String?>? inn,
       Value<String?>? address,
+      Value<String?>? inn,
       Value<String?>? description}) {
     return OrganizationTblCompanion(
       id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       type: type ?? this.type,
       name: name ?? this.name,
-      inn: inn ?? this.inn,
       address: address ?? this.address,
+      inn: inn ?? this.inn,
       description: description ?? this.description,
     );
   }
@@ -1216,17 +1287,23 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
     if (type.present) {
       map['type'] = Variable<int>(type.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
-    if (inn.present) {
-      map['inn'] = Variable<String>(inn.value);
-    }
     if (address.present) {
       map['address'] = Variable<String>(address.value);
+    }
+    if (inn.present) {
+      map['inn'] = Variable<String>(inn.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -1238,10 +1315,12 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   String toString() {
     return (StringBuffer('OrganizationTblCompanion(')
           ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
           ..write('type: $type, ')
           ..write('name: $name, ')
-          ..write('inn: $inn, ')
           ..write('address: $address, ')
+          ..write('inn: $inn, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
@@ -3990,13 +4069,22 @@ abstract class _$Database extends GeneratedDatabase {
       'CREATE INDEX IF NOT EXISTS invoice_counterparty_id_idx ON invoice_tbl (counterparty_id)');
   late final Index invoiceStatusIdx = Index('invoice_status_idx',
       'CREATE INDEX IF NOT EXISTS invoice_status_idx ON invoice_tbl (status)');
-  late final Trigger characteristicUpdatedAtTrig = Trigger(
-      'CREATE TRIGGER IF NOT EXISTS characteristic_updated_at_trig AFTER UPDATE ON invoice_tbl BEGIN UPDATE invoice_tbl SET updated_at = strftime(\'%s\', \'now\') WHERE id = NEW.id;END',
-      'characteristic_updated_at_trig');
+  late final Trigger invoiceUpdatedAtTrig = Trigger(
+      'CREATE TRIGGER IF NOT EXISTS invoice_updated_at_trig AFTER UPDATE ON invoice_tbl BEGIN UPDATE invoice_tbl SET updated_at = strftime(\'%s\', \'now\') WHERE id = NEW.id;END',
+      'invoice_updated_at_trig');
   late final ServiceTbl serviceTbl = ServiceTbl(this);
   late final Index serviceInvoiceIdIdx = Index('service_invoice_id_idx',
       'CREATE INDEX IF NOT EXISTS service_invoice_id_idx ON service_tbl (invoice_id)');
   late final OrganizationTbl organizationTbl = OrganizationTbl(this);
+  late final Index organizationCreatedAtIdx = Index(
+      'organization_created_at_idx',
+      'CREATE INDEX IF NOT EXISTS organization_created_at_idx ON organization_tbl (created_at)');
+  late final Index organizationUpdatedAtIdx = Index(
+      'organization_updated_at_idx',
+      'CREATE INDEX IF NOT EXISTS organization_updated_at_idx ON organization_tbl (updated_at)');
+  late final Trigger organizationUpdatedAtTrig = Trigger(
+      'CREATE TRIGGER IF NOT EXISTS organization_updated_at_trig AFTER UPDATE ON organization_tbl BEGIN UPDATE organization_tbl SET updated_at = strftime(\'%s\', \'now\') WHERE id = NEW.id;END',
+      'organization_updated_at_trig');
   late final ContactTbl contactTbl = ContactTbl(this);
   late final Index contactOrganizationIdIdx = Index(
       'contact_organization_id_idx',
@@ -4057,10 +4145,13 @@ abstract class _$Database extends GeneratedDatabase {
         invoiceOrganizationIdIdx,
         invoiceCounterpartyIdIdx,
         invoiceStatusIdx,
-        characteristicUpdatedAtTrig,
+        invoiceUpdatedAtTrig,
         serviceTbl,
         serviceInvoiceIdIdx,
         organizationTbl,
+        organizationCreatedAtIdx,
+        organizationUpdatedAtIdx,
+        organizationUpdatedAtTrig,
         contactTbl,
         contactOrganizationIdIdx,
         accountTbl,
@@ -4107,6 +4198,13 @@ abstract class _$Database extends GeneratedDatabase {
                 limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('service_tbl', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.update),
+            result: [
+              TableUpdate('organization_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
