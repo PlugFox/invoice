@@ -105,16 +105,46 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
           title: const Text('Invoice Detail'),
         ),
         body: SafeArea(
+          child: CustomMultiChildLayout(
+            delegate: _InvoicePositionDelegate(),
+            children: <LayoutId>[
+              LayoutId(
+                id: 'form',
+                child: const _InvoiceFormColumn(),
+              ),
+              LayoutId(
+                id: 'preview',
+                child: const _PreviewInvoicePreviewColumn(),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  /* @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: CommonHeader(
+          title: const Text('Invoice Detail'),
+        ),
+        body: SafeArea(
           child: LayoutBuilder(builder: (context, constraints) {
             bool preview;
-            double column;
-            if (constraints.maxWidth >= Config.maxScreenLayoutWidth * 0.75) {
+            double formWidth;
+            double previewWidth;
+            if (constraints.maxWidth >= (Config.maxScreenLayoutWidth * 2 + 16 * 3)) {
               preview = true;
-              column = constraints.maxWidth / 2;
+              formWidth = previewWidth = constraints.maxWidth / 2;
+            } else if (constraints.maxWidth >= Config.maxScreenLayoutWidth * 0.75) {
+              preview = true;
+              previewWidth = math.min(constraints.maxWidth / 2, (constraints.maxHeight - 32) * 210 / 297 + 32);
+              formWidth = constraints.maxWidth - previewWidth;
             } else {
               preview = false;
-              column = constraints.maxWidth;
+              formWidth = constraints.maxWidth;
+              previewWidth = 0.0;
             }
+            // TODO(plugfox): Flow
+            // Вычислить размер превью через высоту и пытаемся разместить расчитывая на то, что превью будет справа.
             return Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -125,7 +155,7 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
                   flex: 1,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(
-                      horizontal: math.max(16, (column - Config.maxScreenLayoutWidth) / 2),
+                      horizontal: math.max(16, (formWidth - Config.maxScreenLayoutWidth) / 2),
                       vertical: 16,
                     ),
                     child: const Column(
@@ -135,11 +165,18 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
                       children: <Widget>[
                         SizedBox(
                           height: 400,
-                          child: Placeholder(),
+                          child: ColoredBox(
+                            color: Colors.red,
+                            child: SizedBox.expand(),
+                          ),
                         ),
+                        SizedBox(height: 16),
                         SizedBox(
                           height: 400,
-                          child: Placeholder(),
+                          child: ColoredBox(
+                            color: Colors.green,
+                            child: SizedBox.expand(),
+                          ),
                         ),
                         //Text('Invoice: ${invoice.id}'),
                         //Text('Created at: ${invoice.createdAt}'),
@@ -148,26 +185,23 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
                   ),
                 ),
                 if (preview)
-                  Expanded(
+                  SizedBox(
+                    width: previewWidth,
                     key: const ValueKey('preview'),
-                    flex: 1,
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: SizedBox(
-                        width: math.min(column, Config.maxScreenLayoutWidth.toDouble()),
-                        child: Center(
-                          child: AspectRatio(
-                            aspectRatio: 210 / 297,
-                            child: Card(
-                              elevation: 4,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Placeholder(),
-                              ),
+                      padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: 210 / 297,
+                          child: Card(
+                            elevation: 4,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Placeholder(),
                             ),
                           ),
                         ),
@@ -178,5 +212,127 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
             );
           }),
         ),
+      ); */
+}
+
+class _InvoicePositionDelegate extends MultiChildLayoutDelegate {
+  _InvoicePositionDelegate();
+
+  static final double maxScreenLayoutWidth = Config.maxScreenLayoutWidth.toDouble();
+
+  @override
+  void performLayout(Size size) {
+    const formId = 'form', previewId = 'preview';
+
+    const padding = 16;
+    if (size.width < (maxScreenLayoutWidth * 1.25 + padding * 3)) {
+      layoutChild(formId, BoxConstraints.loose(size));
+      positionChild(formId, Offset.zero);
+      layoutChild(previewId, BoxConstraints.loose(Size.zero));
+      positionChild(previewId, Offset.zero);
+    } else {
+      final maxHeight = size.height;
+      final previewSize = layoutChild(
+        previewId,
+        BoxConstraints.loose(
+          Size(
+            math.min(
+              math.max(size.width - maxScreenLayoutWidth - padding, size.width / 2),
+              (maxHeight - padding * 2) * 210 / 297 + padding,
+            ),
+            maxHeight - padding * 2,
+          ),
+        ),
+      );
+      final formSize =
+          layoutChild(formId, BoxConstraints.loose(Size(size.width - previewSize.width - padding, size.height)));
+      positionChild(formId, Offset.zero);
+      positionChild(previewId, Offset(formSize.width, (size.height - previewSize.height) / 2));
+    }
+  }
+
+  @override
+  bool shouldRelayout(covariant _InvoicePositionDelegate oldDelegate) => false;
+}
+
+class _InvoiceFormColumn extends StatelessWidget {
+  const _InvoiceFormColumn({
+    super.key, // ignore: unused_element
+  });
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) {
+          final paddingH = math.max<double>(16, (constraints.maxWidth - Config.maxScreenLayoutWidth) / 2);
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 48,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingH),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox.square(dimension: 48, child: Placeholder()),
+                      SizedBox(width: 8),
+                      SizedBox.square(dimension: 48, child: Placeholder()),
+                      Spacer(),
+                      SizedBox.square(dimension: 48, child: Placeholder()),
+                      SizedBox(width: 8),
+                      SizedBox.square(dimension: 48, child: Placeholder()),
+                      VerticalDivider(),
+                      SizedBox.square(dimension: 48, child: Placeholder()),
+                      SizedBox(width: 8),
+                      SizedBox.square(dimension: 48, child: Placeholder()),
+                      SizedBox(width: 8),
+                      SizedBox.square(dimension: 48, child: Placeholder()),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  primary: true,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: paddingH,
+                    vertical: 16,
+                  ),
+                  child: const Placeholder(),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+}
+
+class _PreviewInvoicePreviewColumn extends StatelessWidget {
+  const _PreviewInvoicePreviewColumn({
+    super.key, // ignore: unused_element
+  });
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) => constraints.biggest.width == 0
+            ? const SizedBox.shrink()
+            : AspectRatio(
+                aspectRatio: 210 / 297,
+                child: Card(
+                  elevation: 4,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Placeholder(),
+                  ),
+                ),
+              ),
       );
 }
