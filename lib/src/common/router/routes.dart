@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:invoice/src/feature/developer/widget/developer_screen.dart';
-import 'package:invoice/src/feature/home/widget/home_screen.dart';
+import 'package:invoice/src/feature/invoice/widget/invoices_screen.dart';
 import 'package:invoice/src/feature/settings/widget/settings_screen.dart';
 import 'package:octopus/octopus.dart';
 
 enum Routes with OctopusRoute {
-  home('home', title: 'Invoices'),
+  invoices('invoices', title: 'Invoices'),
   settings('settings', title: 'Settings'),
   developer('developer', title: 'Developer');
 
@@ -19,7 +19,7 @@ enum Routes with OctopusRoute {
 
   @override
   Widget builder(BuildContext context, OctopusState state, OctopusNode node) => switch (this) {
-        Routes.home => const HomeScreen(),
+        Routes.invoices => const InvoicesScreen(),
         Routes.settings => const SettingsScreen(),
         Routes.developer => const DeveloperScreen(),
       };

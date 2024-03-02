@@ -27,7 +27,7 @@ Future<void> _desktopInitialization() async {
     titleBarStyle: TitleBarStyle.hidden,
     /* alwaysOnTop: true, */
     fullScreen: false,
-    title: 'Vexus',
+    title: 'Invoice',
   );
   await windowManager.waitUntilReadyToShow(
     windowOptions,

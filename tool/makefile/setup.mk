@@ -13,7 +13,7 @@ init-firebase:
 	@firebase login
 	@firebase init
 #	@dart pub global activate flutterfire_cli
-#	@flutterfire configure \
+#	@fvm flutterfire configure \
 #		-i tld.domain.app \
 #		-m tld.domain.app \
 #		-a tld.domain.app \

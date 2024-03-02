@@ -3,6 +3,2357 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
+class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  InvoiceTbl(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _createdAtMeta = VerificationMeta('createdAt');
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
+      defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
+  static const VerificationMeta _updatedAtMeta = VerificationMeta('updatedAt');
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints:
+          'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (updated_at >= created_at)',
+      defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
+  static const VerificationMeta _issuedAtMeta = VerificationMeta('issuedAt');
+  late final GeneratedColumn<int> issuedAt = GeneratedColumn<int>(
+      'issued_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
+      defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
+  static const VerificationMeta _dueAtMeta = VerificationMeta('dueAt');
+  late final GeneratedColumn<int> dueAt = GeneratedColumn<int>(
+      'due_at', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _paidAtMeta = VerificationMeta('paidAt');
+  late final GeneratedColumn<int> paidAt = GeneratedColumn<int>(
+      'paid_at', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _organizationIdMeta =
+      VerificationMeta('organizationId');
+  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>(
+      'organization_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
+  static const VerificationMeta _counterpartyIdMeta =
+      VerificationMeta('counterpartyId');
+  late final GeneratedColumn<int> counterpartyId = GeneratedColumn<int>(
+      'counterparty_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (counterparty_id > 0)');
+  static const VerificationMeta _numberMeta = VerificationMeta('number');
+  late final GeneratedColumn<String> number = GeneratedColumn<String>(
+      'number', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(number) > 0)');
+  static const VerificationMeta _totalMeta = VerificationMeta('total');
+  late final GeneratedColumn<double> total = GeneratedColumn<double>(
+      'total', aliasedName, false,
+      type: DriftSqlType.double,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (total >= 0)');
+  static const VerificationMeta _currencyMeta = VerificationMeta('currency');
+  late final GeneratedColumn<String> currency = GeneratedColumn<String>(
+      'currency', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(currency) > 0)');
+  static const VerificationMeta _statusMeta = VerificationMeta('status');
+  late final GeneratedColumn<int> status = GeneratedColumn<int>(
+      'status', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints:
+          'NOT NULL DEFAULT 0 CHECK (status >= 0 AND status <= 2)',
+      defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _descriptionMeta =
+      VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        createdAt,
+        updatedAt,
+        issuedAt,
+        dueAt,
+        paidAt,
+        organizationId,
+        counterpartyId,
+        number,
+        total,
+        currency,
+        status,
+        description
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'invoice_tbl';
+  @override
+  VerificationContext validateIntegrity(Insertable<InvoiceTblData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    if (data.containsKey('issued_at')) {
+      context.handle(_issuedAtMeta,
+          issuedAt.isAcceptableOrUnknown(data['issued_at']!, _issuedAtMeta));
+    }
+    if (data.containsKey('due_at')) {
+      context.handle(
+          _dueAtMeta, dueAt.isAcceptableOrUnknown(data['due_at']!, _dueAtMeta));
+    }
+    if (data.containsKey('paid_at')) {
+      context.handle(_paidAtMeta,
+          paidAt.isAcceptableOrUnknown(data['paid_at']!, _paidAtMeta));
+    }
+    if (data.containsKey('organization_id')) {
+      context.handle(
+          _organizationIdMeta,
+          organizationId.isAcceptableOrUnknown(
+              data['organization_id']!, _organizationIdMeta));
+    } else if (isInserting) {
+      context.missing(_organizationIdMeta);
+    }
+    if (data.containsKey('counterparty_id')) {
+      context.handle(
+          _counterpartyIdMeta,
+          counterpartyId.isAcceptableOrUnknown(
+              data['counterparty_id']!, _counterpartyIdMeta));
+    } else if (isInserting) {
+      context.missing(_counterpartyIdMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
+    }
+    if (data.containsKey('total')) {
+      context.handle(
+          _totalMeta, total.isAcceptableOrUnknown(data['total']!, _totalMeta));
+    } else if (isInserting) {
+      context.missing(_totalMeta);
+    }
+    if (data.containsKey('currency')) {
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta));
+    } else if (isInserting) {
+      context.missing(_currencyMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  InvoiceTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InvoiceTblData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
+      issuedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}issued_at'])!,
+      dueAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}due_at']),
+      paidAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}paid_at']),
+      organizationId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
+      counterpartyId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}counterparty_id'])!,
+      number: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}number'])!,
+      total: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}total'])!,
+      currency: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}currency'])!,
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}status'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+    );
+  }
+
+  @override
+  InvoiceTbl createAlias(String alias) {
+    return InvoiceTbl(attachedDatabase, alias);
+  }
+
+  @override
+  bool get isStrict => true;
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
+  /// Unique identifier of the organization
+  final int id;
+
+  /// Time is the timestamp (in seconds) of the organization
+  final int createdAt;
+
+  /// Updated date (unixtime in seconds)
+  final int updatedAt;
+
+  /// Invoice date
+  final int issuedAt;
+
+  /// Due date
+  final int? dueAt;
+
+  /// Paid date
+  final int? paidAt;
+
+  /// Organization identifier (organization_tbl)
+  final int organizationId;
+
+  /// Counterparty identifier (organization_tbl)
+  final int counterpartyId;
+
+  /// Invoice number
+  final String number;
+
+  /// Invoice total amount
+  final double total;
+
+  /// Currency code
+  final String currency;
+
+  /// 2 - Paid
+  /// 1 - Sent
+  /// 0 - Draft
+  /// Status of the invoice
+  final int status;
+
+  /// Description of the invoice
+  final String? description;
+  const InvoiceTblData(
+      {required this.id,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.issuedAt,
+      this.dueAt,
+      this.paidAt,
+      required this.organizationId,
+      required this.counterpartyId,
+      required this.number,
+      required this.total,
+      required this.currency,
+      required this.status,
+      this.description});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<int>(createdAt);
+    map['updated_at'] = Variable<int>(updatedAt);
+    map['issued_at'] = Variable<int>(issuedAt);
+    if (!nullToAbsent || dueAt != null) {
+      map['due_at'] = Variable<int>(dueAt);
+    }
+    if (!nullToAbsent || paidAt != null) {
+      map['paid_at'] = Variable<int>(paidAt);
+    }
+    map['organization_id'] = Variable<int>(organizationId);
+    map['counterparty_id'] = Variable<int>(counterpartyId);
+    map['number'] = Variable<String>(number);
+    map['total'] = Variable<double>(total);
+    map['currency'] = Variable<String>(currency);
+    map['status'] = Variable<int>(status);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    return map;
+  }
+
+  InvoiceTblCompanion toCompanion(bool nullToAbsent) {
+    return InvoiceTblCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      issuedAt: Value(issuedAt),
+      dueAt:
+          dueAt == null && nullToAbsent ? const Value.absent() : Value(dueAt),
+      paidAt:
+          paidAt == null && nullToAbsent ? const Value.absent() : Value(paidAt),
+      organizationId: Value(organizationId),
+      counterpartyId: Value(counterpartyId),
+      number: Value(number),
+      total: Value(total),
+      currency: Value(currency),
+      status: Value(status),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+    );
+  }
+
+  factory InvoiceTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InvoiceTblData(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<int>(json['created_at']),
+      updatedAt: serializer.fromJson<int>(json['updated_at']),
+      issuedAt: serializer.fromJson<int>(json['issued_at']),
+      dueAt: serializer.fromJson<int?>(json['due_at']),
+      paidAt: serializer.fromJson<int?>(json['paid_at']),
+      organizationId: serializer.fromJson<int>(json['organization_id']),
+      counterpartyId: serializer.fromJson<int>(json['counterparty_id']),
+      number: serializer.fromJson<String>(json['number']),
+      total: serializer.fromJson<double>(json['total']),
+      currency: serializer.fromJson<String>(json['currency']),
+      status: serializer.fromJson<int>(json['status']),
+      description: serializer.fromJson<String?>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'created_at': serializer.toJson<int>(createdAt),
+      'updated_at': serializer.toJson<int>(updatedAt),
+      'issued_at': serializer.toJson<int>(issuedAt),
+      'due_at': serializer.toJson<int?>(dueAt),
+      'paid_at': serializer.toJson<int?>(paidAt),
+      'organization_id': serializer.toJson<int>(organizationId),
+      'counterparty_id': serializer.toJson<int>(counterpartyId),
+      'number': serializer.toJson<String>(number),
+      'total': serializer.toJson<double>(total),
+      'currency': serializer.toJson<String>(currency),
+      'status': serializer.toJson<int>(status),
+      'description': serializer.toJson<String?>(description),
+    };
+  }
+
+  InvoiceTblData copyWith(
+          {int? id,
+          int? createdAt,
+          int? updatedAt,
+          int? issuedAt,
+          Value<int?> dueAt = const Value.absent(),
+          Value<int?> paidAt = const Value.absent(),
+          int? organizationId,
+          int? counterpartyId,
+          String? number,
+          double? total,
+          String? currency,
+          int? status,
+          Value<String?> description = const Value.absent()}) =>
+      InvoiceTblData(
+        id: id ?? this.id,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        issuedAt: issuedAt ?? this.issuedAt,
+        dueAt: dueAt.present ? dueAt.value : this.dueAt,
+        paidAt: paidAt.present ? paidAt.value : this.paidAt,
+        organizationId: organizationId ?? this.organizationId,
+        counterpartyId: counterpartyId ?? this.counterpartyId,
+        number: number ?? this.number,
+        total: total ?? this.total,
+        currency: currency ?? this.currency,
+        status: status ?? this.status,
+        description: description.present ? description.value : this.description,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('InvoiceTblData(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('issuedAt: $issuedAt, ')
+          ..write('dueAt: $dueAt, ')
+          ..write('paidAt: $paidAt, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('counterpartyId: $counterpartyId, ')
+          ..write('number: $number, ')
+          ..write('total: $total, ')
+          ..write('currency: $currency, ')
+          ..write('status: $status, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      createdAt,
+      updatedAt,
+      issuedAt,
+      dueAt,
+      paidAt,
+      organizationId,
+      counterpartyId,
+      number,
+      total,
+      currency,
+      status,
+      description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InvoiceTblData &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.issuedAt == this.issuedAt &&
+          other.dueAt == this.dueAt &&
+          other.paidAt == this.paidAt &&
+          other.organizationId == this.organizationId &&
+          other.counterpartyId == this.counterpartyId &&
+          other.number == this.number &&
+          other.total == this.total &&
+          other.currency == this.currency &&
+          other.status == this.status &&
+          other.description == this.description);
+}
+
+class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
+  final Value<int> id;
+  final Value<int> createdAt;
+  final Value<int> updatedAt;
+  final Value<int> issuedAt;
+  final Value<int?> dueAt;
+  final Value<int?> paidAt;
+  final Value<int> organizationId;
+  final Value<int> counterpartyId;
+  final Value<String> number;
+  final Value<double> total;
+  final Value<String> currency;
+  final Value<int> status;
+  final Value<String?> description;
+  const InvoiceTblCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.issuedAt = const Value.absent(),
+    this.dueAt = const Value.absent(),
+    this.paidAt = const Value.absent(),
+    this.organizationId = const Value.absent(),
+    this.counterpartyId = const Value.absent(),
+    this.number = const Value.absent(),
+    this.total = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.status = const Value.absent(),
+    this.description = const Value.absent(),
+  });
+  InvoiceTblCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.issuedAt = const Value.absent(),
+    this.dueAt = const Value.absent(),
+    this.paidAt = const Value.absent(),
+    required int organizationId,
+    required int counterpartyId,
+    required String number,
+    required double total,
+    required String currency,
+    this.status = const Value.absent(),
+    this.description = const Value.absent(),
+  })  : organizationId = Value(organizationId),
+        counterpartyId = Value(counterpartyId),
+        number = Value(number),
+        total = Value(total),
+        currency = Value(currency);
+  static Insertable<InvoiceTblData> custom({
+    Expression<int>? id,
+    Expression<int>? createdAt,
+    Expression<int>? updatedAt,
+    Expression<int>? issuedAt,
+    Expression<int>? dueAt,
+    Expression<int>? paidAt,
+    Expression<int>? organizationId,
+    Expression<int>? counterpartyId,
+    Expression<String>? number,
+    Expression<double>? total,
+    Expression<String>? currency,
+    Expression<int>? status,
+    Expression<String>? description,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (issuedAt != null) 'issued_at': issuedAt,
+      if (dueAt != null) 'due_at': dueAt,
+      if (paidAt != null) 'paid_at': paidAt,
+      if (organizationId != null) 'organization_id': organizationId,
+      if (counterpartyId != null) 'counterparty_id': counterpartyId,
+      if (number != null) 'number': number,
+      if (total != null) 'total': total,
+      if (currency != null) 'currency': currency,
+      if (status != null) 'status': status,
+      if (description != null) 'description': description,
+    });
+  }
+
+  InvoiceTblCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? createdAt,
+      Value<int>? updatedAt,
+      Value<int>? issuedAt,
+      Value<int?>? dueAt,
+      Value<int?>? paidAt,
+      Value<int>? organizationId,
+      Value<int>? counterpartyId,
+      Value<String>? number,
+      Value<double>? total,
+      Value<String>? currency,
+      Value<int>? status,
+      Value<String?>? description}) {
+    return InvoiceTblCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      issuedAt: issuedAt ?? this.issuedAt,
+      dueAt: dueAt ?? this.dueAt,
+      paidAt: paidAt ?? this.paidAt,
+      organizationId: organizationId ?? this.organizationId,
+      counterpartyId: counterpartyId ?? this.counterpartyId,
+      number: number ?? this.number,
+      total: total ?? this.total,
+      currency: currency ?? this.currency,
+      status: status ?? this.status,
+      description: description ?? this.description,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (issuedAt.present) {
+      map['issued_at'] = Variable<int>(issuedAt.value);
+    }
+    if (dueAt.present) {
+      map['due_at'] = Variable<int>(dueAt.value);
+    }
+    if (paidAt.present) {
+      map['paid_at'] = Variable<int>(paidAt.value);
+    }
+    if (organizationId.present) {
+      map['organization_id'] = Variable<int>(organizationId.value);
+    }
+    if (counterpartyId.present) {
+      map['counterparty_id'] = Variable<int>(counterpartyId.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<String>(number.value);
+    }
+    if (total.present) {
+      map['total'] = Variable<double>(total.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<int>(status.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InvoiceTblCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('issuedAt: $issuedAt, ')
+          ..write('dueAt: $dueAt, ')
+          ..write('paidAt: $paidAt, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('counterpartyId: $counterpartyId, ')
+          ..write('number: $number, ')
+          ..write('total: $total, ')
+          ..write('currency: $currency, ')
+          ..write('status: $status, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  ServiceTbl(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _invoiceIdMeta = VerificationMeta('invoiceId');
+  late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>(
+      'invoice_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (invoice_id > 0)');
+  static const VerificationMeta _nameMeta = VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
+  static const VerificationMeta _amountMeta = VerificationMeta('amount');
+  late final GeneratedColumn<int> amount = GeneratedColumn<int>(
+      'amount', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (amount >= 0)');
+  @override
+  List<GeneratedColumn> get $columns => [id, invoiceId, name, amount];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'service_tbl';
+  @override
+  VerificationContext validateIntegrity(Insertable<ServiceTblData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('invoice_id')) {
+      context.handle(_invoiceIdMeta,
+          invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta));
+    } else if (isInserting) {
+      context.missing(_invoiceIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ServiceTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServiceTblData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      invoiceId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}invoice_id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      amount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}amount'])!,
+    );
+  }
+
+  @override
+  ServiceTbl createAlias(String alias) {
+    return ServiceTbl(attachedDatabase, alias);
+  }
+
+  @override
+  bool get isStrict => true;
+  @override
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(invoice_id)REFERENCES invoice_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
+  /// Unique identifier of the organization
+  final int id;
+
+  /// Invoice identifier (invoice_tbl)
+  final int invoiceId;
+
+  /// Name of the service
+  final String name;
+
+  /// Price of the service
+  final int amount;
+  const ServiceTblData(
+      {required this.id,
+      required this.invoiceId,
+      required this.name,
+      required this.amount});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['invoice_id'] = Variable<int>(invoiceId);
+    map['name'] = Variable<String>(name);
+    map['amount'] = Variable<int>(amount);
+    return map;
+  }
+
+  ServiceTblCompanion toCompanion(bool nullToAbsent) {
+    return ServiceTblCompanion(
+      id: Value(id),
+      invoiceId: Value(invoiceId),
+      name: Value(name),
+      amount: Value(amount),
+    );
+  }
+
+  factory ServiceTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServiceTblData(
+      id: serializer.fromJson<int>(json['id']),
+      invoiceId: serializer.fromJson<int>(json['invoice_id']),
+      name: serializer.fromJson<String>(json['name']),
+      amount: serializer.fromJson<int>(json['amount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'invoice_id': serializer.toJson<int>(invoiceId),
+      'name': serializer.toJson<String>(name),
+      'amount': serializer.toJson<int>(amount),
+    };
+  }
+
+  ServiceTblData copyWith(
+          {int? id, int? invoiceId, String? name, int? amount}) =>
+      ServiceTblData(
+        id: id ?? this.id,
+        invoiceId: invoiceId ?? this.invoiceId,
+        name: name ?? this.name,
+        amount: amount ?? this.amount,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ServiceTblData(')
+          ..write('id: $id, ')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('name: $name, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, invoiceId, name, amount);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServiceTblData &&
+          other.id == this.id &&
+          other.invoiceId == this.invoiceId &&
+          other.name == this.name &&
+          other.amount == this.amount);
+}
+
+class ServiceTblCompanion extends UpdateCompanion<ServiceTblData> {
+  final Value<int> id;
+  final Value<int> invoiceId;
+  final Value<String> name;
+  final Value<int> amount;
+  const ServiceTblCompanion({
+    this.id = const Value.absent(),
+    this.invoiceId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.amount = const Value.absent(),
+  });
+  ServiceTblCompanion.insert({
+    this.id = const Value.absent(),
+    required int invoiceId,
+    required String name,
+    required int amount,
+  })  : invoiceId = Value(invoiceId),
+        name = Value(name),
+        amount = Value(amount);
+  static Insertable<ServiceTblData> custom({
+    Expression<int>? id,
+    Expression<int>? invoiceId,
+    Expression<String>? name,
+    Expression<int>? amount,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (invoiceId != null) 'invoice_id': invoiceId,
+      if (name != null) 'name': name,
+      if (amount != null) 'amount': amount,
+    });
+  }
+
+  ServiceTblCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? invoiceId,
+      Value<String>? name,
+      Value<int>? amount}) {
+    return ServiceTblCompanion(
+      id: id ?? this.id,
+      invoiceId: invoiceId ?? this.invoiceId,
+      name: name ?? this.name,
+      amount: amount ?? this.amount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (invoiceId.present) {
+      map['invoice_id'] = Variable<int>(invoiceId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<int>(amount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServiceTblCompanion(')
+          ..write('id: $id, ')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('name: $name, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class OrganizationTbl extends Table
+    with TableInfo<OrganizationTbl, OrganizationTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  OrganizationTbl(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _typeMeta = VerificationMeta('type');
+  late final GeneratedColumn<int> type = GeneratedColumn<int>(
+      'type', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT 0 CHECK (type = 0 OR type = 1)',
+      defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _nameMeta = VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL UNIQUE CHECK (length(name) > 0)');
+  static const VerificationMeta _innMeta = VerificationMeta('inn');
+  late final GeneratedColumn<String> inn = GeneratedColumn<String>(
+      'inn', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _addressMeta = VerificationMeta('address');
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _descriptionMeta =
+      VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, type, name, inn, address, description];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'organization_tbl';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<OrganizationTblData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('inn')) {
+      context.handle(
+          _innMeta, inn.isAcceptableOrUnknown(data['inn']!, _innMeta));
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  OrganizationTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return OrganizationTblData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      inn: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}inn']),
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+    );
+  }
+
+  @override
+  OrganizationTbl createAlias(String alias) {
+    return OrganizationTbl(attachedDatabase, alias);
+  }
+
+  @override
+  bool get isStrict => true;
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class OrganizationTblData extends DataClass
+    implements Insertable<OrganizationTblData> {
+  /// Unique identifier of the organization
+  final int id;
+
+  /// 1 - Counterparty
+  /// 0 - Organization
+  /// Organization or Counterparty?
+  final int type;
+
+  /// Name of the organization
+  final String name;
+
+  /// Tax identification number of the organization
+  final String? inn;
+
+  /// Address of the organization
+  /// NOT NULL PRIMARY CHECK (length(inn) > 0),
+  final String? address;
+
+  /// Description of the organization
+  final String? description;
+  const OrganizationTblData(
+      {required this.id,
+      required this.type,
+      required this.name,
+      this.inn,
+      this.address,
+      this.description});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['type'] = Variable<int>(type);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || inn != null) {
+      map['inn'] = Variable<String>(inn);
+    }
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    return map;
+  }
+
+  OrganizationTblCompanion toCompanion(bool nullToAbsent) {
+    return OrganizationTblCompanion(
+      id: Value(id),
+      type: Value(type),
+      name: Value(name),
+      inn: inn == null && nullToAbsent ? const Value.absent() : Value(inn),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+    );
+  }
+
+  factory OrganizationTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return OrganizationTblData(
+      id: serializer.fromJson<int>(json['id']),
+      type: serializer.fromJson<int>(json['type']),
+      name: serializer.fromJson<String>(json['name']),
+      inn: serializer.fromJson<String?>(json['inn']),
+      address: serializer.fromJson<String?>(json['address']),
+      description: serializer.fromJson<String?>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'type': serializer.toJson<int>(type),
+      'name': serializer.toJson<String>(name),
+      'inn': serializer.toJson<String?>(inn),
+      'address': serializer.toJson<String?>(address),
+      'description': serializer.toJson<String?>(description),
+    };
+  }
+
+  OrganizationTblData copyWith(
+          {int? id,
+          int? type,
+          String? name,
+          Value<String?> inn = const Value.absent(),
+          Value<String?> address = const Value.absent(),
+          Value<String?> description = const Value.absent()}) =>
+      OrganizationTblData(
+        id: id ?? this.id,
+        type: type ?? this.type,
+        name: name ?? this.name,
+        inn: inn.present ? inn.value : this.inn,
+        address: address.present ? address.value : this.address,
+        description: description.present ? description.value : this.description,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('OrganizationTblData(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('name: $name, ')
+          ..write('inn: $inn, ')
+          ..write('address: $address, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, type, name, inn, address, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is OrganizationTblData &&
+          other.id == this.id &&
+          other.type == this.type &&
+          other.name == this.name &&
+          other.inn == this.inn &&
+          other.address == this.address &&
+          other.description == this.description);
+}
+
+class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
+  final Value<int> id;
+  final Value<int> type;
+  final Value<String> name;
+  final Value<String?> inn;
+  final Value<String?> address;
+  final Value<String?> description;
+  const OrganizationTblCompanion({
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    this.name = const Value.absent(),
+    this.inn = const Value.absent(),
+    this.address = const Value.absent(),
+    this.description = const Value.absent(),
+  });
+  OrganizationTblCompanion.insert({
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    required String name,
+    this.inn = const Value.absent(),
+    this.address = const Value.absent(),
+    this.description = const Value.absent(),
+  }) : name = Value(name);
+  static Insertable<OrganizationTblData> custom({
+    Expression<int>? id,
+    Expression<int>? type,
+    Expression<String>? name,
+    Expression<String>? inn,
+    Expression<String>? address,
+    Expression<String>? description,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (type != null) 'type': type,
+      if (name != null) 'name': name,
+      if (inn != null) 'inn': inn,
+      if (address != null) 'address': address,
+      if (description != null) 'description': description,
+    });
+  }
+
+  OrganizationTblCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? type,
+      Value<String>? name,
+      Value<String?>? inn,
+      Value<String?>? address,
+      Value<String?>? description}) {
+    return OrganizationTblCompanion(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      name: name ?? this.name,
+      inn: inn ?? this.inn,
+      address: address ?? this.address,
+      description: description ?? this.description,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<int>(type.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (inn.present) {
+      map['inn'] = Variable<String>(inn.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OrganizationTblCompanion(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('name: $name, ')
+          ..write('inn: $inn, ')
+          ..write('address: $address, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class ContactTbl extends Table with TableInfo<ContactTbl, ContactTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  ContactTbl(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _organizationIdMeta =
+      VerificationMeta('organizationId');
+  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>(
+      'organization_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
+  static const VerificationMeta _typeMeta = VerificationMeta('type');
+  late final GeneratedColumn<int> type = GeneratedColumn<int>(
+      'type', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (type >= 0 AND type <= 3)');
+  static const VerificationMeta _valueMeta = VerificationMeta('value');
+  late final GeneratedColumn<String> value = GeneratedColumn<String>(
+      'value', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(value) > 0)');
+  static const VerificationMeta _descriptionMeta =
+      VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, organizationId, type, value, description];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'contact_tbl';
+  @override
+  VerificationContext validateIntegrity(Insertable<ContactTblData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('organization_id')) {
+      context.handle(
+          _organizationIdMeta,
+          organizationId.isAcceptableOrUnknown(
+              data['organization_id']!, _organizationIdMeta));
+    } else if (isInserting) {
+      context.missing(_organizationIdMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('value')) {
+      context.handle(
+          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ContactTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ContactTblData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      organizationId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
+      value: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}value'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+    );
+  }
+
+  @override
+  ContactTbl createAlias(String alias) {
+    return ContactTbl(attachedDatabase, alias);
+  }
+
+  @override
+  bool get isStrict => true;
+  @override
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(organization_id)REFERENCES organization_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class ContactTblData extends DataClass implements Insertable<ContactTblData> {
+  /// Unique identifier
+  final int id;
+
+  /// Organization identifier
+  final int organizationId;
+
+  /// 3 - Other
+  /// 2 - Website
+  /// 1 - Email
+  /// 0 - Phone
+  /// Contact type
+  final int type;
+
+  /// Contact value
+  final String value;
+
+  /// Description of the contact
+  final String? description;
+  const ContactTblData(
+      {required this.id,
+      required this.organizationId,
+      required this.type,
+      required this.value,
+      this.description});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['organization_id'] = Variable<int>(organizationId);
+    map['type'] = Variable<int>(type);
+    map['value'] = Variable<String>(value);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    return map;
+  }
+
+  ContactTblCompanion toCompanion(bool nullToAbsent) {
+    return ContactTblCompanion(
+      id: Value(id),
+      organizationId: Value(organizationId),
+      type: Value(type),
+      value: Value(value),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+    );
+  }
+
+  factory ContactTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ContactTblData(
+      id: serializer.fromJson<int>(json['id']),
+      organizationId: serializer.fromJson<int>(json['organization_id']),
+      type: serializer.fromJson<int>(json['type']),
+      value: serializer.fromJson<String>(json['value']),
+      description: serializer.fromJson<String?>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'organization_id': serializer.toJson<int>(organizationId),
+      'type': serializer.toJson<int>(type),
+      'value': serializer.toJson<String>(value),
+      'description': serializer.toJson<String?>(description),
+    };
+  }
+
+  ContactTblData copyWith(
+          {int? id,
+          int? organizationId,
+          int? type,
+          String? value,
+          Value<String?> description = const Value.absent()}) =>
+      ContactTblData(
+        id: id ?? this.id,
+        organizationId: organizationId ?? this.organizationId,
+        type: type ?? this.type,
+        value: value ?? this.value,
+        description: description.present ? description.value : this.description,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ContactTblData(')
+          ..write('id: $id, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('type: $type, ')
+          ..write('value: $value, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, organizationId, type, value, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ContactTblData &&
+          other.id == this.id &&
+          other.organizationId == this.organizationId &&
+          other.type == this.type &&
+          other.value == this.value &&
+          other.description == this.description);
+}
+
+class ContactTblCompanion extends UpdateCompanion<ContactTblData> {
+  final Value<int> id;
+  final Value<int> organizationId;
+  final Value<int> type;
+  final Value<String> value;
+  final Value<String?> description;
+  const ContactTblCompanion({
+    this.id = const Value.absent(),
+    this.organizationId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.value = const Value.absent(),
+    this.description = const Value.absent(),
+  });
+  ContactTblCompanion.insert({
+    this.id = const Value.absent(),
+    required int organizationId,
+    required int type,
+    required String value,
+    this.description = const Value.absent(),
+  })  : organizationId = Value(organizationId),
+        type = Value(type),
+        value = Value(value);
+  static Insertable<ContactTblData> custom({
+    Expression<int>? id,
+    Expression<int>? organizationId,
+    Expression<int>? type,
+    Expression<String>? value,
+    Expression<String>? description,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (organizationId != null) 'organization_id': organizationId,
+      if (type != null) 'type': type,
+      if (value != null) 'value': value,
+      if (description != null) 'description': description,
+    });
+  }
+
+  ContactTblCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? organizationId,
+      Value<int>? type,
+      Value<String>? value,
+      Value<String?>? description}) {
+    return ContactTblCompanion(
+      id: id ?? this.id,
+      organizationId: organizationId ?? this.organizationId,
+      type: type ?? this.type,
+      value: value ?? this.value,
+      description: description ?? this.description,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (organizationId.present) {
+      map['organization_id'] = Variable<int>(organizationId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<int>(type.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ContactTblCompanion(')
+          ..write('id: $id, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('type: $type, ')
+          ..write('value: $value, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class AccountTbl extends Table with TableInfo<AccountTbl, AccountTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  AccountTbl(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _organizationIdMeta =
+      VerificationMeta('organizationId');
+  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>(
+      'organization_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
+  static const VerificationMeta _nameMeta = VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
+  static const VerificationMeta _addressMeta = VerificationMeta('address');
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _swiftMeta = VerificationMeta('swift');
+  late final GeneratedColumn<String> swift = GeneratedColumn<String>(
+      'swift', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _ibanMeta = VerificationMeta('iban');
+  late final GeneratedColumn<String> iban = GeneratedColumn<String>(
+      'iban', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _beneficiaryMeta =
+      VerificationMeta('beneficiary');
+  late final GeneratedColumn<String> beneficiary = GeneratedColumn<String>(
+      'beneficiary', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _descriptionMeta =
+      VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        organizationId,
+        name,
+        address,
+        swift,
+        iban,
+        beneficiary,
+        description
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'account_tbl';
+  @override
+  VerificationContext validateIntegrity(Insertable<AccountTblData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('organization_id')) {
+      context.handle(
+          _organizationIdMeta,
+          organizationId.isAcceptableOrUnknown(
+              data['organization_id']!, _organizationIdMeta));
+    } else if (isInserting) {
+      context.missing(_organizationIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    }
+    if (data.containsKey('swift')) {
+      context.handle(
+          _swiftMeta, swift.isAcceptableOrUnknown(data['swift']!, _swiftMeta));
+    }
+    if (data.containsKey('iban')) {
+      context.handle(
+          _ibanMeta, iban.isAcceptableOrUnknown(data['iban']!, _ibanMeta));
+    }
+    if (data.containsKey('beneficiary')) {
+      context.handle(
+          _beneficiaryMeta,
+          beneficiary.isAcceptableOrUnknown(
+              data['beneficiary']!, _beneficiaryMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AccountTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AccountTblData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      organizationId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      swift: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}swift']),
+      iban: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}iban']),
+      beneficiary: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}beneficiary']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+    );
+  }
+
+  @override
+  AccountTbl createAlias(String alias) {
+    return AccountTbl(attachedDatabase, alias);
+  }
+
+  @override
+  bool get isStrict => true;
+  @override
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(organization_id)REFERENCES organization_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class AccountTblData extends DataClass implements Insertable<AccountTblData> {
+  /// Unique identifier
+  final int id;
+
+  /// Organization identifier
+  final int organizationId;
+
+  /// Name of the bank account
+  final String name;
+
+  /// Address of the bank
+  final String? address;
+
+  /// Society for Worldwide Interbank Financial Telecommunication
+  /// SWIFT/BIC code of the bank account
+  final String? swift;
+
+  /// IBAN code of the bank account
+  final String? iban;
+
+  /// Name of beneficiary
+  final String? beneficiary;
+
+  /// Description of the bank account
+  final String? description;
+  const AccountTblData(
+      {required this.id,
+      required this.organizationId,
+      required this.name,
+      this.address,
+      this.swift,
+      this.iban,
+      this.beneficiary,
+      this.description});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['organization_id'] = Variable<int>(organizationId);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    if (!nullToAbsent || swift != null) {
+      map['swift'] = Variable<String>(swift);
+    }
+    if (!nullToAbsent || iban != null) {
+      map['iban'] = Variable<String>(iban);
+    }
+    if (!nullToAbsent || beneficiary != null) {
+      map['beneficiary'] = Variable<String>(beneficiary);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    return map;
+  }
+
+  AccountTblCompanion toCompanion(bool nullToAbsent) {
+    return AccountTblCompanion(
+      id: Value(id),
+      organizationId: Value(organizationId),
+      name: Value(name),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      swift:
+          swift == null && nullToAbsent ? const Value.absent() : Value(swift),
+      iban: iban == null && nullToAbsent ? const Value.absent() : Value(iban),
+      beneficiary: beneficiary == null && nullToAbsent
+          ? const Value.absent()
+          : Value(beneficiary),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+    );
+  }
+
+  factory AccountTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AccountTblData(
+      id: serializer.fromJson<int>(json['id']),
+      organizationId: serializer.fromJson<int>(json['organization_id']),
+      name: serializer.fromJson<String>(json['name']),
+      address: serializer.fromJson<String?>(json['address']),
+      swift: serializer.fromJson<String?>(json['swift']),
+      iban: serializer.fromJson<String?>(json['iban']),
+      beneficiary: serializer.fromJson<String?>(json['beneficiary']),
+      description: serializer.fromJson<String?>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'organization_id': serializer.toJson<int>(organizationId),
+      'name': serializer.toJson<String>(name),
+      'address': serializer.toJson<String?>(address),
+      'swift': serializer.toJson<String?>(swift),
+      'iban': serializer.toJson<String?>(iban),
+      'beneficiary': serializer.toJson<String?>(beneficiary),
+      'description': serializer.toJson<String?>(description),
+    };
+  }
+
+  AccountTblData copyWith(
+          {int? id,
+          int? organizationId,
+          String? name,
+          Value<String?> address = const Value.absent(),
+          Value<String?> swift = const Value.absent(),
+          Value<String?> iban = const Value.absent(),
+          Value<String?> beneficiary = const Value.absent(),
+          Value<String?> description = const Value.absent()}) =>
+      AccountTblData(
+        id: id ?? this.id,
+        organizationId: organizationId ?? this.organizationId,
+        name: name ?? this.name,
+        address: address.present ? address.value : this.address,
+        swift: swift.present ? swift.value : this.swift,
+        iban: iban.present ? iban.value : this.iban,
+        beneficiary: beneficiary.present ? beneficiary.value : this.beneficiary,
+        description: description.present ? description.value : this.description,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('AccountTblData(')
+          ..write('id: $id, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('name: $name, ')
+          ..write('address: $address, ')
+          ..write('swift: $swift, ')
+          ..write('iban: $iban, ')
+          ..write('beneficiary: $beneficiary, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, organizationId, name, address, swift, iban, beneficiary, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AccountTblData &&
+          other.id == this.id &&
+          other.organizationId == this.organizationId &&
+          other.name == this.name &&
+          other.address == this.address &&
+          other.swift == this.swift &&
+          other.iban == this.iban &&
+          other.beneficiary == this.beneficiary &&
+          other.description == this.description);
+}
+
+class AccountTblCompanion extends UpdateCompanion<AccountTblData> {
+  final Value<int> id;
+  final Value<int> organizationId;
+  final Value<String> name;
+  final Value<String?> address;
+  final Value<String?> swift;
+  final Value<String?> iban;
+  final Value<String?> beneficiary;
+  final Value<String?> description;
+  const AccountTblCompanion({
+    this.id = const Value.absent(),
+    this.organizationId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.address = const Value.absent(),
+    this.swift = const Value.absent(),
+    this.iban = const Value.absent(),
+    this.beneficiary = const Value.absent(),
+    this.description = const Value.absent(),
+  });
+  AccountTblCompanion.insert({
+    this.id = const Value.absent(),
+    required int organizationId,
+    required String name,
+    this.address = const Value.absent(),
+    this.swift = const Value.absent(),
+    this.iban = const Value.absent(),
+    this.beneficiary = const Value.absent(),
+    this.description = const Value.absent(),
+  })  : organizationId = Value(organizationId),
+        name = Value(name);
+  static Insertable<AccountTblData> custom({
+    Expression<int>? id,
+    Expression<int>? organizationId,
+    Expression<String>? name,
+    Expression<String>? address,
+    Expression<String>? swift,
+    Expression<String>? iban,
+    Expression<String>? beneficiary,
+    Expression<String>? description,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (organizationId != null) 'organization_id': organizationId,
+      if (name != null) 'name': name,
+      if (address != null) 'address': address,
+      if (swift != null) 'swift': swift,
+      if (iban != null) 'iban': iban,
+      if (beneficiary != null) 'beneficiary': beneficiary,
+      if (description != null) 'description': description,
+    });
+  }
+
+  AccountTblCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? organizationId,
+      Value<String>? name,
+      Value<String?>? address,
+      Value<String?>? swift,
+      Value<String?>? iban,
+      Value<String?>? beneficiary,
+      Value<String?>? description}) {
+    return AccountTblCompanion(
+      id: id ?? this.id,
+      organizationId: organizationId ?? this.organizationId,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      swift: swift ?? this.swift,
+      iban: iban ?? this.iban,
+      beneficiary: beneficiary ?? this.beneficiary,
+      description: description ?? this.description,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (organizationId.present) {
+      map['organization_id'] = Variable<int>(organizationId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (swift.present) {
+      map['swift'] = Variable<String>(swift.value);
+    }
+    if (iban.present) {
+      map['iban'] = Variable<String>(iban.value);
+    }
+    if (beneficiary.present) {
+      map['beneficiary'] = Variable<String>(beneficiary.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AccountTblCompanion(')
+          ..write('id: $id, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('name: $name, ')
+          ..write('address: $address, ')
+          ..write('swift: $swift, ')
+          ..write('iban: $iban, ')
+          ..write('beneficiary: $beneficiary, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class IntermediaryTbl extends Table
+    with TableInfo<IntermediaryTbl, IntermediaryTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  IntermediaryTbl(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _accountIdMeta = VerificationMeta('accountId');
+  late final GeneratedColumn<int> accountId = GeneratedColumn<int>(
+      'account_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (account_id > 0)');
+  static const VerificationMeta _nameMeta = VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
+  static const VerificationMeta _addressMeta = VerificationMeta('address');
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _swiftMeta = VerificationMeta('swift');
+  late final GeneratedColumn<String> swift = GeneratedColumn<String>(
+      'swift', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _descriptionMeta =
+      VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, accountId, name, address, swift, description];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'intermediary_tbl';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<IntermediaryTblData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('account_id')) {
+      context.handle(_accountIdMeta,
+          accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta));
+    } else if (isInserting) {
+      context.missing(_accountIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    }
+    if (data.containsKey('swift')) {
+      context.handle(
+          _swiftMeta, swift.isAcceptableOrUnknown(data['swift']!, _swiftMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  IntermediaryTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IntermediaryTblData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      accountId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}account_id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      swift: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}swift']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+    );
+  }
+
+  @override
+  IntermediaryTbl createAlias(String alias) {
+    return IntermediaryTbl(attachedDatabase, alias);
+  }
+
+  @override
+  bool get isStrict => true;
+  @override
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(account_id)REFERENCES account_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class IntermediaryTblData extends DataClass
+    implements Insertable<IntermediaryTblData> {
+  /// Unique identifier
+  final int id;
+
+  /// Bank account identifier
+  final int accountId;
+
+  /// Name of the intermediary
+  final String name;
+
+  /// Address of the intermediary
+  final String? address;
+
+  /// Society for Worldwide Interbank Financial Telecommunication
+  /// SWIFT/BIC code of the bank account
+  final String? swift;
+
+  /// Description of the intermediary
+  final String? description;
+  const IntermediaryTblData(
+      {required this.id,
+      required this.accountId,
+      required this.name,
+      this.address,
+      this.swift,
+      this.description});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['account_id'] = Variable<int>(accountId);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    if (!nullToAbsent || swift != null) {
+      map['swift'] = Variable<String>(swift);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    return map;
+  }
+
+  IntermediaryTblCompanion toCompanion(bool nullToAbsent) {
+    return IntermediaryTblCompanion(
+      id: Value(id),
+      accountId: Value(accountId),
+      name: Value(name),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      swift:
+          swift == null && nullToAbsent ? const Value.absent() : Value(swift),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+    );
+  }
+
+  factory IntermediaryTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return IntermediaryTblData(
+      id: serializer.fromJson<int>(json['id']),
+      accountId: serializer.fromJson<int>(json['account_id']),
+      name: serializer.fromJson<String>(json['name']),
+      address: serializer.fromJson<String?>(json['address']),
+      swift: serializer.fromJson<String?>(json['swift']),
+      description: serializer.fromJson<String?>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'account_id': serializer.toJson<int>(accountId),
+      'name': serializer.toJson<String>(name),
+      'address': serializer.toJson<String?>(address),
+      'swift': serializer.toJson<String?>(swift),
+      'description': serializer.toJson<String?>(description),
+    };
+  }
+
+  IntermediaryTblData copyWith(
+          {int? id,
+          int? accountId,
+          String? name,
+          Value<String?> address = const Value.absent(),
+          Value<String?> swift = const Value.absent(),
+          Value<String?> description = const Value.absent()}) =>
+      IntermediaryTblData(
+        id: id ?? this.id,
+        accountId: accountId ?? this.accountId,
+        name: name ?? this.name,
+        address: address.present ? address.value : this.address,
+        swift: swift.present ? swift.value : this.swift,
+        description: description.present ? description.value : this.description,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('IntermediaryTblData(')
+          ..write('id: $id, ')
+          ..write('accountId: $accountId, ')
+          ..write('name: $name, ')
+          ..write('address: $address, ')
+          ..write('swift: $swift, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, accountId, name, address, swift, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is IntermediaryTblData &&
+          other.id == this.id &&
+          other.accountId == this.accountId &&
+          other.name == this.name &&
+          other.address == this.address &&
+          other.swift == this.swift &&
+          other.description == this.description);
+}
+
+class IntermediaryTblCompanion extends UpdateCompanion<IntermediaryTblData> {
+  final Value<int> id;
+  final Value<int> accountId;
+  final Value<String> name;
+  final Value<String?> address;
+  final Value<String?> swift;
+  final Value<String?> description;
+  const IntermediaryTblCompanion({
+    this.id = const Value.absent(),
+    this.accountId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.address = const Value.absent(),
+    this.swift = const Value.absent(),
+    this.description = const Value.absent(),
+  });
+  IntermediaryTblCompanion.insert({
+    this.id = const Value.absent(),
+    required int accountId,
+    required String name,
+    this.address = const Value.absent(),
+    this.swift = const Value.absent(),
+    this.description = const Value.absent(),
+  })  : accountId = Value(accountId),
+        name = Value(name);
+  static Insertable<IntermediaryTblData> custom({
+    Expression<int>? id,
+    Expression<int>? accountId,
+    Expression<String>? name,
+    Expression<String>? address,
+    Expression<String>? swift,
+    Expression<String>? description,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (accountId != null) 'account_id': accountId,
+      if (name != null) 'name': name,
+      if (address != null) 'address': address,
+      if (swift != null) 'swift': swift,
+      if (description != null) 'description': description,
+    });
+  }
+
+  IntermediaryTblCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? accountId,
+      Value<String>? name,
+      Value<String?>? address,
+      Value<String?>? swift,
+      Value<String?>? description}) {
+    return IntermediaryTblCompanion(
+      id: id ?? this.id,
+      accountId: accountId ?? this.accountId,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      swift: swift ?? this.swift,
+      description: description ?? this.description,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (accountId.present) {
+      map['account_id'] = Variable<int>(accountId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (swift.present) {
+      map['swift'] = Variable<String>(swift.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IntermediaryTblCompanion(')
+          ..write('id: $id, ')
+          ..write('accountId: $accountId, ')
+          ..write('name: $name, ')
+          ..write('address: $address, ')
+          ..write('swift: $swift, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class SettingsTbl extends Table with TableInfo<SettingsTbl, SettingsTblData> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -1620,6 +3971,44 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
 
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
+  late final InvoiceTbl invoiceTbl = InvoiceTbl(this);
+  late final Index invoiceCreatedAtIdx = Index('invoice_created_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_created_at_idx ON invoice_tbl (created_at)');
+  late final Index invoiceUpdatedAtIdx = Index('invoice_updated_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_updated_at_idx ON invoice_tbl (updated_at)');
+  late final Index invoiceIssuedAtIdx = Index('invoice_issued_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_issued_at_idx ON invoice_tbl (issued_at)');
+  late final Index invoiceDueAtIdx = Index('invoice_due_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_due_at_idx ON invoice_tbl (due_at)');
+  late final Index invoicePaidAtIdx = Index('invoice_paid_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_paid_at_idx ON invoice_tbl (paid_at)');
+  late final Index invoiceOrganizationIdIdx = Index(
+      'invoice_organization_id_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_organization_id_idx ON invoice_tbl (organization_id)');
+  late final Index invoiceCounterpartyIdIdx = Index(
+      'invoice_counterparty_id_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_counterparty_id_idx ON invoice_tbl (counterparty_id)');
+  late final Index invoiceStatusIdx = Index('invoice_status_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_status_idx ON invoice_tbl (status)');
+  late final Trigger characteristicUpdatedAtTrig = Trigger(
+      'CREATE TRIGGER IF NOT EXISTS characteristic_updated_at_trig AFTER UPDATE ON invoice_tbl BEGIN UPDATE invoice_tbl SET updated_at = strftime(\'%s\', \'now\') WHERE id = NEW.id;END',
+      'characteristic_updated_at_trig');
+  late final ServiceTbl serviceTbl = ServiceTbl(this);
+  late final Index serviceInvoiceIdIdx = Index('service_invoice_id_idx',
+      'CREATE INDEX IF NOT EXISTS service_invoice_id_idx ON service_tbl (invoice_id)');
+  late final OrganizationTbl organizationTbl = OrganizationTbl(this);
+  late final ContactTbl contactTbl = ContactTbl(this);
+  late final Index contactOrganizationIdIdx = Index(
+      'contact_organization_id_idx',
+      'CREATE INDEX IF NOT EXISTS contact_organization_id_idx ON contact_tbl (organization_id)');
+  late final AccountTbl accountTbl = AccountTbl(this);
+  late final Index accountOrganizationIdIdx = Index(
+      'account_organization_id_idx',
+      'CREATE INDEX IF NOT EXISTS account_organization_id_idx ON account_tbl (organization_id)');
+  late final IntermediaryTbl intermediaryTbl = IntermediaryTbl(this);
+  late final Index intermediaryAccountIdIdx = Index(
+      'intermediary_account_id_idx',
+      'CREATE INDEX IF NOT EXISTS intermediary_account_id_idx ON intermediary_tbl (account_id)');
   late final SettingsTbl settingsTbl = SettingsTbl(this);
   late final Trigger settingsMetaUpdatedAtTrig = Trigger(
       'CREATE TRIGGER IF NOT EXISTS settings_meta_updated_at_trig AFTER UPDATE ON settings_tbl BEGIN UPDATE settings_tbl SET meta_updated_at = strftime(\'%s\', \'now\') WHERE user_id = NEW.user_id;END',
@@ -1659,6 +4048,25 @@ abstract class _$Database extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+        invoiceTbl,
+        invoiceCreatedAtIdx,
+        invoiceUpdatedAtIdx,
+        invoiceIssuedAtIdx,
+        invoiceDueAtIdx,
+        invoicePaidAtIdx,
+        invoiceOrganizationIdIdx,
+        invoiceCounterpartyIdIdx,
+        invoiceStatusIdx,
+        characteristicUpdatedAtTrig,
+        serviceTbl,
+        serviceInvoiceIdIdx,
+        organizationTbl,
+        contactTbl,
+        contactOrganizationIdIdx,
+        accountTbl,
+        accountOrganizationIdIdx,
+        intermediaryTbl,
+        intermediaryAccountIdIdx,
         settingsTbl,
         settingsMetaUpdatedAtTrig,
         logTbl,
@@ -1680,6 +4088,69 @@ abstract class _$Database extends GeneratedDatabase {
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('invoice_tbl',
+                limitUpdateKind: UpdateKind.update),
+            result: [
+              TableUpdate('invoice_tbl', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('invoice_tbl',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('service_tbl', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('invoice_tbl',
+                limitUpdateKind: UpdateKind.update),
+            result: [
+              TableUpdate('service_tbl', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('contact_tbl', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.update),
+            result: [
+              TableUpdate('contact_tbl', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('account_tbl', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.update),
+            result: [
+              TableUpdate('account_tbl', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('account_tbl',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('intermediary_tbl', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('account_tbl',
+                limitUpdateKind: UpdateKind.update),
+            result: [
+              TableUpdate('intermediary_tbl', kind: UpdateKind.update),
+            ],
+          ),
           WritePropagation(
             on: TableUpdateQuery.onTableName('settings_tbl',
                 limitUpdateKind: UpdateKind.update),

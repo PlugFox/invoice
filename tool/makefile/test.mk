@@ -1,11 +1,11 @@
 .PHONY: test integration
 
 test:
-	@flutter test \
+	@fvm flutter test \
 		--coverage \
 		test/
 
 integration:
-	@flutter test \
+	@fvm flutter test \
 		--coverage \
 		integration_test/app_test.dart

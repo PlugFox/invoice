@@ -45,6 +45,8 @@ abstract interface class IKeyValueStorage {
     'ddl/characteristic.drift',
     'ddl/log.drift',
     'ddl/settings.drift',
+    'ddl/organization.drift',
+    'ddl/invoice.drift',
   },
   tables: <Type>[],
   daos: <Type>[],

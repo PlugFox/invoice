@@ -1,0 +1,121 @@
+-- Organization table
+CREATE TABLE IF NOT EXISTS organization_tbl (
+    -- Unique identifier of the organization
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+
+    -- Organization or Counterparty?
+    -- 0 - Organization
+    -- 1 - Counterparty
+    type INTEGER NOT NULL DEFAULT 0 CHECK (type = 0 OR type = 1),
+
+    -- Name of the organization
+    name TEXT NOT NULL UNIQUE CHECK (length(name) > 0),
+
+    -- Tax identification number of the organization
+    inn TEXT, -- NOT NULL PRIMARY CHECK (length(inn) > 0),
+
+    -- Address of the organization
+    address TEXT,
+
+    -- Description of the organization
+    description TEXT
+) STRICT;
+
+-- Contact of the organization
+CREATE TABLE IF NOT EXISTS contact_tbl (
+    -- Unique identifier
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+
+    -- Organization identifier
+    organization_id INTEGER NOT NULL CHECK (organization_id > 0),
+
+    -- Contact type
+    -- 0 - Phone
+    -- 1 - Email
+    -- 2 - Website
+    -- 3 - Other
+    type INTEGER NOT NULL CHECK (type >= 0 AND type <= 3),
+
+    -- Contact value
+    value TEXT NOT NULL CHECK (length(value) > 0),
+
+    -- Description of the contact
+    description TEXT,
+
+    -- Foreign keys
+    FOREIGN KEY (organization_id)
+        REFERENCES organization_tbl (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+) STRICT;
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS contact_organization_id_idx ON contact_tbl (organization_id);
+
+-- Bank account table
+CREATE TABLE IF NOT EXISTS account_tbl (
+    -- Unique identifier
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+
+    -- Organization identifier
+    organization_id INTEGER NOT NULL CHECK (organization_id > 0),
+
+    -- Name of the bank account
+    name TEXT NOT NULL CHECK (length(name) > 0),
+
+    -- Address of the bank
+    address TEXT,
+
+    -- SWIFT/BIC code of the bank account
+    -- Society for Worldwide Interbank Financial Telecommunication
+    swift TEXT,
+
+    -- IBAN code of the bank account
+    iban TEXT,
+
+    -- Name of beneficiary
+    beneficiary TEXT,
+
+    -- Description of the bank account
+    description TEXT,
+
+    -- Foreign keys
+    FOREIGN KEY (organization_id)
+        REFERENCES organization_tbl (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+) STRICT;
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS account_organization_id_idx ON account_tbl (organization_id);
+
+-- Bank account intermediary table
+CREATE TABLE IF NOT EXISTS intermediary_tbl (
+    -- Unique identifier
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+
+    -- Bank account identifier
+    account_id INTEGER NOT NULL CHECK (account_id > 0),
+
+    -- Name of the intermediary
+    name TEXT NOT NULL CHECK (length(name) > 0),
+
+    -- Address of the intermediary
+    address TEXT,
+
+    -- SWIFT/BIC code of the bank account
+    -- Society for Worldwide Interbank Financial Telecommunication
+    swift TEXT,
+
+    -- Description of the intermediary
+    description TEXT,
+
+    -- Foreign keys
+    FOREIGN KEY (account_id)
+        REFERENCES account_tbl (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+) STRICT;
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS intermediary_account_id_idx ON intermediary_tbl (account_id);

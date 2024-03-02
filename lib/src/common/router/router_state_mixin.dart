@@ -18,7 +18,7 @@ mixin RouterStateMixin<T extends StatefulWidget> on State<T> {
     // Create router.
     router = Octopus(
       routes: Routes.values,
-      defaultRoute: Routes.home,
+      defaultRoute: Routes.invoices,
       guards: <IOctopusGuard>[
         // Home route should be always on top.
         HomeGuard(),

@@ -22,7 +22,8 @@ class SettingsScreen extends StatelessWidget {
               snap: true,
             ),
             SliverPadding(
-              padding: ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
+              padding:
+                  ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
               sliver: SliverList.list(
                 children: <Widget>[
                   Padding(

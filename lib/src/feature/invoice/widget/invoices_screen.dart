@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/widget/common_actions.dart';
 
-/// {@template home_screen}
-/// HomeScreen widget.
+/// {@template invoices_screen}
+/// InvoicesScreen widget.
 /// {@endtemplate}
-class HomeScreen extends StatelessWidget {
-  /// {@macro home_screen}
-  const HomeScreen({super.key});
+class InvoicesScreen extends StatelessWidget {
+  /// {@macro invoices_screen}
+  const InvoicesScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(

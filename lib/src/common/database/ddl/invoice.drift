@@ -1,0 +1,84 @@
+-- Invoice table
+CREATE TABLE IF NOT EXISTS invoice_tbl (
+    -- Unique identifier of the organization
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+
+    -- Time is the timestamp (in seconds) of the organization
+    created_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+
+    -- Updated date (unixtime in seconds)
+    updated_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')) CHECK(updated_at >= created_at),
+
+    -- Invoice date
+    issued_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+
+    -- Due date
+    due_at INTEGER,
+
+    -- Paid date
+    paid_at INTEGER,
+
+    -- Organization identifier (organization_tbl)
+    organization_id INTEGER NOT NULL CHECK (organization_id > 0),
+
+    -- Counterparty identifier (organization_tbl)
+    counterparty_id INTEGER NOT NULL CHECK (counterparty_id > 0),
+
+    -- Invoice number
+    number TEXT NOT NULL CHECK (length(number) > 0),
+
+    -- Invoice total amount
+    total REAL NOT NULL CHECK (total >= 0),
+
+    -- Currency code
+    currency TEXT NOT NULL CHECK (length(currency) > 0),
+
+    -- Status of the invoice
+    -- 0 - Draft
+    -- 1 - Sent
+    -- 2 - Paid
+    status INTEGER NOT NULL DEFAULT 0 CHECK (status >=0 AND status <= 2),
+
+    -- Description of the invoice
+    description TEXT
+) STRICT;
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS invoice_created_at_idx ON invoice_tbl (created_at);
+CREATE INDEX IF NOT EXISTS invoice_updated_at_idx ON invoice_tbl (updated_at);
+CREATE INDEX IF NOT EXISTS invoice_issued_at_idx ON invoice_tbl (issued_at);
+CREATE INDEX IF NOT EXISTS invoice_due_at_idx ON invoice_tbl (due_at);
+CREATE INDEX IF NOT EXISTS invoice_paid_at_idx ON invoice_tbl (paid_at);
+CREATE INDEX IF NOT EXISTS invoice_organization_id_idx ON invoice_tbl (organization_id);
+CREATE INDEX IF NOT EXISTS invoice_counterparty_id_idx ON invoice_tbl (counterparty_id);
+CREATE INDEX IF NOT EXISTS invoice_status_idx ON invoice_tbl (status);
+
+-- Triggers
+CREATE TRIGGER IF NOT EXISTS characteristic_updated_at_trig AFTER UPDATE ON invoice_tbl
+    BEGIN
+        UPDATE invoice_tbl SET updated_at = strftime('%s', 'now') WHERE id = NEW.id;
+    END;
+
+-- Provided services for the invoice
+CREATE TABLE IF NOT EXISTS service_tbl (
+    -- Unique identifier of the organization
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+
+    -- Invoice identifier (invoice_tbl)
+    invoice_id INTEGER NOT NULL CHECK (invoice_id > 0),
+
+    -- Name of the service
+    name TEXT NOT NULL CHECK (length(name) > 0),
+
+    -- Price of the service
+    amount INTEGER NOT NULL CHECK (amount >= 0),
+
+    -- Foreign keys
+    FOREIGN KEY (invoice_id)
+        REFERENCES invoice_tbl (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+) STRICT;
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS service_invoice_id_idx ON service_tbl (invoice_id);

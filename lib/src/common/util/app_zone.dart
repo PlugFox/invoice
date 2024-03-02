@@ -17,7 +17,9 @@ void appZone(FutureOr<void> Function() fn) => l.capture<void>(
     );
 
 /// Formats the log message.
-Object _messageFormatting(LogMessage log) => '${_timeFormat(log.timestamp)} | ${log.message}';
+Object _messageFormatting(LogMessage log) =>
+    '${_timeFormat(log.timestamp)} | ${log.message}';
 
 /// Formats the time.
-String _timeFormat(DateTime time) => '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
+String _timeFormat(DateTime time) =>
+    '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
