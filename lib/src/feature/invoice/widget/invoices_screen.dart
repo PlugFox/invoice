@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:invoice/src/common/widget/common_actions.dart';
+import 'package:invoice/src/common/router/routes.dart';
+import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+import 'package:octopus/octopus.dart';
 
 /// {@template invoices_screen}
 /// InvoicesScreen widget.
@@ -10,23 +12,23 @@ class InvoicesScreen extends StatelessWidget {
   /// {@macro invoices_screen}
   const InvoicesScreen({super.key});
 
+  void openInvoice(int id) => Octopus.instance.pushNamed(Routes.invoice.name, arguments: {'id': id.toString()});
+
   @override
   Widget build(BuildContext context) {
     final invoices = InvoicesScope.getInvoices(context);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => InvoicesScope.of(context).createInvoice(),
+        onPressed: () => InvoicesScope.of(context).createInvoice(
+          onSuccess: (invoice) => openInvoice(invoice.id),
+        ),
         child: const Icon(Icons.add),
       ),
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
-            pinned: true,
-            title: const Text('Invoices'),
-            leading: const SizedBox.shrink(),
-            actions: CommonActions(),
-          ),
+          SliverCommonHeader(),
+
           /* const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
@@ -48,7 +50,8 @@ class InvoicesScreen extends StatelessWidget {
                 return ListTile(
                   title: Text(invoice.id.toString()),
                   subtitle: Text(invoice.createdAt.toString()),
-                  onTap: () {},
+                  onTap: () => openInvoice(invoice.id),
+                  // TODO(plugfox): Delete, edit, clone
                 );
               },
             ),

@@ -7,9 +7,9 @@ import 'package:octopus/octopus.dart';
 /// {@template profile_icon_button}
 /// ProfileIconButton widget
 /// {@endtemplate}
-class ProfileIconButton extends StatelessWidget {
+class SettingsIconButton extends StatelessWidget {
   /// {@macro profile_icon_button}
-  const ProfileIconButton({super.key});
+  const SettingsIconButton({super.key});
 
   @override
   Widget build(BuildContext context) => IconButton(

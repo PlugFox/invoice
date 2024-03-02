@@ -59,7 +59,9 @@ class Invoice implements Comparable<Invoice> {
   int get hashCode => id.hashCode;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Invoice && id == other.id;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Invoice && id == other.id && updatedAt == other.updatedAt && total == other.total;
 }
 
 enum InvoiceStatus {

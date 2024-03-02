@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:invoice/src/common/model/dependencies.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
@@ -60,7 +61,7 @@ class _InvoicesScopeState extends State<InvoicesScope> {
 
   void _onStateChanged() {
     final newInvoices = _controller.state.data;
-    if (newInvoices.length == _invoices.length) return;
+    if (listEquals(newInvoices, _invoices)) return;
     setState(() {
       _invoices = List<Invoice>.unmodifiable(newInvoices);
       _table = <InvoiceId, Invoice>{
@@ -124,7 +125,7 @@ class _InheritedInvoicesScope extends InheritedModel<InvoiceId> {
       ?.table[id];
 
   @override
-  bool updateShouldNotify(covariant _InheritedInvoicesScope oldWidget) => invoices.length != oldWidget.invoices.length;
+  bool updateShouldNotify(covariant _InheritedInvoicesScope oldWidget) => !listEquals(invoices, oldWidget.invoices);
 
   @override
   bool updateShouldNotifyDependent(covariant _InheritedInvoicesScope oldWidget, Set<InvoiceId> aspects) {

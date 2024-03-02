@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/localization/localization.dart';
 import 'package:invoice/src/common/router/router_state_mixin.dart';
+import 'package:invoice/src/common/widget/common_rail.dart';
 import 'package:invoice/src/common/widget/window_scope.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
 import 'package:octopus/octopus.dart';
@@ -44,16 +45,13 @@ class _AppState extends State<App> with RouterStateMixin {
         theme: ThemeData.dark(),
 
         // Scopes
-        builder: (context, child) => MediaQuery(
+        builder: (context, child) => WindowScope(
           key: builderKey,
-          data: MediaQuery.of(context).copyWith(
-            textScaler: TextScaler.noScaling,
-          ),
-          child: WindowScope(
-            title: Localization.of(context).title,
-            child: OctopusTools(
-              enable: true,
-              octopus: router,
+          title: Localization.of(context).title,
+          child: OctopusTools(
+            enable: true,
+            octopus: router,
+            child: CommonRail(
               child: InvoicesScope(
                 child: child ?? const SizedBox.shrink(),
               ),
