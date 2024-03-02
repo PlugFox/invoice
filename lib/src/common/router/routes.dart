@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invoice/src/feature/developer/widget/about_screen.dart';
 import 'package:invoice/src/feature/developer/widget/developer_screen.dart';
 import 'package:invoice/src/feature/invoice/widget/invoice_screen.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_screen.dart';
@@ -9,6 +10,7 @@ enum Routes with OctopusRoute {
   invoices('invoices', title: 'Invoices'),
   invoice('invoice', title: 'Invoice'),
   settings('settings', title: 'Settings'),
+  about('about', title: 'About'),
   developer('developer', title: 'Developer');
 
   const Routes(this.name, {this.title});
@@ -24,6 +26,7 @@ enum Routes with OctopusRoute {
         Routes.invoices => const InvoicesScreen(),
         Routes.invoice => InvoiceScreen(id: node.arguments['id']),
         Routes.settings => const SettingsScreen(),
+        Routes.about => const AboutScreen(),
         Routes.developer => const DeveloperScreen(),
       };
 }

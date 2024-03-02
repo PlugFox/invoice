@@ -17,7 +17,6 @@ class Invoice implements Comparable<Invoice> {
     required this.counterparty,
     required this.status,
     required this.number,
-    required this.currency,
     required this.total,
     required this.services,
     required this.description,
@@ -43,7 +42,7 @@ class Invoice implements Comparable<Invoice> {
 
   final String? number;
 
-  final Currency currency;
+  Currency get currency => total.currency;
 
   final Money total;
 

@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/router/routes.dart';
 import 'package:octopus/octopus.dart';
 
@@ -29,13 +28,18 @@ class CommonRail extends StatelessWidget {
       name: Routes.settings.name,
       destination: const NavigationRailDestination(icon: Icon(Icons.settings), label: Text('Settings')),
     ),
+    (
+      name: Routes.about.name,
+      destination: const NavigationRailDestination(icon: Icon(Icons.info), label: Text('About')),
+    ),
   ];
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) {
           final mediaQueryData = MediaQuery.of(context);
-          final wide = constraints.maxWidth >= Config.maxScreenLayoutWidth + 256;
+          //final wide = constraints.maxWidth >= Config.maxScreenLayoutWidth + 256;
+          const wide = false;
           return Row(
             children: <Widget>[
               RepaintBoundary(
@@ -75,6 +79,7 @@ class CommonRail extends StatelessWidget {
                 child: RepaintBoundary(
                   child: MediaQuery(
                     data: mediaQueryData.copyWith(
+                      // ignore: dead_code
                       size: Size(constraints.maxWidth - (wide ? 256 : 72), constraints.maxHeight),
                       textScaler: TextScaler.noScaling,
                     ),

@@ -105,14 +105,14 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
   /// Delete invoice
   FutureOr<void> deleteInvoice({
     required InvoiceId id,
-    void Function(Invoice invoice)? onSuccess,
+    void Function()? onSuccess,
   }) =>
       handle(() async {
         setState(InvoicesState.processing(data: state.data));
         await _repository.deleteInvoiceById(id);
         final newData = state.data.where((element) => element.id != id).toList(growable: false);
         setState(InvoicesState.successful(data: newData));
-        onSuccess?.call(state.data.firstWhere((element) => element.id == id));
+        onSuccess?.call();
       }, error: (error, stackTrace) {
         setState(InvoicesState.error(
           data: state.data,

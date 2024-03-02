@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/router/routes.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
+import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
 import 'package:octopus/octopus.dart';
 
@@ -12,7 +14,91 @@ class InvoicesScreen extends StatelessWidget {
   /// {@macro invoices_screen}
   const InvoicesScreen({super.key});
 
-  void openInvoice(int id) => Octopus.instance.pushNamed(Routes.invoice.name, arguments: {'id': id.toString()});
+  /// Open invoice
+  void openInvoice(BuildContext context, InvoiceId id) {
+    if (!context.mounted) return;
+    Octopus.of(context).pushNamed(Routes.invoice.name, arguments: {'id': id.toString()});
+  }
+
+  /// Clone invoice
+  void cloneInvoice(BuildContext context, InvoiceId id) {
+    if (!context.mounted) return;
+    final controller = InvoicesScope.of(context);
+    controller.fetchInvoiceById(
+      id,
+      onSuccess: (invoice) => controller.createInvoice(
+        onSuccess: (invoice) => controller.updateInvoice(
+          invoice: Invoice(
+            id: invoice.id,
+            createdAt: invoice.createdAt,
+            updatedAt: invoice.updatedAt,
+            number: invoice.number,
+            status: invoice.status,
+            total: invoice.total,
+            services: invoice.services,
+            description: invoice.description,
+            organization: invoice.organization,
+            counterparty: invoice.counterparty,
+            issuedAt: invoice.issuedAt,
+            dueAt: invoice.dueAt,
+            paidAt: invoice.paidAt,
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Delete invoice
+  void deleteInvoice(BuildContext context, InvoiceId id) {
+    if (!context.mounted) return;
+    final controller = InvoicesScope.of(context);
+    final theme = Theme.of(context);
+
+    Widget adaptiveAction({required BuildContext context, required VoidCallback onPressed, required Widget child}) {
+      switch (theme.platform) {
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          return TextButton(onPressed: onPressed, child: child);
+        case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
+          return CupertinoDialogAction(onPressed: onPressed, child: child);
+      }
+    }
+
+    showAdaptiveDialog<void>(
+      builder: (context) => AlertDialog.adaptive(
+        title: const Text('Delete invoice'),
+        titlePadding: const EdgeInsets.all(16),
+        icon: const Icon(Icons.warning, color: Colors.red),
+        iconColor: Colors.red,
+        content: const Text('Are you sure you want to delete this invoice?'),
+        actions: <Widget>[
+          adaptiveAction(
+            context: context,
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: theme.textTheme.labelLarge,
+            ),
+          ),
+          adaptiveAction(
+            context: context,
+            onPressed: () {
+              controller.deleteInvoice(id: id);
+              Navigator.pop(context);
+            },
+            child: Text(
+              'Delete',
+              style: theme.textTheme.labelLarge?.copyWith(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+      context: context,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +110,7 @@ class InvoicesScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => InvoicesScope.of(context).createInvoice(
-          onSuccess: (invoice) => openInvoice(invoice.id),
+          onSuccess: (invoice) => openInvoice(context, invoice.id),
         ),
         tooltip: 'Create new invoice',
         child: const Icon(Icons.add),
@@ -50,15 +136,78 @@ class InvoicesScreen extends StatelessWidget {
 
           ScaffoldPadding.sliver(
             context,
-            SliverList.builder(
+            SliverFixedExtentList.builder(
               itemCount: invoices.length,
+              itemExtent: 64,
               itemBuilder: (context, index) {
                 final invoice = invoices[index];
                 return ListTile(
-                  title: Text(invoice.id.toString()),
-                  subtitle: Text(invoice.createdAt.toString()),
-                  onTap: () => openInvoice(invoice.id),
-                  // TODO(plugfox): Delete, edit, clone
+                  title: Text(
+                    invoice.id.toString(),
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  subtitle: Text(
+                    invoice.createdAt.toString(),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  leading: const Icon(Icons.receipt),
+                  trailing: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: SizedBox.square(
+                        dimension: 48,
+                        child: PopupMenuButton<String>(
+                          splashRadius: 18,
+                          constraints: const BoxConstraints(minWidth: 124, minHeight: 48),
+                          itemBuilder: (context) => <PopupMenuEntry<String>>[
+                            _InvoicePopupMenuItem(
+                              value: 'edit',
+                              icon: const Icon(Icons.edit_document, size: 20),
+                              label: const Text('Edit'),
+                              onTap: () => openInvoice(context, invoice.id),
+                            ),
+                            _InvoicePopupMenuItem(
+                              value: 'clone',
+                              icon: const Icon(Icons.content_copy, size: 20),
+                              label: const Text('Copy'),
+                              onTap: () => cloneInvoice(context, invoice.id),
+                            ),
+                            _InvoicePopupMenuItem(
+                              enabled: false,
+                              value: 'print',
+                              icon: const Icon(Icons.print, size: 20),
+                              label: const Text('Print'),
+                              onTap: () {},
+                            ),
+                            _InvoicePopupMenuItem(
+                              enabled: false,
+                              value: 'preview',
+                              icon: const Icon(Icons.document_scanner, size: 20),
+                              label: const Text('Preview'),
+                              onTap: () {},
+                            ),
+                            _InvoicePopupMenuItem(
+                              enabled: false,
+                              value: 'send',
+                              icon: const Icon(Icons.email, size: 20),
+                              label: const Text('Send'),
+                              onTap: () {},
+                            ),
+                            const PopupMenuDivider(),
+                            _InvoicePopupMenuItem(
+                              value: 'delete',
+                              icon: const Icon(Icons.delete, size: 20, color: Colors.red),
+                              label: const Text('Delete', style: TextStyle(color: Colors.red)),
+                              onTap: () => deleteInvoice(context, invoice.id),
+                            ),
+                          ],
+                          child: const Icon(Icons.more_vert),
+                        ),
+                      ),
+                    ),
+                  ),
+                  onTap: () => openInvoice(context, invoice.id),
                 );
               },
             ),
@@ -67,4 +216,26 @@ class InvoicesScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class _InvoicePopupMenuItem extends PopupMenuItem<String> {
+  _InvoicePopupMenuItem({
+    required super.value,
+    required super.onTap,
+    required Widget icon,
+    required Widget label,
+    super.enabled = true, // ignore: unused_element
+    super.key, // ignore: unused_element
+  }) : super(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              icon,
+              const SizedBox(width: 16),
+              label,
+            ],
+          ),
+        );
 }

@@ -133,7 +133,6 @@ Invoice _decodeInvoice({
     counterparty: decodeOrganization(cnt),
     status: InvoiceStatus.values[inv.status],
     number: inv.number,
-    currency: total.currency,
     total: total,
     description: inv.description,
     services: <ProvidedService>[
@@ -156,8 +155,8 @@ Invoice _decodeInvoice({
   return (
     invoice: InvoiceTblCompanion(
       id: Value(inv.id),
-      createdAt: encodeDateTime(inv.createdAt),
-      updatedAt: encodeDateTime(inv.updatedAt),
+      createdAt: const Value.absent(),
+      updatedAt: const Value.absent(),
       issuedAt: encodeDateTime(inv.issuedAt),
       dueAt: encodeDateTimeNullable(inv.dueAt),
       paidAt: encodeDateTimeNullable(inv.paidAt),
@@ -165,7 +164,7 @@ Invoice _decodeInvoice({
       counterpartyId: Value(inv.counterparty?.id),
       status: Value(InvoiceStatus.values.indexOf(inv.status)),
       number: Value(inv.number),
-      currency: Value(inv.currency.code),
+      currency: Value(inv.total.currency.code),
       total: Value(inv.total.minorUnits.toInt()),
       description: Value(inv.description),
     ),
