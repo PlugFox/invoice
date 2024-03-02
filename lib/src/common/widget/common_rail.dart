@@ -38,43 +38,48 @@ class CommonRail extends StatelessWidget {
           final wide = constraints.maxWidth >= Config.maxScreenLayoutWidth + 256;
           return Row(
             children: <Widget>[
-              ValueListenableBuilder(
-                valueListenable: Octopus.instance.observer,
-                builder: (context, state, _) {
-                  final currentName = state.children.last.name;
-                  int? currentIdx = _destinations.indexWhere((element) => element.name == currentName);
-                  if (currentIdx == -1) currentIdx = null;
-                  return NavigationRail(
-                    selectedIndex: currentIdx,
-                    destinations: _destinations.map((e) => e.destination).toList(growable: false),
-                    onDestinationSelected: (index) {
-                      if (index == 0) {
-                        Octopus.instance
-                            .setState((state) => state..removeWhere((element) => element.name != Routes.invoices.name));
-                      } else {
-                        final destination = _destinations[index];
-                        Octopus.instance.setState((state) {
-                          state.removeWhere(
-                              (element) => element.name != destination.name && element.name != Routes.invoices.name);
-                          if (state.children.none((element) => element.name == destination.name))
-                            state.add(OctopusNode.mutable(destination.name));
-                          return state;
-                        });
-                      }
-                    },
-                    extended: wide,
-                    minWidth: 72,
-                    minExtendedWidth: 256,
-                  );
-                },
+              RepaintBoundary(
+                child: ValueListenableBuilder(
+                  valueListenable: Octopus.instance.observer,
+                  builder: (context, state, _) {
+                    final currentName = state.children.last.name;
+                    int? currentIdx = _destinations.indexWhere((element) => element.name == currentName);
+                    if (currentIdx == -1) currentIdx = null;
+                    return NavigationRail(
+                      selectedIndex: currentIdx,
+                      destinations: _destinations.map((e) => e.destination).toList(growable: false),
+                      onDestinationSelected: (index) {
+                        if (index == currentIdx) return;
+                        if (index == 0) {
+                          Octopus.instance.setState(
+                              (state) => state..removeWhere((element) => element.name != Routes.invoices.name));
+                        } else {
+                          final destination = _destinations[index];
+                          Octopus.instance.setState((state) {
+                            state.removeWhere(
+                                (element) => element.name != destination.name && element.name != Routes.invoices.name);
+                            if (state.children.none((element) => element.name == destination.name))
+                              state.add(OctopusNode.mutable(destination.name));
+                            return state;
+                          });
+                        }
+                      },
+                      extended: wide,
+                      minWidth: 72,
+                      minExtendedWidth: 256,
+                    );
+                  },
+                ),
               ),
               Expanded(
-                child: MediaQuery(
-                  data: mediaQueryData.copyWith(
-                    size: Size(constraints.maxWidth - (wide ? 256 : 72), constraints.maxHeight),
-                    textScaler: TextScaler.noScaling,
+                child: RepaintBoundary(
+                  child: MediaQuery(
+                    data: mediaQueryData.copyWith(
+                      size: Size(constraints.maxWidth - (wide ? 256 : 72), constraints.maxHeight),
+                      textScaler: TextScaler.noScaling,
+                    ),
+                    child: child,
                   ),
-                  child: child,
                 ),
               ),
             ],

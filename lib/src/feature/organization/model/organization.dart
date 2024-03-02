@@ -37,6 +37,9 @@ class Organization implements Comparable<Organization> {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Organization && id == other.id;
+
+  @override
+  String toString() => 'Organization{id: $id, name: $name}';
 }
 
 enum OrganizationType {

@@ -16,18 +16,25 @@ class InvoicesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final invoices = InvoicesScope.getInvoices(context);
+    var invoices = InvoicesScope.getInvoices(context);
+    /* invoices = [
+      for (var i = 0; i < 100; i++) ...invoices,
+    ]; */
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => InvoicesScope.of(context).createInvoice(
           onSuccess: (invoice) => openInvoice(invoice.id),
         ),
+        tooltip: 'Create new invoice',
         child: const Icon(Icons.add),
       ),
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverCommonHeader(),
+          SliverCommonHeader(
+            title: const Text('Invoices'),
+            pinned: false,
+          ),
 
           /* const SliverFillRemaining(
             hasScrollBody: false,

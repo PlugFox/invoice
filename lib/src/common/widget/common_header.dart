@@ -5,7 +5,10 @@ class SliverCommonHeader extends SliverAppBar {
   SliverCommonHeader({
     super.leading,
     super.pinned = true,
+    super.floating = true,
+    super.snap = true,
     super.title = const Text('Invoices'),
+    super.surfaceTintColor = Colors.transparent,
     List<Widget>? actions,
     super.key,
   }) : super(
@@ -17,6 +20,7 @@ class CommonHeader extends AppBar {
   CommonHeader({
     super.leading,
     super.title = const Text('Invoices'),
+    super.surfaceTintColor = Colors.transparent,
     List<Widget>? actions,
     super.key,
   }) : super(

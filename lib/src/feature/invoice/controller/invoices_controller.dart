@@ -32,7 +32,11 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
       );
 
   /// Fetch invoice by id
-  FutureOr<void> fetchInvoiceById(InvoiceId id) => handle(
+  FutureOr<void> fetchInvoiceById(
+    InvoiceId id, {
+    void Function(Invoice invoice)? onSuccess,
+  }) =>
+      handle(
         () async {
           setState(InvoicesState.processing(data: state.data));
           final invoice = await _repository.getInvoiceById(id);
@@ -44,6 +48,7 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
             newData[index] = invoice;
           }
           setState(InvoicesState.successful(data: newData..sort()));
+          onSuccess?.call(invoice);
         },
         error: (error, stackTrace) {
           setState(InvoicesState.error(

@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:invoice/src/common/model/dependencies.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
+import 'package:invoice/src/feature/invoice/controller/invoices_state.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 
 /// {@template invoices_scope}
@@ -43,6 +44,7 @@ class InvoicesScope extends StatefulWidget {
 /// State for widget InvoicesScope.
 class _InvoicesScopeState extends State<InvoicesScope> {
   InvoicesController get _controller => _$controller ??= _initController();
+  late ScaffoldMessengerState _scaffoldMessenger;
   InvoicesController? _$controller;
   List<Invoice> _invoices = const [];
   Map<InvoiceId, Invoice> _table = const {};
@@ -59,8 +61,26 @@ class _InvoicesScopeState extends State<InvoicesScope> {
     if (!widget.lazy) _controller;
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
+
   void _onStateChanged() {
-    final newInvoices = _controller.state.data;
+    if (!mounted) return;
+    final state = _controller.state;
+    switch (state) {
+      case InvoicesState$Error state:
+        _scaffoldMessenger
+          ..clearSnackBars()
+          ..showSnackBar(SnackBar(content: Text(state.message), backgroundColor: Colors.red));
+      case InvoicesState$Successful _:
+      case InvoicesState$Processing _:
+      case InvoicesState$Idle _:
+        break;
+    }
+    final newInvoices = state.data;
     if (listEquals(newInvoices, _invoices)) return;
     setState(() {
       _invoices = List<Invoice>.unmodifiable(newInvoices);

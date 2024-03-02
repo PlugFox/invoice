@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
+import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
 
@@ -79,12 +80,21 @@ class _InvoiceScaffold extends StatefulWidget {
 }
 
 class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
-  late Invoice invoice;
+  late InvoicesController _controller;
 
   @override
   void initState() {
     super.initState();
-    invoice = widget.invoice;
+    _controller = InvoicesScope.of(context)..fetchInvoiceById(widget.invoice.id, onSuccess: _fillForm);
+    _fillForm(widget.invoice);
+  }
+
+  void _fillForm(Invoice invoice) {
+    // TODO(plugfox):
+  }
+
+  void _saveForm() {
+    // TODO(plugfox):
   }
 
   @override
@@ -96,13 +106,13 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
           child: Center(
             child: SingleChildScrollView(
               padding: ScaffoldPadding.of(context),
-              child: Column(
+              child: const Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('Invoice: ${invoice.id}'),
-                  Text('Created at: ${invoice.createdAt}'),
+                  //Text('Invoice: ${invoice.id}'),
+                  //Text('Created at: ${invoice.createdAt}'),
                 ],
               ),
             ),

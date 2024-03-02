@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/form_placeholder.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
 import 'package:invoice/src/common/widget/shimmer.dart';
@@ -15,11 +16,9 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
-            const SliverAppBar(
-              title: Text('Settings'),
+            SliverCommonHeader(
+              title: const Text('Settings'),
               pinned: true,
-              floating: true,
-              snap: true,
             ),
             SliverPadding(
               padding: ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),

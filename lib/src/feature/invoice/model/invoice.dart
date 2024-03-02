@@ -62,6 +62,9 @@ class Invoice implements Comparable<Invoice> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Invoice && id == other.id && updatedAt == other.updatedAt && listEquals(services, other.services);
+
+  @override
+  String toString() => 'Invoice{id: $id, status: $status}';
 }
 
 enum InvoiceStatus {
@@ -102,4 +105,7 @@ class ProvidedService implements Comparable<ProvidedService> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ProvidedService && id == other.id && name == other.name && amount == other.amount;
+
+  @override
+  String toString() => 'ProvidedService{id: $id, name: $name}';
 }
