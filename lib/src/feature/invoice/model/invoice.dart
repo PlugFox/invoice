@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:invoice/src/feature/organization/model/organization.dart';
-import 'package:meta/meta.dart';
 import 'package:money2/money2.dart';
 
 typedef InvoiceId = int;
@@ -61,7 +61,7 @@ class Invoice implements Comparable<Invoice> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Invoice && id == other.id && updatedAt == other.updatedAt && total == other.total;
+      other is Invoice && id == other.id && updatedAt == other.updatedAt && listEquals(services, other.services);
 }
 
 enum InvoiceStatus {
@@ -78,6 +78,7 @@ enum InvoiceStatus {
   String toString() => name;
 }
 
+@immutable
 class ProvidedService implements Comparable<ProvidedService> {
   const ProvidedService({
     required this.id,
@@ -93,4 +94,12 @@ class ProvidedService implements Comparable<ProvidedService> {
 
   @override
   int compareTo(covariant ProvidedService other) => name.compareTo(other.name);
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProvidedService && id == other.id && name == other.name && amount == other.amount;
 }
