@@ -82,7 +82,24 @@ class _InvoiceScaffold extends StatefulWidget {
 }
 
 class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
+  // TODO(plugfox): form controller
   late InvoicesController _controller;
+
+  final Widget _layout = SafeArea(
+    child: CustomMultiChildLayout(
+      delegate: _InvoicePositionDelegate(),
+      children: <LayoutId>[
+        LayoutId(
+          id: 'form',
+          child: const _InvoiceFormColumn(),
+        ),
+        LayoutId(
+          id: 'preview',
+          child: const _PreviewInvoicePreviewColumn(),
+        ),
+      ],
+    ),
+  );
 
   @override
   void initState() {
@@ -104,115 +121,8 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
         appBar: CommonHeader(
           title: const Text('Invoice Detail'),
         ),
-        body: SafeArea(
-          child: CustomMultiChildLayout(
-            delegate: _InvoicePositionDelegate(),
-            children: <LayoutId>[
-              LayoutId(
-                id: 'form',
-                child: const _InvoiceFormColumn(),
-              ),
-              LayoutId(
-                id: 'preview',
-                child: const _PreviewInvoicePreviewColumn(),
-              ),
-            ],
-          ),
-        ),
+        body: _layout,
       );
-
-  /* @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: CommonHeader(
-          title: const Text('Invoice Detail'),
-        ),
-        body: SafeArea(
-          child: LayoutBuilder(builder: (context, constraints) {
-            bool preview;
-            double formWidth;
-            double previewWidth;
-            if (constraints.maxWidth >= (Config.maxScreenLayoutWidth * 2 + 16 * 3)) {
-              preview = true;
-              formWidth = previewWidth = constraints.maxWidth / 2;
-            } else if (constraints.maxWidth >= Config.maxScreenLayoutWidth * 0.75) {
-              preview = true;
-              previewWidth = math.min(constraints.maxWidth / 2, (constraints.maxHeight - 32) * 210 / 297 + 32);
-              formWidth = constraints.maxWidth - previewWidth;
-            } else {
-              preview = false;
-              formWidth = constraints.maxWidth;
-              previewWidth = 0.0;
-            }
-            // TODO(plugfox): Flow
-            // Вычислить размер превью через высоту и пытаемся разместить расчитывая на то, что превью будет справа.
-            return Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  key: const ValueKey('form'),
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: math.max(16, (formWidth - Config.maxScreenLayoutWidth) / 2),
-                      vertical: 16,
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 400,
-                          child: ColoredBox(
-                            color: Colors.red,
-                            child: SizedBox.expand(),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        SizedBox(
-                          height: 400,
-                          child: ColoredBox(
-                            color: Colors.green,
-                            child: SizedBox.expand(),
-                          ),
-                        ),
-                        //Text('Invoice: ${invoice.id}'),
-                        //Text('Created at: ${invoice.createdAt}'),
-                      ],
-                    ),
-                  ),
-                ),
-                if (preview)
-                  SizedBox(
-                    width: previewWidth,
-                    key: const ValueKey('preview'),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
-                      child: Center(
-                        child: AspectRatio(
-                          aspectRatio: 210 / 297,
-                          child: Card(
-                            elevation: 4,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8),
-                              child: Placeholder(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          }),
-        ),
-      ); */
 }
 
 class _InvoicePositionDelegate extends MultiChildLayoutDelegate {
@@ -295,6 +205,8 @@ class _InvoiceFormColumn extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 4),
+              Divider(height: 1, indent: paddingH, endIndent: paddingH),
               Expanded(
                 child: SingleChildScrollView(
                   primary: true,
@@ -302,12 +214,114 @@ class _InvoiceFormColumn extends StatelessWidget {
                     horizontal: paddingH,
                     vertical: 16,
                   ),
-                  child: const Placeholder(),
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      _InvoiceFormSection(
+                        children: <Widget>[
+                          ColoredBox(color: Colors.grey, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.red, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.blue, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.green, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.yellow, child: SizedBox.expand()),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      _InvoiceFormSection(
+                        children: <Widget>[
+                          ColoredBox(color: Colors.grey, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.red, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.yellow, child: SizedBox.expand()),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      _InvoiceFormSection(
+                        children: <Widget>[
+                          ColoredBox(color: Colors.grey, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.red, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.green, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.yellow, child: SizedBox.expand()),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      _InvoiceFormSection(
+                        children: <Widget>[
+                          ColoredBox(color: Colors.red, child: SizedBox.expand()),
+                          ColoredBox(color: Colors.blue, child: SizedBox.expand()),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           );
         },
+      );
+}
+
+class _InvoiceFormSection extends StatelessWidget {
+  const _InvoiceFormSection({
+    required this.children,
+    super.key, // ignore: unused_element
+  });
+
+  final List<Widget> children;
+
+  static List<Widget> _buildOneColumn(List<Widget> children) => List<Widget>.generate(
+        children.length,
+        (i) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: SizedBox(
+            height: 64,
+            child: children[i],
+          ),
+        ),
+        growable: false,
+      );
+
+  static List<Widget> _buildTwoColumn(List<Widget> children) => List<Widget>.generate(
+        (children.length / 2).ceil(),
+        (i) {
+          final index = i * 2;
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: SizedBox(
+              height: 64,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(child: children[index]),
+                  const SizedBox(width: 16),
+                  Expanded(child: index + 1 < children.length ? children[index + 1] : const SizedBox.shrink()),
+                ],
+              ),
+            ),
+          );
+        },
+        growable: false,
+      );
+
+  @override
+  Widget build(BuildContext context) => Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final twoColumn = constraints.maxWidth >= Config.maxScreenLayoutWidth * 0.75;
+              return Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: twoColumn ? _buildTwoColumn(children) : _buildOneColumn(children),
+              );
+            },
+          ),
+        ),
       );
 }
 
