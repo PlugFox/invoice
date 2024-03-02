@@ -45,8 +45,7 @@ Future<QueryExecutor> $createQueryExecutor({
       }
       file = io.File(p.join(dbFolder.path, '${Config.databaseName}.db'));
     } on Object catch (error, stackTrace) {
-      Error.throwWithStackTrace(
-          'Failed to get application documents directory "$error"', stackTrace);
+      Error.throwWithStackTrace('Failed to get application documents directory "$error"', stackTrace);
     }
   } else {
     file = io.File(path);

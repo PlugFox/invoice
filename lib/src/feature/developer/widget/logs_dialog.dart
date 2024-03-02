@@ -21,8 +21,7 @@ class LogsDialog extends StatelessWidget {
   Widget build(BuildContext context) => const Dialog(
         elevation: 8,
         insetPadding: EdgeInsets.all(36),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
         child: _LogsList(),
       );
 }
@@ -45,23 +44,18 @@ class _LogsListState extends State<_LogsList> {
     final database = Dependencies.of(context).database;
     Future<void>(() async {
       final rows = await (database.select(database.logTbl)
-            ..orderBy([
-              (tbl) => db.OrderingTerm(
-                  expression: tbl.time, mode: db.OrderingMode.desc)
-            ]))
+            ..orderBy([(tbl) => db.OrderingTerm(expression: tbl.time, mode: db.OrderingMode.desc)]))
           .get();
       logs = rows
           .map(
             (l) => l.stack != null
                 ? LogMessageVerbose(
-                    timestamp:
-                        DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
+                    timestamp: DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
                     level: LogLevel.fromValue(l.level),
                     message: l.message,
                   )
                 : LogMessageError(
-                    timestamp:
-                        DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
+                    timestamp: DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
                     level: LogLevel.fromValue(l.level),
                     message: l.message,
                     stackTrace: StackTrace.fromString(l.stack!),
@@ -81,8 +75,7 @@ class _LogsListState extends State<_LogsList> {
       LogMessage log;
       var pos = 0;
       for (var i = 0; i < buffer.length; i++) {
-        if (stopwatch.elapsedMilliseconds > 8)
-          await Future<void>.delayed(Duration.zero);
+        if (stopwatch.elapsedMilliseconds > 8) await Future<void>.delayed(Duration.zero);
         log = logs[i];
         if (log.message.toString().toLowerCase().contains(search)) {
           buffer[pos] = log;
@@ -118,8 +111,7 @@ class _LogsListState extends State<_LogsList> {
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(72),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Center(
                     child: TextField(
                       controller: _controller,
@@ -141,12 +133,10 @@ class _LogsListState extends State<_LogsList> {
               )
             else
               SliverPadding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => _LogTile(filteredLogs[index],
-                        key: ObjectKey(filteredLogs[index])),
+                    (context, index) => _LogTile(filteredLogs[index], key: ObjectKey(filteredLogs[index])),
                     childCount: filteredLogs.length,
                   ),
                 ),

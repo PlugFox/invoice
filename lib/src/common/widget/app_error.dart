@@ -16,8 +16,7 @@ class AppError extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: 'App Error',
-        theme: View.of(context).platformDispatcher.platformBrightness ==
-                Brightness.dark
+        theme: View.of(context).platformDispatcher.platformBrightness == Brightness.dark
             ? ThemeData.dark(useMaterial3: true)
             : ThemeData.light(useMaterial3: true),
         home: Scaffold(

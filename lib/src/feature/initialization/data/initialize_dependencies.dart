@@ -15,6 +15,8 @@ import 'package:invoice/src/common/util/log_buffer.dart';
 import 'package:invoice/src/common/util/screen_util.dart';
 import 'package:invoice/src/feature/initialization/data/app_migrator.dart';
 import 'package:invoice/src/feature/initialization/data/platform/platform_initialization.dart';
+import 'package:invoice/src/feature/invoice/data/invoices_local_data_provider.dart';
+import 'package:invoice/src/feature/invoice/data/invoices_repository.dart';
 import 'package:l/l.dart';
 import 'package:platform_info/platform_info.dart';
 import 'package:rxdart/rxdart.dart';
@@ -32,25 +34,20 @@ Future<Dependencies> $initializeDependencies({
       currentStep++;
       final percent = (currentStep * 100 ~/ totalSteps).clamp(0, 100);
       onProgress?.call(percent, step.key);
-      l.v6(
-          'Initialization | $currentStep/$totalSteps ($percent%) | "${step.key}"');
+      l.v6('Initialization | $currentStep/$totalSteps ($percent%) | "${step.key}"');
       await step.value(dependencies);
     } on Object catch (error, stackTrace) {
       l.e('Initialization failed at step "${step.key}": $error', stackTrace);
-      Error.throwWithStackTrace(
-          'Initialization failed at step "${step.key}": $error', stackTrace);
+      Error.throwWithStackTrace('Initialization failed at step "${step.key}": $error', stackTrace);
     }
   }
   return dependencies;
 }
 
-typedef _InitializationStep = FutureOr<void> Function(
-    Dependencies dependencies);
-final Map<String, _InitializationStep> _initializationSteps =
-    <String, _InitializationStep>{
+typedef _InitializationStep = FutureOr<void> Function(Dependencies dependencies);
+final Map<String, _InitializationStep> _initializationSteps = <String, _InitializationStep>{
   'Platform pre-initialization': (_) => $platformInitialization(),
-  'Creating app metadata': (dependencies) =>
-      dependencies.metadata = AppMetadata(
+  'Creating app metadata': (dependencies) => dependencies.metadata = AppMetadata(
         isWeb: platform.isWeb,
         isRelease: platform.buildMode.isRelease,
         appName: Pubspec.name,
@@ -58,9 +55,8 @@ final Map<String, _InitializationStep> _initializationSteps =
         appVersionMajor: Pubspec.version.major,
         appVersionMinor: Pubspec.version.minor,
         appVersionPatch: Pubspec.version.patch,
-        appBuildTimestamp: Pubspec.version.build.isNotEmpty
-            ? (int.tryParse(Pubspec.version.build.firstOrNull ?? '-1') ?? -1)
-            : -1,
+        appBuildTimestamp:
+            Pubspec.version.build.isNotEmpty ? (int.tryParse(Pubspec.version.build.firstOrNull ?? '-1') ?? -1) : -1,
         operatingSystem: platform.operatingSystem.name,
         processorsCount: platform.numberOfProcessors,
         appLaunchedTimestamp: DateTime.now(),
@@ -75,17 +71,13 @@ final Map<String, _InitializationStep> _initializationSteps =
   'Restore settings': (_) {},
   'Initialize shared preferences': (dependencies) async =>
       dependencies.sharedPreferences = await SharedPreferences.getInstance(),
-  'Connect to database': (dependencies) => (dependencies.database =
-          Config.inMemoryDatabase ? Database.memory() : Database.lazy())
-      .refresh(),
+  'Connect to database': (dependencies) =>
+      (dependencies.database = Config.inMemoryDatabase ? Database.memory() : Database.lazy()).refresh(),
   'Shrink database': (dependencies) async {
     await dependencies.database.customStatement('VACUUM;');
     await dependencies.database.transaction(() async {
-      final log = await (dependencies.database
-              .select<LogTbl, LogTblData>(dependencies.database.logTbl)
-            ..orderBy([
-              (tbl) => OrderingTerm(expression: tbl.id, mode: OrderingMode.desc)
-            ])
+      final log = await (dependencies.database.select<LogTbl, LogTblData>(dependencies.database.logTbl)
+            ..orderBy([(tbl) => OrderingTerm(expression: tbl.id, mode: OrderingMode.desc)])
             ..limit(1, offset: 1000))
           .getSingleOrNull();
       if (log != null) {
@@ -94,11 +86,9 @@ final Map<String, _InitializationStep> _initializationSteps =
             .go();
       }
     });
-    if (DateTime.now().second % 10 == 0)
-      await dependencies.database.customStatement('VACUUM;');
+    if (DateTime.now().second % 10 == 0) await dependencies.database.customStatement('VACUUM;');
   },
-  'Migrate app from previous version': (dependencies) =>
-      AppMigrator.migrate(dependencies.database),
+  'Migrate app from previous version': (dependencies) => AppMigrator.migrate(dependencies.database),
   'API Client': (dependencies) => dependencies.dio = Dio(
         BaseOptions(
           baseUrl: Config.apiBaseUrl,
@@ -137,51 +127,41 @@ final Map<String, _InitializationStep> _initializationSteps =
     ]);
   },
   'Initialize localization': (_) {},
+  'Prepare invoices repository': (dependencies) => dependencies.invoicesRepository = InvoicesRepositoryImpl(
+        localDataProvider: InvoicesLocalDataProviderDriftImpl(db: dependencies.database),
+      ),
   'Collect logs': (dependencies) async {
-    await (dependencies.database
-            .select<LogTbl, LogTblData>(dependencies.database.logTbl)
-          ..orderBy([
-            (tbl) => OrderingTerm(expression: tbl.time, mode: OrderingMode.desc)
-          ])
+    await (dependencies.database.select<LogTbl, LogTblData>(dependencies.database.logTbl)
+          ..orderBy([(tbl) => OrderingTerm(expression: tbl.time, mode: OrderingMode.desc)])
           ..limit(LogBuffer.bufferLimit))
         .get()
         .then<List<LogMessage>>((logs) => logs
             .map((l) => l.stack != null
                 ? LogMessageError(
-                    timestamp:
-                        DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
+                    timestamp: DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
                     level: LogLevel.fromValue(l.level),
                     message: l.message,
                     stackTrace: StackTrace.fromString(l.stack!))
                 : LogMessageVerbose(
-                    timestamp:
-                        DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
+                    timestamp: DateTime.fromMillisecondsSinceEpoch(l.time * 1000),
                     level: LogLevel.fromValue(l.level),
                     message: l.message,
                   ))
             .toList())
         .then<void>(LogBuffer.instance.addAll);
-    l
-        .bufferTime(const Duration(seconds: 1))
-        .where((logs) => logs.isNotEmpty)
-        .listen(LogBuffer.instance.addAll);
+    l.bufferTime(const Duration(seconds: 1)).where((logs) => logs.isNotEmpty).listen(LogBuffer.instance.addAll);
     l
         .map<LogTblCompanion>((log) => LogTblCompanion.insert(
               level: log.level.level,
               message: log.message.toString(),
               time: Value<int>(log.timestamp.millisecondsSinceEpoch ~/ 1000),
-              stack: Value<String?>(switch (log) {
-                LogMessageError l => l.stackTrace.toString(),
-                _ => null
-              }),
+              stack: Value<String?>(switch (log) { LogMessageError l => l.stackTrace.toString(), _ => null }),
             ))
         .bufferTime(const Duration(seconds: 5))
         .where((logs) => logs.isNotEmpty)
         .listen(
-          (logs) => dependencies.database
-              .batch((batch) =>
-                  batch.insertAll(dependencies.database.logTbl, logs))
-              .ignore(),
+          (logs) =>
+              dependencies.database.batch((batch) => batch.insertAll(dependencies.database.logTbl, logs)).ignore(),
           cancelOnError: false,
         );
   },

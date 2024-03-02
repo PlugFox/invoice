@@ -1,5 +1,8 @@
 import 'package:invoice/src/feature/organization/model/organization.dart';
 import 'package:meta/meta.dart';
+import 'package:money2/money2.dart';
+
+typedef InvoiceId = int;
 
 @immutable
 class Invoice implements Comparable<Invoice> {
@@ -7,7 +10,7 @@ class Invoice implements Comparable<Invoice> {
     required this.id,
     required this.createdAt,
     required this.updatedAt,
-    required this.isseuedAt,
+    required this.issuedAt,
     required this.dueAt,
     required this.paidAt,
     required this.organization,
@@ -16,16 +19,17 @@ class Invoice implements Comparable<Invoice> {
     required this.number,
     required this.currency,
     required this.total,
+    required this.services,
     required this.description,
   });
 
-  final int id;
+  final InvoiceId id;
 
   final DateTime createdAt;
 
   final DateTime updatedAt;
 
-  final DateTime isseuedAt;
+  final DateTime issuedAt;
 
   final DateTime? dueAt;
 
@@ -37,24 +41,25 @@ class Invoice implements Comparable<Invoice> {
 
   final InvoiceStatus status;
 
-  final String number;
+  final String? number;
 
-  final String currency;
+  final Currency currency;
 
-  final double total;
+  final Money total;
+
+  /// Services provided
+  final List<ProvidedService> services;
 
   final String? description;
 
   @override
-  int compareTo(covariant Invoice other) =>
-      createdAt.compareTo(other.createdAt);
+  int compareTo(covariant Invoice other) => other.createdAt.compareTo(createdAt);
 
   @override
   int get hashCode => id.hashCode;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is Invoice && id == other.id;
+  bool operator ==(Object other) => identical(this, other) || other is Invoice && id == other.id;
 }
 
 enum InvoiceStatus {
@@ -69,4 +74,21 @@ enum InvoiceStatus {
 
   @override
   String toString() => name;
+}
+
+class ProvidedService implements Comparable<ProvidedService> {
+  const ProvidedService({
+    required this.id,
+    required this.name,
+    required this.amount,
+  });
+
+  final int id;
+
+  final String name;
+
+  final Money amount;
+
+  @override
+  int compareTo(covariant ProvidedService other) => name.compareTo(other.name);
 }

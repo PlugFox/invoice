@@ -36,8 +36,7 @@ class Organization implements Comparable<Organization> {
   int get hashCode => id.hashCode;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is Organization && id == other.id;
+  bool operator ==(Object other) => identical(this, other) || other is Organization && id == other.id;
 }
 
 enum OrganizationType {

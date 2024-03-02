@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS invoice_tbl (
     -- Counterparty identifier (organization_tbl)
     counterparty_id INTEGER,
 
-    -- Invoice number
-    number TEXT NOT NULL CHECK (length(number) > 0),
+    -- Invoice number, if not provided, it will be generated
+    number TEXT,
 
     -- Status of the invoice
     -- 0 - Draft
@@ -35,10 +35,10 @@ CREATE TABLE IF NOT EXISTS invoice_tbl (
     status INTEGER NOT NULL DEFAULT 0 CHECK (status >=0 AND status <= 3),
 
     -- Currency code
-    currency TEXT NOT NULL CHECK (length(currency) > 0),
+    currency TEXT NOT NULL DEFAULT 'USD' CHECK (length(currency) = 3),
 
     -- Invoice total amount
-    total REAL NOT NULL CHECK (total >= 0),
+    total INTEGER NOT NULL DEFAULT 0 CHECK (total >= 0),
 
     -- Description of the invoice
     description TEXT

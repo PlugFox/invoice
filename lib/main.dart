@@ -11,13 +11,10 @@ import 'package:invoice/src/feature/initialization/widget/inherited_dependencies
 void main() => appZone(
       () async {
         // Splash screen
-        final initializationProgress =
-            ValueNotifier<({int progress, String message})>(
-                (progress: 0, message: ''));
+        final initializationProgress = ValueNotifier<({int progress, String message})>((progress: 0, message: ''));
         /* runApp(SplashScreen(progress: initializationProgress)); */
         $initializeApp(
-          onProgress: (progress, message) => initializationProgress.value =
-              (progress: progress, message: message),
+          onProgress: (progress, message) => initializationProgress.value = (progress: progress, message: message),
           onSuccess: (dependencies) => runApp(
             InheritedDependencies(
               dependencies: dependencies,

@@ -126,11 +126,11 @@ sealed class Pubspec {
     2024,
     3,
     2,
-    1,
     2,
-    59,
-    264,
-    214,
+    22,
+    17,
+    3,
+    11,
   );
 
   /// Name
@@ -429,7 +429,7 @@ sealed class Pubspec {
     'l': r'^5.0.0-pre.2',
     'win32': r'^5.1.1',
     'window_manager': r'^0.3.4',
-    'control': r'^0.0.1-pre.0',
+    'control': r'^0.0.3-pre.1',
     'shared_preferences': r'^2.2.2',
     'drift': r'^2.14.1',
     'sqlite3_flutter_libs': r'^0.5.18',

@@ -34,8 +34,8 @@ version: 0.0.1+1
 #    path: screenshot_1.png
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
-  flutter: ">=3.16.0"
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.2"
 
 dependencies:
   flutter:
@@ -63,6 +63,7 @@ dependencies:
   #multiline: ^3.0.0
   rxdart: ^0.28.0-dev.0
   url_launcher: ^6.2.2
+  money2: ^4.0.0
 
   # Logger
   l: ^5.0.0-pre.2
@@ -72,7 +73,7 @@ dependencies:
   window_manager: ^0.3.4
 
   # State management
-  control: ^0.0.1-pre.0
+  control: ^0.0.3-pre.1
 
   # Database
   shared_preferences: ^2.2.2

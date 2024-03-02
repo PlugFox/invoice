@@ -35,8 +35,7 @@ class HttpLogInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(
-      Response<Object?> response, ResponseInterceptorHandler handler) {
+  void onResponse(Response<Object?> response, ResponseInterceptorHandler handler) {
     if (responses) {
       l.v6('${response.requestOptions.method} > '
           '${response.requestOptions.uri} > '
@@ -49,8 +48,7 @@ class HttpLogInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final status = switch (err.response) {
-      Response<Object?> response =>
-        '${response.statusCode}: ${response.statusMessage}',
+      Response<Object?> response => '${response.statusCode}: ${response.statusMessage}',
       _ => err.message ?? err.error?.toString() ?? err.type.name,
     };
     if (errors) {
