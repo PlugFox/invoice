@@ -267,7 +267,7 @@ class _InvoiceFormColumn extends StatelessWidget {
                         dimension: 48,
                         child: IconButton(
                           icon: Icon(Icons.copy),
-                          tooltip: 'Copy invoice',
+                          tooltip: 'Dublicate invoice',
                           onPressed: null,
                         ),
                       ),
@@ -281,6 +281,8 @@ class _InvoiceFormColumn extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
+                      /* const VerticalDivider(),
+                      const Spacer(), */
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
@@ -289,7 +291,7 @@ class _InvoiceFormColumn extends StatelessWidget {
                           onPressed: null,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      /* const SizedBox(width: 8),
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
@@ -297,7 +299,7 @@ class _InvoiceFormColumn extends StatelessWidget {
                           tooltip: 'Share invoice',
                           onPressed: null,
                         ),
-                      ),
+                      ), */
                       const SizedBox(width: 8),
                       const SizedBox.square(
                         dimension: 48,
@@ -316,7 +318,6 @@ class _InvoiceFormColumn extends StatelessWidget {
                           onPressed: null,
                         ),
                       ),
-                      const VerticalDivider(),
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
@@ -325,7 +326,17 @@ class _InvoiceFormColumn extends StatelessWidget {
                           onPressed: null,
                         ),
                       ),
+                      const SizedBox.square(
+                        dimension: 48,
+                        child: IconButton(
+                          icon: Icon(Icons.copy_all),
+                          tooltip: 'Copy to clipboard',
+                          onPressed: null,
+                        ),
+                      ),
                       const Spacer(),
+                      /* const VerticalDivider(),
+                      const Spacer(), */
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
