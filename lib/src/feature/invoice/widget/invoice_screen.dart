@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
@@ -86,6 +87,7 @@ class _InvoiceScaffold extends StatefulWidget {
 class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
   late final InvoiceFormController form;
   late InvoicesController _controller;
+  final FocusNode _focusNode = FocusNode();
 
   final Widget _layout = SafeArea(
     child: CustomMultiChildLayout(
@@ -127,21 +129,44 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
 
   @override
   void dispose() {
+    _focusNode.dispose();
     _controller.removeListener(_onInvoicesChanged);
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: CommonHeader(
-          title: const Text('Invoice Detail'),
-        ),
-        body: DefaultTabController(
-          length: 3,
-          child: _InheritedInvoiceForm(
-            form: form,
-            scope: this,
-            child: _layout,
+  Widget build(BuildContext context) => CallbackShortcuts(
+        bindings: {
+          const SingleActivator(LogicalKeyboardKey.keyS, control: true): _saveForm,
+          const SingleActivator(LogicalKeyboardKey.save): _saveForm,
+          const SingleActivator(LogicalKeyboardKey.f5): _saveForm,
+        },
+        child: Scaffold(
+          appBar: CommonHeader(
+            title: ValueListenableBuilder(
+              valueListenable: form.number,
+              builder: (context, number, _) => ValueListenableBuilder(
+                valueListenable: form.status,
+                builder: (context, status, _) => Text(
+                  'Invoice #${number.text} (${status.name.toUpperCase()})',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+          body: DefaultTabController(
+            length: 3,
+            child: _InheritedInvoiceForm(
+              form: form,
+              scope: this,
+              child: Focus(
+                autofocus: true,
+                focusNode: _focusNode,
+                canRequestFocus: true,
+                child: _layout,
+              ),
+            ),
           ),
         ),
       );
@@ -228,6 +253,25 @@ class _InvoiceFormColumn extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox.square(
+                        dimension: 48,
+                        child: IconButton(
+                          icon: const Icon(Icons.save),
+                          tooltip: 'Save changes (Ctrl + S)',
+                          onPressed:
+                              changed ? () => _InheritedInvoiceForm.of(context, listen: false)._saveForm() : null,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const SizedBox.square(
+                        dimension: 48,
+                        child: IconButton(
+                          icon: Icon(Icons.copy),
+                          tooltip: 'Copy invoice',
+                          onPressed: null,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
@@ -263,7 +307,7 @@ class _InvoiceFormColumn extends StatelessWidget {
                           onPressed: null,
                         ),
                       ),
-                      const VerticalDivider(),
+                      const SizedBox(width: 8),
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
@@ -272,7 +316,7 @@ class _InvoiceFormColumn extends StatelessWidget {
                           onPressed: null,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const VerticalDivider(),
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
@@ -282,25 +326,6 @@ class _InvoiceFormColumn extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: const Icon(Icons.save),
-                          tooltip: 'Save changes',
-                          onPressed:
-                              changed ? () => _InheritedInvoiceForm.of(context, listen: false)._saveForm() : null,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.copy),
-                          tooltip: 'Copy invoice',
-                          onPressed: null,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
                       const SizedBox.square(
                         dimension: 48,
                         child: IconButton(
