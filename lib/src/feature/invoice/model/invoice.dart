@@ -20,9 +20,12 @@ class Invoice implements Comparable<Invoice> {
     required this.total,
     required this.services,
     required this.description,
+    this.deleted = false,
   });
 
   final InvoiceId id;
+
+  final bool deleted;
 
   final DateTime createdAt;
 

@@ -125,12 +125,12 @@ sealed class Pubspec {
   static final DateTime timestamp = DateTime.utc(
     2024,
     3,
-    2,
-    2,
-    22,
-    17,
     3,
-    11,
+    4,
+    42,
+    20,
+    992,
+    523,
   );
 
   /// Name
@@ -348,8 +348,8 @@ sealed class Pubspec {
 
   /// Environment
   static const Map<String, String> environment = <String, String>{
-    'sdk': '>=3.2.3 <4.0.0',
-    'flutter': '>=3.2.3 <4.0.0',
+    'sdk': '>=3.3.0 <4.0.0',
+    'flutter': '>=3.3.0 <4.0.0',
   };
 
   /// Platforms
@@ -426,6 +426,7 @@ sealed class Pubspec {
     'platform_info': r'^4.0.2',
     'rxdart': r'^0.28.0-dev.0',
     'url_launcher': r'^6.2.2',
+    'money2': r'^4.0.0',
     'l': r'^5.0.0-pre.2',
     'win32': r'^5.1.1',
     'window_manager': r'^0.3.4',

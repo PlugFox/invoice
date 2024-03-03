@@ -14,6 +14,12 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _deletedMeta = VerificationMeta('deleted');
+  late final GeneratedColumn<int> deleted = GeneratedColumn<int>('deleted', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT 0',
+      defaultValue: const CustomExpression('0'));
   static const VerificationMeta _createdAtMeta = VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>('created_at', aliasedName, false,
       type: DriftSqlType.int,
@@ -71,6 +77,7 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
   @override
   List<GeneratedColumn> get $columns => [
         id,
+        deleted,
         createdAt,
         updatedAt,
         issuedAt,
@@ -95,6 +102,9 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('deleted')) {
+      context.handle(_deletedMeta, deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta, createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -144,6 +154,7 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InvoiceTblData(
       id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      deleted: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}deleted'])!,
       createdAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
       issuedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}issued_at'])!,
@@ -173,6 +184,11 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
 class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   /// Unique identifier of the organization
   final int id;
+
+  /// 1 - Yes
+  /// 0 - No
+  /// Is the invoice deleted
+  final int deleted;
 
   /// Created date (unixtime in seconds)
   final int createdAt;
@@ -215,6 +231,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   final String? description;
   const InvoiceTblData(
       {required this.id,
+      required this.deleted,
       required this.createdAt,
       required this.updatedAt,
       required this.issuedAt,
@@ -231,6 +248,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    map['deleted'] = Variable<int>(deleted);
     map['created_at'] = Variable<int>(createdAt);
     map['updated_at'] = Variable<int>(updatedAt);
     map['issued_at'] = Variable<int>(issuedAt);
@@ -261,6 +279,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   InvoiceTblCompanion toCompanion(bool nullToAbsent) {
     return InvoiceTblCompanion(
       id: Value(id),
+      deleted: Value(deleted),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       issuedAt: Value(issuedAt),
@@ -280,6 +299,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InvoiceTblData(
       id: serializer.fromJson<int>(json['id']),
+      deleted: serializer.fromJson<int>(json['deleted']),
       createdAt: serializer.fromJson<int>(json['created_at']),
       updatedAt: serializer.fromJson<int>(json['updated_at']),
       issuedAt: serializer.fromJson<int>(json['issued_at']),
@@ -299,6 +319,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'deleted': serializer.toJson<int>(deleted),
       'created_at': serializer.toJson<int>(createdAt),
       'updated_at': serializer.toJson<int>(updatedAt),
       'issued_at': serializer.toJson<int>(issuedAt),
@@ -316,6 +337,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
 
   InvoiceTblData copyWith(
           {int? id,
+          int? deleted,
           int? createdAt,
           int? updatedAt,
           int? issuedAt,
@@ -330,6 +352,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
           Value<String?> description = const Value.absent()}) =>
       InvoiceTblData(
         id: id ?? this.id,
+        deleted: deleted ?? this.deleted,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         issuedAt: issuedAt ?? this.issuedAt,
@@ -347,6 +370,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   String toString() {
     return (StringBuffer('InvoiceTblData(')
           ..write('id: $id, ')
+          ..write('deleted: $deleted, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('issuedAt: $issuedAt, ')
@@ -364,13 +388,14 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, createdAt, updatedAt, issuedAt, dueAt, paidAt, organizationId, counterpartyId,
-      number, status, currency, total, description);
+  int get hashCode => Object.hash(id, deleted, createdAt, updatedAt, issuedAt, dueAt, paidAt, organizationId,
+      counterpartyId, number, status, currency, total, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is InvoiceTblData &&
           other.id == this.id &&
+          other.deleted == this.deleted &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.issuedAt == this.issuedAt &&
@@ -387,6 +412,7 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
 
 class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
   final Value<int> id;
+  final Value<int> deleted;
   final Value<int> createdAt;
   final Value<int> updatedAt;
   final Value<int> issuedAt;
@@ -401,6 +427,7 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
   final Value<String?> description;
   const InvoiceTblCompanion({
     this.id = const Value.absent(),
+    this.deleted = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.issuedAt = const Value.absent(),
@@ -416,6 +443,7 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
   });
   InvoiceTblCompanion.insert({
     this.id = const Value.absent(),
+    this.deleted = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.issuedAt = const Value.absent(),
@@ -431,6 +459,7 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
   });
   static Insertable<InvoiceTblData> custom({
     Expression<int>? id,
+    Expression<int>? deleted,
     Expression<int>? createdAt,
     Expression<int>? updatedAt,
     Expression<int>? issuedAt,
@@ -446,6 +475,7 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (deleted != null) 'deleted': deleted,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (issuedAt != null) 'issued_at': issuedAt,
@@ -463,6 +493,7 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
 
   InvoiceTblCompanion copyWith(
       {Value<int>? id,
+      Value<int>? deleted,
       Value<int>? createdAt,
       Value<int>? updatedAt,
       Value<int>? issuedAt,
@@ -477,6 +508,7 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
       Value<String?>? description}) {
     return InvoiceTblCompanion(
       id: id ?? this.id,
+      deleted: deleted ?? this.deleted,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       issuedAt: issuedAt ?? this.issuedAt,
@@ -497,6 +529,9 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (deleted.present) {
+      map['deleted'] = Variable<int>(deleted.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<int>(createdAt.value);
@@ -541,6 +576,7 @@ class InvoiceTblCompanion extends UpdateCompanion<InvoiceTblData> {
   String toString() {
     return (StringBuffer('InvoiceTblCompanion(')
           ..write('id: $id, ')
+          ..write('deleted: $deleted, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('issuedAt: $issuedAt, ')
@@ -801,6 +837,12 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _deletedMeta = VerificationMeta('deleted');
+  late final GeneratedColumn<int> deleted = GeneratedColumn<int>('deleted', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT 0',
+      defaultValue: const CustomExpression('0'));
   static const VerificationMeta _createdAtMeta = VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>('created_at', aliasedName, false,
       type: DriftSqlType.int,
@@ -834,7 +876,7 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
   late final GeneratedColumn<String> description = GeneratedColumn<String>('description', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
   @override
-  List<GeneratedColumn> get $columns => [id, createdAt, updatedAt, type, name, address, inn, description];
+  List<GeneratedColumn> get $columns => [id, deleted, createdAt, updatedAt, type, name, address, inn, description];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -846,6 +888,9 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('deleted')) {
+      context.handle(_deletedMeta, deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta, createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -880,6 +925,7 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return OrganizationTblData(
       id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      deleted: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}deleted'])!,
       createdAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
       type: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}type'])!,
@@ -904,6 +950,11 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
 class OrganizationTblData extends DataClass implements Insertable<OrganizationTblData> {
   /// Unique identifier of the organization
   final int id;
+
+  /// 1 - Yes
+  /// 0 - No
+  /// Is the organization deleted?
+  final int deleted;
 
   /// Created date (unixtime in seconds)
   final int createdAt;
@@ -930,6 +981,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
   final String? description;
   const OrganizationTblData(
       {required this.id,
+      required this.deleted,
       required this.createdAt,
       required this.updatedAt,
       required this.type,
@@ -941,6 +993,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    map['deleted'] = Variable<int>(deleted);
     map['created_at'] = Variable<int>(createdAt);
     map['updated_at'] = Variable<int>(updatedAt);
     map['type'] = Variable<int>(type);
@@ -960,6 +1013,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
   OrganizationTblCompanion toCompanion(bool nullToAbsent) {
     return OrganizationTblCompanion(
       id: Value(id),
+      deleted: Value(deleted),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       type: Value(type),
@@ -974,6 +1028,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return OrganizationTblData(
       id: serializer.fromJson<int>(json['id']),
+      deleted: serializer.fromJson<int>(json['deleted']),
       createdAt: serializer.fromJson<int>(json['created_at']),
       updatedAt: serializer.fromJson<int>(json['updated_at']),
       type: serializer.fromJson<int>(json['type']),
@@ -988,6 +1043,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'deleted': serializer.toJson<int>(deleted),
       'created_at': serializer.toJson<int>(createdAt),
       'updated_at': serializer.toJson<int>(updatedAt),
       'type': serializer.toJson<int>(type),
@@ -1000,6 +1056,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
 
   OrganizationTblData copyWith(
           {int? id,
+          int? deleted,
           int? createdAt,
           int? updatedAt,
           int? type,
@@ -1009,6 +1066,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
           Value<String?> description = const Value.absent()}) =>
       OrganizationTblData(
         id: id ?? this.id,
+        deleted: deleted ?? this.deleted,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         type: type ?? this.type,
@@ -1021,6 +1079,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
   String toString() {
     return (StringBuffer('OrganizationTblData(')
           ..write('id: $id, ')
+          ..write('deleted: $deleted, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('type: $type, ')
@@ -1033,12 +1092,13 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
   }
 
   @override
-  int get hashCode => Object.hash(id, createdAt, updatedAt, type, name, address, inn, description);
+  int get hashCode => Object.hash(id, deleted, createdAt, updatedAt, type, name, address, inn, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is OrganizationTblData &&
           other.id == this.id &&
+          other.deleted == this.deleted &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.type == this.type &&
@@ -1050,6 +1110,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
 
 class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   final Value<int> id;
+  final Value<int> deleted;
   final Value<int> createdAt;
   final Value<int> updatedAt;
   final Value<int> type;
@@ -1059,6 +1120,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   final Value<String?> description;
   const OrganizationTblCompanion({
     this.id = const Value.absent(),
+    this.deleted = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.type = const Value.absent(),
@@ -1069,6 +1131,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   });
   OrganizationTblCompanion.insert({
     this.id = const Value.absent(),
+    this.deleted = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.type = const Value.absent(),
@@ -1079,6 +1142,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   }) : name = Value(name);
   static Insertable<OrganizationTblData> custom({
     Expression<int>? id,
+    Expression<int>? deleted,
     Expression<int>? createdAt,
     Expression<int>? updatedAt,
     Expression<int>? type,
@@ -1089,6 +1153,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (deleted != null) 'deleted': deleted,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (type != null) 'type': type,
@@ -1101,6 +1166,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
 
   OrganizationTblCompanion copyWith(
       {Value<int>? id,
+      Value<int>? deleted,
       Value<int>? createdAt,
       Value<int>? updatedAt,
       Value<int>? type,
@@ -1110,6 +1176,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
       Value<String?>? description}) {
     return OrganizationTblCompanion(
       id: id ?? this.id,
+      deleted: deleted ?? this.deleted,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       type: type ?? this.type,
@@ -1125,6 +1192,9 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (deleted.present) {
+      map['deleted'] = Variable<int>(deleted.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<int>(createdAt.value);
@@ -1154,6 +1224,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   String toString() {
     return (StringBuffer('OrganizationTblCompanion(')
           ..write('id: $id, ')
+          ..write('deleted: $deleted, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('type: $type, ')

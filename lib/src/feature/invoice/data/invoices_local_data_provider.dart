@@ -34,8 +34,12 @@ class InvoicesLocalDataProviderDriftImpl implements IInvoicesLocalDataProvider {
 
   @override
   Future<void> deleteInvoiceById(InvoiceId id) => _db.transaction(() async {
-        await (_db.delete(_db.invoiceTbl)..where((tbl) => tbl.id.equals(id))).go();
-        await (_db.delete(_db.serviceTbl)..where((tbl) => tbl.invoiceId.equals(id))).go();
+        //await (_db.delete(_db.invoiceTbl)..where((tbl) => tbl.id.equals(id))).go();
+        //await (_db.delete(_db.serviceTbl)..where((tbl) => tbl.invoiceId.equals(id))).go();
+        await _db.update(_db.invoiceTbl).replace(InvoiceTblCompanion(
+              id: Value(id),
+              deleted: const Value(1),
+            ));
       });
 
   @override
@@ -46,6 +50,7 @@ class InvoicesLocalDataProviderDriftImpl implements IInvoicesLocalDataProvider {
       leftOuterJoin(organization, organization.id.equalsExp(_db.invoiceTbl.organizationId)),
       leftOuterJoin(counterparty, counterparty.id.equalsExp(_db.invoiceTbl.counterpartyId)),
     ])
+          ..where(_db.invoiceTbl.deleted.equals(0))
           ..orderBy([OrderingTerm.desc(_db.invoiceTbl.createdAt)]))
         .get();
     return List<Invoice>.generate(rows.length, (i) {
@@ -124,6 +129,7 @@ Invoice _decodeInvoice({
   final total = Money.fromInt(inv.total, code: inv.currency);
   return Invoice(
     id: inv.id,
+    deleted: inv.deleted == 1,
     createdAt: decodeDateTime(inv.createdAt),
     updatedAt: decodeDateTime(inv.updatedAt),
     issuedAt: decodeDateTime(inv.issuedAt),
@@ -155,6 +161,7 @@ Invoice _decodeInvoice({
   return (
     invoice: InvoiceTblCompanion(
       id: Value(inv.id),
+      deleted: const Value.absent(),
       createdAt: const Value.absent(),
       updatedAt: const Value.absent(),
       issuedAt: encodeDateTime(inv.issuedAt),
