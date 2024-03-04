@@ -4,6 +4,7 @@ import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/organization/model/organization.dart';
 import 'package:money2/money2.dart';
 
+/// Interface for local data provider of invoices.
 abstract interface class IInvoicesLocalDataProvider {
   /// Get all invoices.
   /// Returns a list of invoices sorted by createdAt in descending order.
