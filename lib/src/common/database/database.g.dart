@@ -608,6 +608,9 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
   static const VerificationMeta _invoiceIdMeta = VerificationMeta('invoiceId');
   late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>('invoice_id', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (invoice_id > 0)');
+  static const VerificationMeta _numberMeta = VerificationMeta('number');
+  late final GeneratedColumn<int> number = GeneratedColumn<int>('number', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (number > 0)');
   static const VerificationMeta _nameMeta = VerificationMeta('name');
   late final GeneratedColumn<String> name = GeneratedColumn<String>('name', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
@@ -615,7 +618,7 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
   late final GeneratedColumn<int> amount = GeneratedColumn<int>('amount', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (amount >= 0)');
   @override
-  List<GeneratedColumn> get $columns => [id, invoiceId, name, amount];
+  List<GeneratedColumn> get $columns => [id, invoiceId, number, name, amount];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -632,6 +635,11 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
       context.handle(_invoiceIdMeta, invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta));
     } else if (isInserting) {
       context.missing(_invoiceIdMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(_numberMeta, number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+    } else if (isInserting) {
+      context.missing(_numberMeta);
     }
     if (data.containsKey('name')) {
       context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
@@ -654,6 +662,7 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
     return ServiceTblData(
       id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       invoiceId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}invoice_id'])!,
+      number: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}number'])!,
       name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       amount: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}amount'])!,
     );
@@ -680,17 +689,22 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
   /// Invoice identifier (invoice_tbl)
   final int invoiceId;
 
+  /// Service number
+  final int number;
+
   /// Name of the service
   final String name;
 
   /// Price of the service
   final int amount;
-  const ServiceTblData({required this.id, required this.invoiceId, required this.name, required this.amount});
+  const ServiceTblData(
+      {required this.id, required this.invoiceId, required this.number, required this.name, required this.amount});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['invoice_id'] = Variable<int>(invoiceId);
+    map['number'] = Variable<int>(number);
     map['name'] = Variable<String>(name);
     map['amount'] = Variable<int>(amount);
     return map;
@@ -700,6 +714,7 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
     return ServiceTblCompanion(
       id: Value(id),
       invoiceId: Value(invoiceId),
+      number: Value(number),
       name: Value(name),
       amount: Value(amount),
     );
@@ -710,6 +725,7 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
     return ServiceTblData(
       id: serializer.fromJson<int>(json['id']),
       invoiceId: serializer.fromJson<int>(json['invoice_id']),
+      number: serializer.fromJson<int>(json['number']),
       name: serializer.fromJson<String>(json['name']),
       amount: serializer.fromJson<int>(json['amount']),
     );
@@ -720,14 +736,16 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'invoice_id': serializer.toJson<int>(invoiceId),
+      'number': serializer.toJson<int>(number),
       'name': serializer.toJson<String>(name),
       'amount': serializer.toJson<int>(amount),
     };
   }
 
-  ServiceTblData copyWith({int? id, int? invoiceId, String? name, int? amount}) => ServiceTblData(
+  ServiceTblData copyWith({int? id, int? invoiceId, int? number, String? name, int? amount}) => ServiceTblData(
         id: id ?? this.id,
         invoiceId: invoiceId ?? this.invoiceId,
+        number: number ?? this.number,
         name: name ?? this.name,
         amount: amount ?? this.amount,
       );
@@ -736,6 +754,7 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
     return (StringBuffer('ServiceTblData(')
           ..write('id: $id, ')
           ..write('invoiceId: $invoiceId, ')
+          ..write('number: $number, ')
           ..write('name: $name, ')
           ..write('amount: $amount')
           ..write(')'))
@@ -743,13 +762,14 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, invoiceId, name, amount);
+  int get hashCode => Object.hash(id, invoiceId, number, name, amount);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ServiceTblData &&
           other.id == this.id &&
           other.invoiceId == this.invoiceId &&
+          other.number == this.number &&
           other.name == this.name &&
           other.amount == this.amount);
 }
@@ -757,40 +777,48 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
 class ServiceTblCompanion extends UpdateCompanion<ServiceTblData> {
   final Value<int> id;
   final Value<int> invoiceId;
+  final Value<int> number;
   final Value<String> name;
   final Value<int> amount;
   const ServiceTblCompanion({
     this.id = const Value.absent(),
     this.invoiceId = const Value.absent(),
+    this.number = const Value.absent(),
     this.name = const Value.absent(),
     this.amount = const Value.absent(),
   });
   ServiceTblCompanion.insert({
     this.id = const Value.absent(),
     required int invoiceId,
+    required int number,
     required String name,
     required int amount,
   })  : invoiceId = Value(invoiceId),
+        number = Value(number),
         name = Value(name),
         amount = Value(amount);
   static Insertable<ServiceTblData> custom({
     Expression<int>? id,
     Expression<int>? invoiceId,
+    Expression<int>? number,
     Expression<String>? name,
     Expression<int>? amount,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (invoiceId != null) 'invoice_id': invoiceId,
+      if (number != null) 'number': number,
       if (name != null) 'name': name,
       if (amount != null) 'amount': amount,
     });
   }
 
-  ServiceTblCompanion copyWith({Value<int>? id, Value<int>? invoiceId, Value<String>? name, Value<int>? amount}) {
+  ServiceTblCompanion copyWith(
+      {Value<int>? id, Value<int>? invoiceId, Value<int>? number, Value<String>? name, Value<int>? amount}) {
     return ServiceTblCompanion(
       id: id ?? this.id,
       invoiceId: invoiceId ?? this.invoiceId,
+      number: number ?? this.number,
       name: name ?? this.name,
       amount: amount ?? this.amount,
     );
@@ -804,6 +832,9 @@ class ServiceTblCompanion extends UpdateCompanion<ServiceTblData> {
     }
     if (invoiceId.present) {
       map['invoice_id'] = Variable<int>(invoiceId.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<int>(number.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -819,6 +850,7 @@ class ServiceTblCompanion extends UpdateCompanion<ServiceTblData> {
     return (StringBuffer('ServiceTblCompanion(')
           ..write('id: $id, ')
           ..write('invoiceId: $invoiceId, ')
+          ..write('number: $number, ')
           ..write('name: $name, ')
           ..write('amount: $amount')
           ..write(')'))

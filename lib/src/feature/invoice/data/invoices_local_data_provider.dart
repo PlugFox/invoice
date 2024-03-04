@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:invoice/src/common/database/database.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/organization/model/organization.dart';
@@ -82,7 +83,10 @@ class InvoicesLocalDataProviderDriftImpl implements IInvoicesLocalDataProvider {
         if (invoiceRow == null) throw Exception('Invoice not found');
         final organizationRow = result.readTableOrNull(organization);
         final counterpartyRow = result.readTableOrNull(counterparty);
-        final services = await (_db.select(_db.serviceTbl)..where((tbl) => tbl.invoiceId.equals(id))).get();
+        final services = await (_db.select(_db.serviceTbl)
+              ..where((tbl) => tbl.invoiceId.equals(id))
+              ..orderBy([(u) => OrderingTerm(expression: u.number, mode: OrderingMode.asc)]))
+            .get();
         return _decodeInvoice(
           inv: invoiceRow,
           org: organizationRow,
@@ -141,14 +145,19 @@ Invoice _decodeInvoice({
     number: inv.number,
     total: total,
     description: inv.description,
-    services: <ProvidedService>[
+    services: (<ProvidedService>[
       for (final service in srv)
-        ProvidedService(
-          id: service.id,
-          name: service.name,
-          amount: Money.fromInt(service.amount, code: inv.currency),
-        ),
-    ]..sort(),
+        if (service.invoiceId == inv.id &&
+            !service.number.isNegative &&
+            service.name.isNotEmpty &&
+            !service.amount.isNegative)
+          ProvidedService(
+            number: service.number,
+            name: service.name,
+            amount: Money.fromInt(service.amount, code: inv.currency),
+          ),
+    ]..sort((a, b) => a.number.compareTo(b.number)))
+        .toList(growable: false),
   );
 }
 
@@ -158,31 +167,31 @@ Invoice _decodeInvoice({
         DateTime dt => Value(dt.millisecondsSinceEpoch ~/ 1000),
         null => const Value.absent(),
       };
-  return (
-    invoice: InvoiceTblCompanion(
-      id: Value(inv.id),
-      deleted: const Value.absent(),
-      createdAt: const Value.absent(),
-      updatedAt: const Value.absent(),
-      issuedAt: encodeDateTime(inv.issuedAt),
-      dueAt: encodeDateTimeNullable(inv.dueAt),
-      paidAt: encodeDateTimeNullable(inv.paidAt),
-      organizationId: Value(inv.organization?.id),
-      counterpartyId: Value(inv.counterparty?.id),
-      status: Value(InvoiceStatus.values.indexOf(inv.status)),
-      number: Value(inv.number),
-      currency: Value(inv.total.currency.code),
-      total: Value(inv.total.minorUnits.toInt()),
-      description: Value(inv.description),
-    ),
-    services: <ServiceTblCompanion>[
-      for (final service in inv.services)
-        ServiceTblCompanion.insert(
-          id: Value(service.id),
-          invoiceId: inv.id,
-          name: service.name,
-          amount: service.amount.minorUnits.toInt(),
-        ),
-    ],
+  final invoice = InvoiceTblCompanion(
+    id: Value(inv.id),
+    deleted: const Value.absent(),
+    createdAt: const Value.absent(),
+    updatedAt: const Value.absent(),
+    issuedAt: encodeDateTime(inv.issuedAt),
+    dueAt: encodeDateTimeNullable(inv.dueAt),
+    paidAt: encodeDateTimeNullable(inv.paidAt),
+    organizationId: Value(inv.organization?.id),
+    counterpartyId: Value(inv.counterparty?.id),
+    status: Value(InvoiceStatus.values.indexOf(inv.status)),
+    number: Value(inv.number),
+    currency: Value(inv.total.currency.code),
+    total: Value(inv.total.minorUnits.toInt()),
+    description: Value(inv.description),
   );
+  final services = inv.services
+      .where((s) => s.name.isNotEmpty && !s.amount.minorUnits.isNegative)
+      .sorted((a, b) => a.number.compareTo(b.number))
+      .mapIndexed<ServiceTblCompanion>((i, e) => ServiceTblCompanion.insert(
+            invoiceId: inv.id,
+            number: i + 1,
+            name: e.name,
+            amount: e.amount.minorUnits.toInt(),
+          ))
+      .toList(growable: false);
+  return (invoice: invoice, services: services);
 }

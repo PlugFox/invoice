@@ -109,28 +109,28 @@ enum InvoiceStatus {
 @immutable
 class ProvidedService implements Comparable<ProvidedService> {
   const ProvidedService({
-    required this.id,
+    required this.number,
     required this.name,
     required this.amount,
   });
 
-  final int id;
+  final int number;
 
   final String name;
 
   final Money amount;
 
   @override
-  int compareTo(covariant ProvidedService other) => name.compareTo(other.name);
+  int compareTo(covariant ProvidedService other) => number.compareTo(other.number);
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => number ^ name.hashCode ^ amount.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ProvidedService && id == other.id && name == other.name && amount == other.amount;
+      other is ProvidedService && number == other.number && name == other.name && amount == other.amount;
 
   @override
-  String toString() => 'ProvidedService{id: $id, name: $name}';
+  String toString() => 'ProvidedService{name: $name}';
 }

@@ -73,6 +73,9 @@ CREATE TABLE IF NOT EXISTS service_tbl (
     -- Invoice identifier (invoice_tbl)
     invoice_id INTEGER NOT NULL CHECK (invoice_id > 0),
 
+    -- Service number
+    number INTEGER NOT NULL CHECK (number > 0),
+
     -- Name of the service
     name TEXT NOT NULL CHECK (length(name) > 0),
 
