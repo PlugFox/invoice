@@ -6,7 +6,7 @@ typedef InvoiceId = int;
 
 @immutable
 class Invoice implements Comparable<Invoice> {
-  const Invoice({
+  Invoice({
     required this.id,
     required this.createdAt,
     required this.updatedAt,
@@ -16,42 +16,65 @@ class Invoice implements Comparable<Invoice> {
     required this.organization,
     required this.counterparty,
     required this.status,
-    required this.number,
     required this.total,
     required this.services,
     required this.description,
+    String? number,
     this.deleted = false,
-  });
+  }) : number = switch (number?.trim()) {
+          String it when it.isNotEmpty => it,
+          _ => generateNumber(id, issuedAt),
+        };
 
+  /// Generate invoice number
+  static String generateNumber(InvoiceId id, DateTime issuedAt) {
+    final dt = issuedAt.toUtc();
+    return 'INV-${dt.month + dt.year * 100}-${id.toRadixString(36)}';
+  }
+
+  /// Invoice id
   final InvoiceId id;
 
+  /// Whether the invoice is deleted
   final bool deleted;
 
+  /// Created at
   final DateTime createdAt;
 
+  /// Updated at
   final DateTime updatedAt;
 
+  /// Issued at
   final DateTime issuedAt;
 
+  /// Due at
   final DateTime? dueAt;
 
+  /// Paid at
   final DateTime? paidAt;
 
+  /// Organization
   final Organization? organization;
 
+  /// Counterparty
   final Organization? counterparty;
 
+  /// Invoice status
   final InvoiceStatus status;
 
-  final String? number;
+  /// Invoice number
+  final String number;
 
+  /// Currency
   Currency get currency => total.currency;
 
+  /// Total amount
   final Money total;
 
   /// Services provided
   final List<ProvidedService> services;
 
+  /// Description
   final String? description;
 
   @override
@@ -66,7 +89,7 @@ class Invoice implements Comparable<Invoice> {
       other is Invoice && id == other.id && updatedAt == other.updatedAt && listEquals(services, other.services);
 
   @override
-  String toString() => 'Invoice{id: $id, status: $status}';
+  String toString() => 'Invoice{number: $number, status: $status}';
 }
 
 enum InvoiceStatus {

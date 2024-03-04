@@ -84,7 +84,7 @@ final class InvoiceFormController extends Controller with ConcurrentControllerHa
         organization.value = invoice.organization;
         counterparty.value = invoice.counterparty;
         status.value = invoice.status;
-        number.text = invoice.number ?? '';
+        number.text = invoice.number;
         currency.value = invoice.currency;
         _total.value = invoice.total;
         services.value = invoice.services;
@@ -95,7 +95,7 @@ final class InvoiceFormController extends Controller with ConcurrentControllerHa
       });
 
   /// Generate new invoice number based on [issuedAt] and [id]
-  void generateNumber() => number.text = _generateNumber();
+  void generateNumber() => number.text = Invoice.generateNumber(_invoice.id, issuedAt.value);
 
   /// Generate new invoice number based on [issuedAt] and [id]
   String _generateNumber() {
