@@ -6,6 +6,7 @@ import 'package:invoice/src/common/router/router_state_mixin.dart';
 import 'package:invoice/src/common/widget/common_rail.dart';
 import 'package:invoice/src/common/widget/window_scope.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+import 'package:invoice/src/feature/settings/widget/settings_scope.dart';
 import 'package:octopus/octopus.dart';
 
 /// {@template app}
@@ -38,11 +39,10 @@ class _AppState extends State<App> with RouterStateMixin {
           Localization.delegate,
         ],
         supportedLocales: Localization.supportedLocales,
-        /* locale: SettingsScope.localOf(context), */
+        /* locale: SettingsScope.localeOf(context), */
 
         // Theme
-        /* theme: SettingsScope.themeOf(context), */
-        theme: ThemeData.dark(),
+        theme: SettingsScope.themeOf(context),
 
         // Scopes
         builder: (context, child) => WindowScope(

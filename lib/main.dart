@@ -7,6 +7,7 @@ import 'package:invoice/src/common/widget/app.dart';
 import 'package:invoice/src/common/widget/app_error.dart';
 import 'package:invoice/src/feature/initialization/data/initialization.dart';
 import 'package:invoice/src/feature/initialization/widget/inherited_dependencies.dart';
+import 'package:invoice/src/feature/settings/widget/settings_scope.dart';
 
 void main() => appZone(
       () async {
@@ -18,7 +19,9 @@ void main() => appZone(
           onSuccess: (dependencies) => runApp(
             InheritedDependencies(
               dependencies: dependencies,
-              child: const App(),
+              child: const SettingsScope(
+                child: App(),
+              ),
             ),
           ),
           onError: (error, stackTrace) {

@@ -4,11 +4,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
+import 'package:invoice/src/common/widget/adaptive_date_picker.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+
+// TODO(plugfox): add form validators
 
 /// {@template invoice_screen}
 /// InvoiceScreen widget.
@@ -385,6 +388,7 @@ class _InvoiceFormColumn extends StatelessWidget {
                                 controller: form.number,
                                 decoration: InputDecoration(
                                   labelText: 'Number',
+                                  prefixIcon: const Icon(Icons.numbers),
                                   suffixIcon: IconButton(
                                     // Generate new number
                                     icon: const Icon(Icons.restore),
@@ -392,10 +396,19 @@ class _InvoiceFormColumn extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const ColoredBox(color: Colors.red, child: SizedBox.expand()),
-                              const ColoredBox(color: Colors.blue, child: SizedBox.expand()),
-                              const ColoredBox(color: Colors.green, child: SizedBox.expand()),
-                              const ColoredBox(color: Colors.yellow, child: SizedBox.expand()),
+                              AdaptiveDatePicker(
+                                labelText: 'Issued at',
+                                controller: form.issuedAt,
+                                isRequired: true,
+                              ),
+                              AdaptiveDatePicker(
+                                labelText: 'Due at',
+                                controller: form.dueAt,
+                              ),
+                              AdaptiveDatePicker(
+                                labelText: 'Paid at',
+                                controller: form.paidAt,
+                              ),
                             ],
                           ),
                           const SizedBox(height: 16),
