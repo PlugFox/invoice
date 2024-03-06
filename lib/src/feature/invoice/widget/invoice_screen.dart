@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/widget/adaptive_date_picker.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
+import 'package:invoice/src/common/widget/organization_picker.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
@@ -412,11 +413,16 @@ class _InvoiceFormColumn extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          const _InvoiceFormSection(
+                          _InvoiceFormSection(
                             children: <Widget>[
-                              ColoredBox(color: Colors.grey, child: SizedBox.expand()),
-                              ColoredBox(color: Colors.red, child: SizedBox.expand()),
-                              ColoredBox(color: Colors.yellow, child: SizedBox.expand()),
+                              OrganizationPicker(
+                                labelText: 'Organization',
+                                controller: form.organization,
+                              ),
+                              OrganizationPicker(
+                                labelText: 'Counterparty',
+                                controller: form.counterparty,
+                              ),
                             ],
                           ),
                           const SizedBox(height: 16),

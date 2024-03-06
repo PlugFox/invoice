@@ -6,6 +6,7 @@ import 'package:invoice/src/common/router/router_state_mixin.dart';
 import 'package:invoice/src/common/widget/common_rail.dart';
 import 'package:invoice/src/common/widget/window_scope.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+import 'package:invoice/src/feature/organizations/widget/organizations_scope.dart';
 import 'package:invoice/src/feature/settings/widget/settings_scope.dart';
 import 'package:octopus/octopus.dart';
 
@@ -52,8 +53,10 @@ class _AppState extends State<App> with RouterStateMixin {
             enable: true,
             octopus: router,
             child: CommonRail(
-              child: InvoicesScope(
-                child: child ?? const SizedBox.shrink(),
+              child: OrganizationsScope(
+                child: InvoicesScope(
+                  child: child ?? const SizedBox.shrink(),
+                ),
               ),
             ),
           ),

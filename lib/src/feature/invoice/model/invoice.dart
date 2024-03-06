@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:invoice/src/feature/organization/model/organization.dart';
+import 'package:invoice/src/feature/organizations/model/organization.dart';
 import 'package:money2/money2.dart';
 
 typedef InvoiceId = int;

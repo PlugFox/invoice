@@ -4,6 +4,7 @@ import 'package:invoice/src/common/database/database.dart';
 import 'package:invoice/src/common/model/app_metadata.dart';
 import 'package:invoice/src/feature/initialization/widget/inherited_dependencies.dart';
 import 'package:invoice/src/feature/invoice/data/invoices_repository.dart';
+import 'package:invoice/src/feature/organizations/data/organizations_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Dependencies
@@ -27,4 +28,7 @@ class Dependencies {
 
   /// Invoices repository
   late final IInvoicesRepository invoicesRepository;
+
+  /// Organizations repository
+  late final IOrganizationsRepository organizationsRepository;
 }

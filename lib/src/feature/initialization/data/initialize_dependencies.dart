@@ -17,6 +17,8 @@ import 'package:invoice/src/feature/initialization/data/app_migrator.dart';
 import 'package:invoice/src/feature/initialization/data/platform/platform_initialization.dart';
 import 'package:invoice/src/feature/invoice/data/invoices_local_data_provider.dart';
 import 'package:invoice/src/feature/invoice/data/invoices_repository.dart';
+import 'package:invoice/src/feature/organizations/data/organizations_data_provider.dart';
+import 'package:invoice/src/feature/organizations/data/organizations_repository.dart';
 import 'package:l/l.dart';
 import 'package:platform_info/platform_info.dart';
 import 'package:rxdart/rxdart.dart';
@@ -127,6 +129,10 @@ final Map<String, _InitializationStep> _initializationSteps = <String, _Initiali
     ]);
   },
   'Initialize localization': (_) {},
+  'Create organizations repository': (dependencies) =>
+      dependencies.organizationsRepository = OrganizationsRepositoryImpl(
+        localDataProvider: OrganizationsLocalDataProviderDriftImpl(db: dependencies.database),
+      ),
   'Prepare invoices repository': (dependencies) => dependencies.invoicesRepository = InvoicesRepositoryImpl(
         localDataProvider: InvoicesLocalDataProviderDriftImpl(db: dependencies.database),
       ),

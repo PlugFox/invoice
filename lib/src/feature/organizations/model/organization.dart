@@ -1,5 +1,7 @@
 import 'package:meta/meta.dart';
 
+typedef OrganizationId = int;
+
 @immutable
 class Organization implements Comparable<Organization> {
   const Organization({
@@ -13,7 +15,7 @@ class Organization implements Comparable<Organization> {
     required this.description,
   });
 
-  final int id;
+  final OrganizationId id;
 
   final DateTime createdAt;
 
@@ -39,7 +41,7 @@ class Organization implements Comparable<Organization> {
   bool operator ==(Object other) => identical(this, other) || other is Organization && id == other.id;
 
   @override
-  String toString() => 'Organization{id: $id, name: $name}';
+  String toString() => 'Organization{name: $name}';
 }
 
 enum OrganizationType {

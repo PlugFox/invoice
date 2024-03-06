@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:invoice/src/common/database/database.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
-import 'package:invoice/src/feature/organization/model/organization.dart';
+import 'package:invoice/src/feature/organizations/model/organization.dart';
 import 'package:money2/money2.dart';
 
 /// Interface for local data provider of invoices.
