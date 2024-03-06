@@ -8,72 +8,109 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   InvoiceTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _deletedMeta = VerificationMeta('deleted');
-  late final GeneratedColumn<int> deleted = GeneratedColumn<int>('deleted', aliasedName, false,
+  static const VerificationMeta _deletedMeta =
+      const VerificationMeta('deleted');
+  late final GeneratedColumn<int> deleted = GeneratedColumn<int>(
+      'deleted', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT 0',
       defaultValue: const CustomExpression('0'));
-  static const VerificationMeta _createdAtMeta = VerificationMeta('createdAt');
-  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>('created_at', aliasedName, false,
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
+      'created_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _updatedAtMeta = VerificationMeta('updatedAt');
-  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>('updated_at', aliasedName, false,
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+      'updated_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (updated_at >= created_at)',
+      $customConstraints:
+          'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (updated_at >= created_at)',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _issuedAtMeta = VerificationMeta('issuedAt');
-  late final GeneratedColumn<int> issuedAt = GeneratedColumn<int>('issued_at', aliasedName, false,
+  static const VerificationMeta _issuedAtMeta =
+      const VerificationMeta('issuedAt');
+  late final GeneratedColumn<int> issuedAt = GeneratedColumn<int>(
+      'issued_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _dueAtMeta = VerificationMeta('dueAt');
-  late final GeneratedColumn<int> dueAt = GeneratedColumn<int>('due_at', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _paidAtMeta = VerificationMeta('paidAt');
-  late final GeneratedColumn<int> paidAt = GeneratedColumn<int>('paid_at', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _organizationIdMeta = VerificationMeta('organizationId');
-  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>('organization_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _counterpartyIdMeta = VerificationMeta('counterpartyId');
-  late final GeneratedColumn<int> counterpartyId = GeneratedColumn<int>('counterparty_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _numberMeta = VerificationMeta('number');
-  late final GeneratedColumn<String> number = GeneratedColumn<String>('number', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _statusMeta = VerificationMeta('status');
-  late final GeneratedColumn<int> status = GeneratedColumn<int>('status', aliasedName, false,
+  static const VerificationMeta _dueAtMeta = const VerificationMeta('dueAt');
+  late final GeneratedColumn<int> dueAt = GeneratedColumn<int>(
+      'due_at', aliasedName, true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL DEFAULT 0 CHECK (status >= 0 AND status <= 3)',
-      defaultValue: const CustomExpression('0'));
-  static const VerificationMeta _currencyMeta = VerificationMeta('currency');
-  late final GeneratedColumn<String> currency = GeneratedColumn<String>('currency', aliasedName, false,
+      $customConstraints: '');
+  static const VerificationMeta _paidAtMeta = const VerificationMeta('paidAt');
+  late final GeneratedColumn<int> paidAt = GeneratedColumn<int>(
+      'paid_at', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _organizationIdMeta =
+      const VerificationMeta('organizationId');
+  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>(
+      'organization_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _counterpartyIdMeta =
+      const VerificationMeta('counterpartyId');
+  late final GeneratedColumn<int> counterpartyId = GeneratedColumn<int>(
+      'counterparty_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  late final GeneratedColumn<String> number = GeneratedColumn<String>(
+      'number', aliasedName, true,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL DEFAULT \'USD\' CHECK (length(currency) = 3)',
+      $customConstraints: '');
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  late final GeneratedColumn<int> status = GeneratedColumn<int>(
+      'status', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints:
+          'NOT NULL DEFAULT 0 CHECK (status >= 0 AND status <= 3)',
+      defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _currencyMeta =
+      const VerificationMeta('currency');
+  late final GeneratedColumn<String> currency = GeneratedColumn<String>(
+      'currency', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints:
+          'NOT NULL DEFAULT \'USD\' CHECK (length(currency) = 3)',
       defaultValue: const CustomExpression('\'USD\''));
-  static const VerificationMeta _totalMeta = VerificationMeta('total');
-  late final GeneratedColumn<int> total = GeneratedColumn<int>('total', aliasedName, false,
+  static const VerificationMeta _totalMeta = const VerificationMeta('total');
+  late final GeneratedColumn<int> total = GeneratedColumn<int>(
+      'total', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT 0 CHECK (total >= 0)',
       defaultValue: const CustomExpression('0'));
-  static const VerificationMeta _descriptionMeta = VerificationMeta('description');
-  late final GeneratedColumn<String> description = GeneratedColumn<String>('description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -97,52 +134,70 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
   String get actualTableName => $name;
   static const String $name = 'invoice_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<InvoiceTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<InvoiceTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('deleted')) {
-      context.handle(_deletedMeta, deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
+      context.handle(_deletedMeta,
+          deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta, createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta, updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     }
     if (data.containsKey('issued_at')) {
-      context.handle(_issuedAtMeta, issuedAt.isAcceptableOrUnknown(data['issued_at']!, _issuedAtMeta));
+      context.handle(_issuedAtMeta,
+          issuedAt.isAcceptableOrUnknown(data['issued_at']!, _issuedAtMeta));
     }
     if (data.containsKey('due_at')) {
-      context.handle(_dueAtMeta, dueAt.isAcceptableOrUnknown(data['due_at']!, _dueAtMeta));
+      context.handle(
+          _dueAtMeta, dueAt.isAcceptableOrUnknown(data['due_at']!, _dueAtMeta));
     }
     if (data.containsKey('paid_at')) {
-      context.handle(_paidAtMeta, paidAt.isAcceptableOrUnknown(data['paid_at']!, _paidAtMeta));
+      context.handle(_paidAtMeta,
+          paidAt.isAcceptableOrUnknown(data['paid_at']!, _paidAtMeta));
     }
     if (data.containsKey('organization_id')) {
       context.handle(
-          _organizationIdMeta, organizationId.isAcceptableOrUnknown(data['organization_id']!, _organizationIdMeta));
+          _organizationIdMeta,
+          organizationId.isAcceptableOrUnknown(
+              data['organization_id']!, _organizationIdMeta));
     }
     if (data.containsKey('counterparty_id')) {
       context.handle(
-          _counterpartyIdMeta, counterpartyId.isAcceptableOrUnknown(data['counterparty_id']!, _counterpartyIdMeta));
+          _counterpartyIdMeta,
+          counterpartyId.isAcceptableOrUnknown(
+              data['counterparty_id']!, _counterpartyIdMeta));
     }
     if (data.containsKey('number')) {
-      context.handle(_numberMeta, number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
     }
     if (data.containsKey('status')) {
-      context.handle(_statusMeta, status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
     }
     if (data.containsKey('currency')) {
-      context.handle(_currencyMeta, currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta));
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta));
     }
     if (data.containsKey('total')) {
-      context.handle(_totalMeta, total.isAcceptableOrUnknown(data['total']!, _totalMeta));
+      context.handle(
+          _totalMeta, total.isAcceptableOrUnknown(data['total']!, _totalMeta));
     }
     if (data.containsKey('description')) {
-      context.handle(_descriptionMeta, description.isAcceptableOrUnknown(data['description']!, _descriptionMeta));
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     return context;
   }
@@ -153,20 +208,34 @@ class InvoiceTbl extends Table with TableInfo<InvoiceTbl, InvoiceTblData> {
   InvoiceTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InvoiceTblData(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      deleted: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}deleted'])!,
-      createdAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
-      issuedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}issued_at'])!,
-      dueAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}due_at']),
-      paidAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}paid_at']),
-      organizationId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}organization_id']),
-      counterpartyId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}counterparty_id']),
-      number: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}number']),
-      status: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}status'])!,
-      currency: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}currency'])!,
-      total: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}total'])!,
-      description: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}description']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      deleted: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}deleted'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
+      issuedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}issued_at'])!,
+      dueAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}due_at']),
+      paidAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}paid_at']),
+      organizationId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}organization_id']),
+      counterpartyId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}counterparty_id']),
+      number: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}number']),
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}status'])!,
+      currency: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}currency'])!,
+      total: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}total'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
     );
   }
 
@@ -283,19 +352,29 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       issuedAt: Value(issuedAt),
-      dueAt: dueAt == null && nullToAbsent ? const Value.absent() : Value(dueAt),
-      paidAt: paidAt == null && nullToAbsent ? const Value.absent() : Value(paidAt),
-      organizationId: organizationId == null && nullToAbsent ? const Value.absent() : Value(organizationId),
-      counterpartyId: counterpartyId == null && nullToAbsent ? const Value.absent() : Value(counterpartyId),
-      number: number == null && nullToAbsent ? const Value.absent() : Value(number),
+      dueAt:
+          dueAt == null && nullToAbsent ? const Value.absent() : Value(dueAt),
+      paidAt:
+          paidAt == null && nullToAbsent ? const Value.absent() : Value(paidAt),
+      organizationId: organizationId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(organizationId),
+      counterpartyId: counterpartyId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(counterpartyId),
+      number:
+          number == null && nullToAbsent ? const Value.absent() : Value(number),
       status: Value(status),
       currency: Value(currency),
       total: Value(total),
-      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
     );
   }
 
-  factory InvoiceTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory InvoiceTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InvoiceTblData(
       id: serializer.fromJson<int>(json['id']),
@@ -358,8 +437,10 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
         issuedAt: issuedAt ?? this.issuedAt,
         dueAt: dueAt.present ? dueAt.value : this.dueAt,
         paidAt: paidAt.present ? paidAt.value : this.paidAt,
-        organizationId: organizationId.present ? organizationId.value : this.organizationId,
-        counterpartyId: counterpartyId.present ? counterpartyId.value : this.counterpartyId,
+        organizationId:
+            organizationId.present ? organizationId.value : this.organizationId,
+        counterpartyId:
+            counterpartyId.present ? counterpartyId.value : this.counterpartyId,
         number: number.present ? number.value : this.number,
         status: status ?? this.status,
         currency: currency ?? this.currency,
@@ -388,8 +469,21 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, deleted, createdAt, updatedAt, issuedAt, dueAt, paidAt, organizationId,
-      counterpartyId, number, status, currency, total, description);
+  int get hashCode => Object.hash(
+      id,
+      deleted,
+      createdAt,
+      updatedAt,
+      issuedAt,
+      dueAt,
+      paidAt,
+      organizationId,
+      counterpartyId,
+      number,
+      status,
+      currency,
+      total,
+      description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -599,24 +693,38 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   ServiceTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _invoiceIdMeta = VerificationMeta('invoiceId');
-  late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>('invoice_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (invoice_id > 0)');
-  static const VerificationMeta _numberMeta = VerificationMeta('number');
-  late final GeneratedColumn<int> number = GeneratedColumn<int>('number', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (number > 0)');
-  static const VerificationMeta _nameMeta = VerificationMeta('name');
-  late final GeneratedColumn<String> name = GeneratedColumn<String>('name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
-  static const VerificationMeta _amountMeta = VerificationMeta('amount');
-  late final GeneratedColumn<int> amount = GeneratedColumn<int>('amount', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (amount >= 0)');
+  static const VerificationMeta _invoiceIdMeta =
+      const VerificationMeta('invoiceId');
+  late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>(
+      'invoice_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (invoice_id > 0)');
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  late final GeneratedColumn<int> number = GeneratedColumn<int>(
+      'number', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (number > 0)');
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  late final GeneratedColumn<int> amount = GeneratedColumn<int>(
+      'amount', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (amount >= 0)');
   @override
   List<GeneratedColumn> get $columns => [id, invoiceId, number, name, amount];
   @override
@@ -625,29 +733,34 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
   String get actualTableName => $name;
   static const String $name = 'service_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<ServiceTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ServiceTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('invoice_id')) {
-      context.handle(_invoiceIdMeta, invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta));
+      context.handle(_invoiceIdMeta,
+          invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta));
     } else if (isInserting) {
       context.missing(_invoiceIdMeta);
     }
     if (data.containsKey('number')) {
-      context.handle(_numberMeta, number.isAcceptableOrUnknown(data['number']!, _numberMeta));
+      context.handle(_numberMeta,
+          number.isAcceptableOrUnknown(data['number']!, _numberMeta));
     } else if (isInserting) {
       context.missing(_numberMeta);
     }
     if (data.containsKey('name')) {
-      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('amount')) {
-      context.handle(_amountMeta, amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
     } else if (isInserting) {
       context.missing(_amountMeta);
     }
@@ -660,11 +773,16 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
   ServiceTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ServiceTblData(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      invoiceId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}invoice_id'])!,
-      number: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}number'])!,
-      name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      amount: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}amount'])!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      invoiceId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}invoice_id'])!,
+      number: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}number'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      amount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}amount'])!,
     );
   }
 
@@ -676,8 +794,9 @@ class ServiceTbl extends Table with TableInfo<ServiceTbl, ServiceTblData> {
   @override
   bool get isStrict => true;
   @override
-  List<String> get customConstraints =>
-      const ['FOREIGN KEY(invoice_id)REFERENCES invoice_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'];
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(invoice_id)REFERENCES invoice_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
   @override
   bool get dontWriteConstraints => true;
 }
@@ -698,7 +817,11 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
   /// Price of the service
   final int amount;
   const ServiceTblData(
-      {required this.id, required this.invoiceId, required this.number, required this.name, required this.amount});
+      {required this.id,
+      required this.invoiceId,
+      required this.number,
+      required this.name,
+      required this.amount});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -720,7 +843,8 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
     );
   }
 
-  factory ServiceTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory ServiceTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ServiceTblData(
       id: serializer.fromJson<int>(json['id']),
@@ -742,7 +866,9 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
     };
   }
 
-  ServiceTblData copyWith({int? id, int? invoiceId, int? number, String? name, int? amount}) => ServiceTblData(
+  ServiceTblData copyWith(
+          {int? id, int? invoiceId, int? number, String? name, int? amount}) =>
+      ServiceTblData(
         id: id ?? this.id,
         invoiceId: invoiceId ?? this.invoiceId,
         number: number ?? this.number,
@@ -814,7 +940,11 @@ class ServiceTblCompanion extends UpdateCompanion<ServiceTblData> {
   }
 
   ServiceTblCompanion copyWith(
-      {Value<int>? id, Value<int>? invoiceId, Value<int>? number, Value<String>? name, Value<int>? amount}) {
+      {Value<int>? id,
+      Value<int>? invoiceId,
+      Value<int>? number,
+      Value<String>? name,
+      Value<int>? amount}) {
     return ServiceTblCompanion(
       id: id ?? this.id,
       invoiceId: invoiceId ?? this.invoiceId,
@@ -858,94 +988,138 @@ class ServiceTblCompanion extends UpdateCompanion<ServiceTblData> {
   }
 }
 
-class OrganizationTbl extends Table with TableInfo<OrganizationTbl, OrganizationTblData> {
+class OrganizationTbl extends Table
+    with TableInfo<OrganizationTbl, OrganizationTblData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   OrganizationTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _deletedMeta = VerificationMeta('deleted');
-  late final GeneratedColumn<int> deleted = GeneratedColumn<int>('deleted', aliasedName, false,
+  static const VerificationMeta _deletedMeta =
+      const VerificationMeta('deleted');
+  late final GeneratedColumn<int> deleted = GeneratedColumn<int>(
+      'deleted', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT 0',
       defaultValue: const CustomExpression('0'));
-  static const VerificationMeta _createdAtMeta = VerificationMeta('createdAt');
-  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>('created_at', aliasedName, false,
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
+      'created_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _updatedAtMeta = VerificationMeta('updatedAt');
-  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>('updated_at', aliasedName, false,
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+      'updated_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (updated_at >= created_at)',
+      $customConstraints:
+          'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (updated_at >= created_at)',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _typeMeta = VerificationMeta('type');
-  late final GeneratedColumn<int> type = GeneratedColumn<int>('type', aliasedName, false,
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  late final GeneratedColumn<int> type = GeneratedColumn<int>(
+      'type', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT 0 CHECK (type = 0 OR type = 1)',
       defaultValue: const CustomExpression('0'));
-  static const VerificationMeta _nameMeta = VerificationMeta('name');
-  late final GeneratedColumn<String> name = GeneratedColumn<String>('name', aliasedName, false,
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL UNIQUE CHECK (length(name) > 0)');
-  static const VerificationMeta _addressMeta = VerificationMeta('address');
-  late final GeneratedColumn<String> address = GeneratedColumn<String>('address', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _innMeta = VerificationMeta('inn');
-  late final GeneratedColumn<String> inn = GeneratedColumn<String>('inn', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _descriptionMeta = VerificationMeta('description');
-  late final GeneratedColumn<String> description = GeneratedColumn<String>('description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _addressMeta =
+      const VerificationMeta('address');
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _taxMeta = const VerificationMeta('tax');
+  late final GeneratedColumn<String> tax = GeneratedColumn<String>(
+      'tax', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   @override
-  List<GeneratedColumn> get $columns => [id, deleted, createdAt, updatedAt, type, name, address, inn, description];
+  List<GeneratedColumn> get $columns => [
+        id,
+        deleted,
+        createdAt,
+        updatedAt,
+        type,
+        name,
+        address,
+        tax,
+        description
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'organization_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<OrganizationTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+      Insertable<OrganizationTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('deleted')) {
-      context.handle(_deletedMeta, deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
+      context.handle(_deletedMeta,
+          deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta, createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta, updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     }
     if (data.containsKey('type')) {
-      context.handle(_typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     }
     if (data.containsKey('name')) {
-      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('address')) {
-      context.handle(_addressMeta, address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
     }
-    if (data.containsKey('inn')) {
-      context.handle(_innMeta, inn.isAcceptableOrUnknown(data['inn']!, _innMeta));
+    if (data.containsKey('tax')) {
+      context.handle(
+          _taxMeta, tax.isAcceptableOrUnknown(data['tax']!, _taxMeta));
     }
     if (data.containsKey('description')) {
-      context.handle(_descriptionMeta, description.isAcceptableOrUnknown(data['description']!, _descriptionMeta));
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     return context;
   }
@@ -956,15 +1130,24 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
   OrganizationTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return OrganizationTblData(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      deleted: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}deleted'])!,
-      createdAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
-      type: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}type'])!,
-      name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      address: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}address']),
-      inn: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}inn']),
-      description: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}description']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      deleted: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}deleted'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      tax: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}tax']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
     );
   }
 
@@ -979,7 +1162,8 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
   bool get dontWriteConstraints => true;
 }
 
-class OrganizationTblData extends DataClass implements Insertable<OrganizationTblData> {
+class OrganizationTblData extends DataClass
+    implements Insertable<OrganizationTblData> {
   /// Unique identifier of the organization
   final int id;
 
@@ -1006,10 +1190,10 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
   final String? address;
 
   /// Tax identification number of the organization
-  final String? inn;
+  final String? tax;
 
   /// Description of the organization
-  /// NOT NULL PRIMARY CHECK (length(inn) > 0),
+  /// NOT NULL PRIMARY CHECK (length(tax) > 0),
   final String? description;
   const OrganizationTblData(
       {required this.id,
@@ -1019,7 +1203,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
       required this.type,
       required this.name,
       this.address,
-      this.inn,
+      this.tax,
       this.description});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1033,8 +1217,8 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
     if (!nullToAbsent || address != null) {
       map['address'] = Variable<String>(address);
     }
-    if (!nullToAbsent || inn != null) {
-      map['inn'] = Variable<String>(inn);
+    if (!nullToAbsent || tax != null) {
+      map['tax'] = Variable<String>(tax);
     }
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
@@ -1050,13 +1234,18 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
       updatedAt: Value(updatedAt),
       type: Value(type),
       name: Value(name),
-      address: address == null && nullToAbsent ? const Value.absent() : Value(address),
-      inn: inn == null && nullToAbsent ? const Value.absent() : Value(inn),
-      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      tax: tax == null && nullToAbsent ? const Value.absent() : Value(tax),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
     );
   }
 
-  factory OrganizationTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory OrganizationTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return OrganizationTblData(
       id: serializer.fromJson<int>(json['id']),
@@ -1066,7 +1255,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
       type: serializer.fromJson<int>(json['type']),
       name: serializer.fromJson<String>(json['name']),
       address: serializer.fromJson<String?>(json['address']),
-      inn: serializer.fromJson<String?>(json['inn']),
+      tax: serializer.fromJson<String?>(json['tax']),
       description: serializer.fromJson<String?>(json['description']),
     );
   }
@@ -1081,7 +1270,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
       'type': serializer.toJson<int>(type),
       'name': serializer.toJson<String>(name),
       'address': serializer.toJson<String?>(address),
-      'inn': serializer.toJson<String?>(inn),
+      'tax': serializer.toJson<String?>(tax),
       'description': serializer.toJson<String?>(description),
     };
   }
@@ -1094,7 +1283,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
           int? type,
           String? name,
           Value<String?> address = const Value.absent(),
-          Value<String?> inn = const Value.absent(),
+          Value<String?> tax = const Value.absent(),
           Value<String?> description = const Value.absent()}) =>
       OrganizationTblData(
         id: id ?? this.id,
@@ -1104,7 +1293,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
         type: type ?? this.type,
         name: name ?? this.name,
         address: address.present ? address.value : this.address,
-        inn: inn.present ? inn.value : this.inn,
+        tax: tax.present ? tax.value : this.tax,
         description: description.present ? description.value : this.description,
       );
   @override
@@ -1117,14 +1306,15 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
           ..write('type: $type, ')
           ..write('name: $name, ')
           ..write('address: $address, ')
-          ..write('inn: $inn, ')
+          ..write('tax: $tax, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, deleted, createdAt, updatedAt, type, name, address, inn, description);
+  int get hashCode => Object.hash(
+      id, deleted, createdAt, updatedAt, type, name, address, tax, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1136,7 +1326,7 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
           other.type == this.type &&
           other.name == this.name &&
           other.address == this.address &&
-          other.inn == this.inn &&
+          other.tax == this.tax &&
           other.description == this.description);
 }
 
@@ -1148,7 +1338,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
   final Value<int> type;
   final Value<String> name;
   final Value<String?> address;
-  final Value<String?> inn;
+  final Value<String?> tax;
   final Value<String?> description;
   const OrganizationTblCompanion({
     this.id = const Value.absent(),
@@ -1158,7 +1348,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
     this.type = const Value.absent(),
     this.name = const Value.absent(),
     this.address = const Value.absent(),
-    this.inn = const Value.absent(),
+    this.tax = const Value.absent(),
     this.description = const Value.absent(),
   });
   OrganizationTblCompanion.insert({
@@ -1169,7 +1359,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
     this.type = const Value.absent(),
     required String name,
     this.address = const Value.absent(),
-    this.inn = const Value.absent(),
+    this.tax = const Value.absent(),
     this.description = const Value.absent(),
   }) : name = Value(name);
   static Insertable<OrganizationTblData> custom({
@@ -1180,7 +1370,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
     Expression<int>? type,
     Expression<String>? name,
     Expression<String>? address,
-    Expression<String>? inn,
+    Expression<String>? tax,
     Expression<String>? description,
   }) {
     return RawValuesInsertable({
@@ -1191,7 +1381,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
       if (type != null) 'type': type,
       if (name != null) 'name': name,
       if (address != null) 'address': address,
-      if (inn != null) 'inn': inn,
+      if (tax != null) 'tax': tax,
       if (description != null) 'description': description,
     });
   }
@@ -1204,7 +1394,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
       Value<int>? type,
       Value<String>? name,
       Value<String?>? address,
-      Value<String?>? inn,
+      Value<String?>? tax,
       Value<String?>? description}) {
     return OrganizationTblCompanion(
       id: id ?? this.id,
@@ -1214,7 +1404,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
       type: type ?? this.type,
       name: name ?? this.name,
       address: address ?? this.address,
-      inn: inn ?? this.inn,
+      tax: tax ?? this.tax,
       description: description ?? this.description,
     );
   }
@@ -1243,8 +1433,8 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
     if (address.present) {
       map['address'] = Variable<String>(address.value);
     }
-    if (inn.present) {
-      map['inn'] = Variable<String>(inn.value);
+    if (tax.present) {
+      map['tax'] = Variable<String>(tax.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -1262,7 +1452,7 @@ class OrganizationTblCompanion extends UpdateCompanion<OrganizationTblData> {
           ..write('type: $type, ')
           ..write('name: $name, ')
           ..write('address: $address, ')
-          ..write('inn: $inn, ')
+          ..write('tax: $tax, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
@@ -1274,35 +1464,50 @@ class ContactTbl extends Table with TableInfo<ContactTbl, ContactTblData> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   ContactTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _organizationIdMeta = VerificationMeta('organizationId');
-  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>('organization_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
-  static const VerificationMeta _typeMeta = VerificationMeta('type');
-  late final GeneratedColumn<int> type = GeneratedColumn<int>('type', aliasedName, false,
+  static const VerificationMeta _organizationIdMeta =
+      const VerificationMeta('organizationId');
+  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>(
+      'organization_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  late final GeneratedColumn<int> type = GeneratedColumn<int>(
+      'type', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL CHECK (type >= 0 AND type <= 3)');
-  static const VerificationMeta _valueMeta = VerificationMeta('value');
-  late final GeneratedColumn<String> value = GeneratedColumn<String>('value', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (length(value) > 0)');
-  static const VerificationMeta _descriptionMeta = VerificationMeta('description');
-  late final GeneratedColumn<String> description = GeneratedColumn<String>('description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _valueMeta = const VerificationMeta('value');
+  late final GeneratedColumn<String> value = GeneratedColumn<String>(
+      'value', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(value) > 0)');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   @override
-  List<GeneratedColumn> get $columns => [id, organizationId, type, value, description];
+  List<GeneratedColumn> get $columns =>
+      [id, organizationId, type, value, description];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'contact_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<ContactTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ContactTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1310,22 +1515,29 @@ class ContactTbl extends Table with TableInfo<ContactTbl, ContactTblData> {
     }
     if (data.containsKey('organization_id')) {
       context.handle(
-          _organizationIdMeta, organizationId.isAcceptableOrUnknown(data['organization_id']!, _organizationIdMeta));
+          _organizationIdMeta,
+          organizationId.isAcceptableOrUnknown(
+              data['organization_id']!, _organizationIdMeta));
     } else if (isInserting) {
       context.missing(_organizationIdMeta);
     }
     if (data.containsKey('type')) {
-      context.handle(_typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
     if (data.containsKey('value')) {
-      context.handle(_valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+      context.handle(
+          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
     if (data.containsKey('description')) {
-      context.handle(_descriptionMeta, description.isAcceptableOrUnknown(data['description']!, _descriptionMeta));
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     return context;
   }
@@ -1336,11 +1548,16 @@ class ContactTbl extends Table with TableInfo<ContactTbl, ContactTblData> {
   ContactTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ContactTblData(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      organizationId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
-      type: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}type'])!,
-      value: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}value'])!,
-      description: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}description']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      organizationId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
+      value: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}value'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
     );
   }
 
@@ -1352,8 +1569,9 @@ class ContactTbl extends Table with TableInfo<ContactTbl, ContactTblData> {
   @override
   bool get isStrict => true;
   @override
-  List<String> get customConstraints =>
-      const ['FOREIGN KEY(organization_id)REFERENCES organization_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'];
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(organization_id)REFERENCES organization_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
   @override
   bool get dontWriteConstraints => true;
 }
@@ -1378,7 +1596,11 @@ class ContactTblData extends DataClass implements Insertable<ContactTblData> {
   /// Description of the contact
   final String? description;
   const ContactTblData(
-      {required this.id, required this.organizationId, required this.type, required this.value, this.description});
+      {required this.id,
+      required this.organizationId,
+      required this.type,
+      required this.value,
+      this.description});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1398,11 +1620,14 @@ class ContactTblData extends DataClass implements Insertable<ContactTblData> {
       organizationId: Value(organizationId),
       type: Value(type),
       value: Value(value),
-      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
     );
   }
 
-  factory ContactTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory ContactTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ContactTblData(
       id: serializer.fromJson<int>(json['id']),
@@ -1554,42 +1779,78 @@ class AccountTbl extends Table with TableInfo<AccountTbl, AccountTblData> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   AccountTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _organizationIdMeta = VerificationMeta('organizationId');
-  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>('organization_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
-  static const VerificationMeta _nameMeta = VerificationMeta('name');
-  late final GeneratedColumn<String> name = GeneratedColumn<String>('name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
-  static const VerificationMeta _addressMeta = VerificationMeta('address');
-  late final GeneratedColumn<String> address = GeneratedColumn<String>('address', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _swiftMeta = VerificationMeta('swift');
-  late final GeneratedColumn<String> swift = GeneratedColumn<String>('swift', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _ibanMeta = VerificationMeta('iban');
-  late final GeneratedColumn<String> iban = GeneratedColumn<String>('iban', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _beneficiaryMeta = VerificationMeta('beneficiary');
-  late final GeneratedColumn<String> beneficiary = GeneratedColumn<String>('beneficiary', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _descriptionMeta = VerificationMeta('description');
-  late final GeneratedColumn<String> description = GeneratedColumn<String>('description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _organizationIdMeta =
+      const VerificationMeta('organizationId');
+  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>(
+      'organization_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
+  static const VerificationMeta _addressMeta =
+      const VerificationMeta('address');
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _swiftMeta = const VerificationMeta('swift');
+  late final GeneratedColumn<String> swift = GeneratedColumn<String>(
+      'swift', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _ibanMeta = const VerificationMeta('iban');
+  late final GeneratedColumn<String> iban = GeneratedColumn<String>(
+      'iban', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _beneficiaryMeta =
+      const VerificationMeta('beneficiary');
+  late final GeneratedColumn<String> beneficiary = GeneratedColumn<String>(
+      'beneficiary', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   @override
-  List<GeneratedColumn> get $columns => [id, organizationId, name, address, swift, iban, beneficiary, description];
+  List<GeneratedColumn> get $columns => [
+        id,
+        organizationId,
+        name,
+        address,
+        swift,
+        iban,
+        beneficiary,
+        description
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'account_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<AccountTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<AccountTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1597,29 +1858,41 @@ class AccountTbl extends Table with TableInfo<AccountTbl, AccountTblData> {
     }
     if (data.containsKey('organization_id')) {
       context.handle(
-          _organizationIdMeta, organizationId.isAcceptableOrUnknown(data['organization_id']!, _organizationIdMeta));
+          _organizationIdMeta,
+          organizationId.isAcceptableOrUnknown(
+              data['organization_id']!, _organizationIdMeta));
     } else if (isInserting) {
       context.missing(_organizationIdMeta);
     }
     if (data.containsKey('name')) {
-      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('address')) {
-      context.handle(_addressMeta, address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
     }
     if (data.containsKey('swift')) {
-      context.handle(_swiftMeta, swift.isAcceptableOrUnknown(data['swift']!, _swiftMeta));
+      context.handle(
+          _swiftMeta, swift.isAcceptableOrUnknown(data['swift']!, _swiftMeta));
     }
     if (data.containsKey('iban')) {
-      context.handle(_ibanMeta, iban.isAcceptableOrUnknown(data['iban']!, _ibanMeta));
+      context.handle(
+          _ibanMeta, iban.isAcceptableOrUnknown(data['iban']!, _ibanMeta));
     }
     if (data.containsKey('beneficiary')) {
-      context.handle(_beneficiaryMeta, beneficiary.isAcceptableOrUnknown(data['beneficiary']!, _beneficiaryMeta));
+      context.handle(
+          _beneficiaryMeta,
+          beneficiary.isAcceptableOrUnknown(
+              data['beneficiary']!, _beneficiaryMeta));
     }
     if (data.containsKey('description')) {
-      context.handle(_descriptionMeta, description.isAcceptableOrUnknown(data['description']!, _descriptionMeta));
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     return context;
   }
@@ -1630,14 +1903,22 @@ class AccountTbl extends Table with TableInfo<AccountTbl, AccountTblData> {
   AccountTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return AccountTblData(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      organizationId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
-      name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      address: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}address']),
-      swift: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}swift']),
-      iban: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}iban']),
-      beneficiary: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}beneficiary']),
-      description: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}description']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      organizationId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      swift: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}swift']),
+      iban: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}iban']),
+      beneficiary: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}beneficiary']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
     );
   }
 
@@ -1649,8 +1930,9 @@ class AccountTbl extends Table with TableInfo<AccountTbl, AccountTblData> {
   @override
   bool get isStrict => true;
   @override
-  List<String> get customConstraints =>
-      const ['FOREIGN KEY(organization_id)REFERENCES organization_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'];
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(organization_id)REFERENCES organization_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
   @override
   bool get dontWriteConstraints => true;
 }
@@ -1718,15 +2000,23 @@ class AccountTblData extends DataClass implements Insertable<AccountTblData> {
       id: Value(id),
       organizationId: Value(organizationId),
       name: Value(name),
-      address: address == null && nullToAbsent ? const Value.absent() : Value(address),
-      swift: swift == null && nullToAbsent ? const Value.absent() : Value(swift),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      swift:
+          swift == null && nullToAbsent ? const Value.absent() : Value(swift),
       iban: iban == null && nullToAbsent ? const Value.absent() : Value(iban),
-      beneficiary: beneficiary == null && nullToAbsent ? const Value.absent() : Value(beneficiary),
-      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
+      beneficiary: beneficiary == null && nullToAbsent
+          ? const Value.absent()
+          : Value(beneficiary),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
     );
   }
 
-  factory AccountTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory AccountTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return AccountTblData(
       id: serializer.fromJson<int>(json['id']),
@@ -1789,7 +2079,8 @@ class AccountTblData extends DataClass implements Insertable<AccountTblData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, organizationId, name, address, swift, iban, beneficiary, description);
+  int get hashCode => Object.hash(
+      id, organizationId, name, address, swift, iban, beneficiary, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1923,64 +2214,94 @@ class AccountTblCompanion extends UpdateCompanion<AccountTblData> {
   }
 }
 
-class IntermediaryTbl extends Table with TableInfo<IntermediaryTbl, IntermediaryTblData> {
+class IntermediaryTbl extends Table
+    with TableInfo<IntermediaryTbl, IntermediaryTblData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   IntermediaryTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _accountIdMeta = VerificationMeta('accountId');
-  late final GeneratedColumn<int> accountId = GeneratedColumn<int>('account_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (account_id > 0)');
-  static const VerificationMeta _nameMeta = VerificationMeta('name');
-  late final GeneratedColumn<String> name = GeneratedColumn<String>('name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
-  static const VerificationMeta _addressMeta = VerificationMeta('address');
-  late final GeneratedColumn<String> address = GeneratedColumn<String>('address', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _swiftMeta = VerificationMeta('swift');
-  late final GeneratedColumn<String> swift = GeneratedColumn<String>('swift', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _descriptionMeta = VerificationMeta('description');
-  late final GeneratedColumn<String> description = GeneratedColumn<String>('description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _accountIdMeta =
+      const VerificationMeta('accountId');
+  late final GeneratedColumn<int> accountId = GeneratedColumn<int>(
+      'account_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (account_id > 0)');
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
+  static const VerificationMeta _addressMeta =
+      const VerificationMeta('address');
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _swiftMeta = const VerificationMeta('swift');
+  late final GeneratedColumn<String> swift = GeneratedColumn<String>(
+      'swift', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   @override
-  List<GeneratedColumn> get $columns => [id, accountId, name, address, swift, description];
+  List<GeneratedColumn> get $columns =>
+      [id, accountId, name, address, swift, description];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'intermediary_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<IntermediaryTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+      Insertable<IntermediaryTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('account_id')) {
-      context.handle(_accountIdMeta, accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta));
+      context.handle(_accountIdMeta,
+          accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta));
     } else if (isInserting) {
       context.missing(_accountIdMeta);
     }
     if (data.containsKey('name')) {
-      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('address')) {
-      context.handle(_addressMeta, address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
     }
     if (data.containsKey('swift')) {
-      context.handle(_swiftMeta, swift.isAcceptableOrUnknown(data['swift']!, _swiftMeta));
+      context.handle(
+          _swiftMeta, swift.isAcceptableOrUnknown(data['swift']!, _swiftMeta));
     }
     if (data.containsKey('description')) {
-      context.handle(_descriptionMeta, description.isAcceptableOrUnknown(data['description']!, _descriptionMeta));
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     return context;
   }
@@ -1991,12 +2312,18 @@ class IntermediaryTbl extends Table with TableInfo<IntermediaryTbl, Intermediary
   IntermediaryTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return IntermediaryTblData(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      accountId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}account_id'])!,
-      name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      address: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}address']),
-      swift: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}swift']),
-      description: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}description']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      accountId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}account_id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      swift: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}swift']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
     );
   }
 
@@ -2008,13 +2335,15 @@ class IntermediaryTbl extends Table with TableInfo<IntermediaryTbl, Intermediary
   @override
   bool get isStrict => true;
   @override
-  List<String> get customConstraints =>
-      const ['FOREIGN KEY(account_id)REFERENCES account_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'];
+  List<String> get customConstraints => const [
+        'FOREIGN KEY(account_id)REFERENCES account_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'
+      ];
   @override
   bool get dontWriteConstraints => true;
 }
 
-class IntermediaryTblData extends DataClass implements Insertable<IntermediaryTblData> {
+class IntermediaryTblData extends DataClass
+    implements Insertable<IntermediaryTblData> {
   /// Unique identifier
   final int id;
 
@@ -2034,7 +2363,12 @@ class IntermediaryTblData extends DataClass implements Insertable<IntermediaryTb
   /// Description of the intermediary
   final String? description;
   const IntermediaryTblData(
-      {required this.id, required this.accountId, required this.name, this.address, this.swift, this.description});
+      {required this.id,
+      required this.accountId,
+      required this.name,
+      this.address,
+      this.swift,
+      this.description});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2058,13 +2392,19 @@ class IntermediaryTblData extends DataClass implements Insertable<IntermediaryTb
       id: Value(id),
       accountId: Value(accountId),
       name: Value(name),
-      address: address == null && nullToAbsent ? const Value.absent() : Value(address),
-      swift: swift == null && nullToAbsent ? const Value.absent() : Value(swift),
-      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      swift:
+          swift == null && nullToAbsent ? const Value.absent() : Value(swift),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
     );
   }
 
-  factory IntermediaryTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory IntermediaryTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return IntermediaryTblData(
       id: serializer.fromJson<int>(json['id']),
@@ -2117,7 +2457,8 @@ class IntermediaryTblData extends DataClass implements Insertable<IntermediaryTb
   }
 
   @override
-  int get hashCode => Object.hash(id, accountId, name, address, swift, description);
+  int get hashCode =>
+      Object.hash(id, accountId, name, address, swift, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2232,60 +2573,83 @@ class SettingsTbl extends Table with TableInfo<SettingsTbl, SettingsTblData> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   SettingsTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _userIdMeta = VerificationMeta('userId');
-  late final GeneratedColumn<String> userId = GeneratedColumn<String>('user_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL PRIMARY KEY');
-  static const VerificationMeta _jsonDataMeta = VerificationMeta('jsonData');
-  late final GeneratedColumn<String> jsonData = GeneratedColumn<String>('json_data', aliasedName, false,
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+      'user_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL CHECK (length(json_data) > 2 AND json_valid(json_data))');
-  static const VerificationMeta _memoMeta = VerificationMeta('memo');
-  late final GeneratedColumn<String> memo = GeneratedColumn<String>('memo', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _metaCreatedAtMeta = VerificationMeta('metaCreatedAt');
-  late final GeneratedColumn<int> metaCreatedAt = GeneratedColumn<int>('meta_created_at', aliasedName, false,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _jsonDataMeta =
+      const VerificationMeta('jsonData');
+  late final GeneratedColumn<String> jsonData = GeneratedColumn<String>(
+      'json_data', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints:
+          'NOT NULL CHECK (length(json_data) > 2 AND json_valid(json_data))');
+  static const VerificationMeta _memoMeta = const VerificationMeta('memo');
+  late final GeneratedColumn<String> memo = GeneratedColumn<String>(
+      'memo', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _metaCreatedAtMeta =
+      const VerificationMeta('metaCreatedAt');
+  late final GeneratedColumn<int> metaCreatedAt = GeneratedColumn<int>(
+      'meta_created_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _metaUpdatedAtMeta = VerificationMeta('metaUpdatedAt');
-  late final GeneratedColumn<int> metaUpdatedAt = GeneratedColumn<int>('meta_updated_at', aliasedName, false,
+  static const VerificationMeta _metaUpdatedAtMeta =
+      const VerificationMeta('metaUpdatedAt');
+  late final GeneratedColumn<int> metaUpdatedAt = GeneratedColumn<int>(
+      'meta_updated_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
+      $customConstraints:
+          'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
   @override
-  List<GeneratedColumn> get $columns => [userId, jsonData, memo, metaCreatedAt, metaUpdatedAt];
+  List<GeneratedColumn> get $columns =>
+      [userId, jsonData, memo, metaCreatedAt, metaUpdatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'settings_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<SettingsTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<SettingsTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('user_id')) {
-      context.handle(_userIdMeta, userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (data.containsKey('json_data')) {
-      context.handle(_jsonDataMeta, jsonData.isAcceptableOrUnknown(data['json_data']!, _jsonDataMeta));
+      context.handle(_jsonDataMeta,
+          jsonData.isAcceptableOrUnknown(data['json_data']!, _jsonDataMeta));
     } else if (isInserting) {
       context.missing(_jsonDataMeta);
     }
     if (data.containsKey('memo')) {
-      context.handle(_memoMeta, memo.isAcceptableOrUnknown(data['memo']!, _memoMeta));
+      context.handle(
+          _memoMeta, memo.isAcceptableOrUnknown(data['memo']!, _memoMeta));
     }
     if (data.containsKey('meta_created_at')) {
       context.handle(
-          _metaCreatedAtMeta, metaCreatedAt.isAcceptableOrUnknown(data['meta_created_at']!, _metaCreatedAtMeta));
+          _metaCreatedAtMeta,
+          metaCreatedAt.isAcceptableOrUnknown(
+              data['meta_created_at']!, _metaCreatedAtMeta));
     }
     if (data.containsKey('meta_updated_at')) {
       context.handle(
-          _metaUpdatedAtMeta, metaUpdatedAt.isAcceptableOrUnknown(data['meta_updated_at']!, _metaUpdatedAtMeta));
+          _metaUpdatedAtMeta,
+          metaUpdatedAt.isAcceptableOrUnknown(
+              data['meta_updated_at']!, _metaUpdatedAtMeta));
     }
     return context;
   }
@@ -2296,11 +2660,16 @@ class SettingsTbl extends Table with TableInfo<SettingsTbl, SettingsTblData> {
   SettingsTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SettingsTblData(
-      userId: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}user_id'])!,
-      jsonData: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}json_data'])!,
-      memo: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}memo']),
-      metaCreatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_created_at'])!,
-      metaUpdatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_updated_at'])!,
+      userId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}user_id'])!,
+      jsonData: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}json_data'])!,
+      memo: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}memo']),
+      metaCreatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}meta_created_at'])!,
+      metaUpdatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}meta_updated_at'])!,
     );
   }
 
@@ -2359,7 +2728,8 @@ class SettingsTblData extends DataClass implements Insertable<SettingsTblData> {
     );
   }
 
-  factory SettingsTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory SettingsTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SettingsTblData(
       userId: serializer.fromJson<String>(json['user_id']),
@@ -2407,7 +2777,8 @@ class SettingsTblData extends DataClass implements Insertable<SettingsTblData> {
   }
 
   @override
-  int get hashCode => Object.hash(userId, jsonData, memo, metaCreatedAt, metaUpdatedAt);
+  int get hashCode =>
+      Object.hash(userId, jsonData, memo, metaCreatedAt, metaUpdatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2521,27 +2892,39 @@ class LogTbl extends Table with TableInfo<LogTbl, LogTblData> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   LogTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _timeMeta = VerificationMeta('time');
-  late final GeneratedColumn<int> time = GeneratedColumn<int>('time', aliasedName, false,
+  static const VerificationMeta _timeMeta = const VerificationMeta('time');
+  late final GeneratedColumn<int> time = GeneratedColumn<int>(
+      'time', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _levelMeta = VerificationMeta('level');
-  late final GeneratedColumn<int> level = GeneratedColumn<int>('level', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL');
-  static const VerificationMeta _messageMeta = VerificationMeta('message');
-  late final GeneratedColumn<String> message = GeneratedColumn<String>('message', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL');
-  static const VerificationMeta _stackMeta = VerificationMeta('stack');
-  late final GeneratedColumn<String> stack = GeneratedColumn<String>('stack', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _levelMeta = const VerificationMeta('level');
+  late final GeneratedColumn<int> level = GeneratedColumn<int>(
+      'level', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _messageMeta =
+      const VerificationMeta('message');
+  late final GeneratedColumn<String> message = GeneratedColumn<String>(
+      'message', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _stackMeta = const VerificationMeta('stack');
+  late final GeneratedColumn<String> stack = GeneratedColumn<String>(
+      'stack', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   @override
   List<GeneratedColumn> get $columns => [id, time, level, message, stack];
   @override
@@ -2550,27 +2933,32 @@ class LogTbl extends Table with TableInfo<LogTbl, LogTblData> {
   String get actualTableName => $name;
   static const String $name = 'log_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<LogTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<LogTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('time')) {
-      context.handle(_timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+      context.handle(
+          _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
     }
     if (data.containsKey('level')) {
-      context.handle(_levelMeta, level.isAcceptableOrUnknown(data['level']!, _levelMeta));
+      context.handle(
+          _levelMeta, level.isAcceptableOrUnknown(data['level']!, _levelMeta));
     } else if (isInserting) {
       context.missing(_levelMeta);
     }
     if (data.containsKey('message')) {
-      context.handle(_messageMeta, message.isAcceptableOrUnknown(data['message']!, _messageMeta));
+      context.handle(_messageMeta,
+          message.isAcceptableOrUnknown(data['message']!, _messageMeta));
     } else if (isInserting) {
       context.missing(_messageMeta);
     }
     if (data.containsKey('stack')) {
-      context.handle(_stackMeta, stack.isAcceptableOrUnknown(data['stack']!, _stackMeta));
+      context.handle(
+          _stackMeta, stack.isAcceptableOrUnknown(data['stack']!, _stackMeta));
     }
     return context;
   }
@@ -2581,11 +2969,16 @@ class LogTbl extends Table with TableInfo<LogTbl, LogTblData> {
   LogTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return LogTblData(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      time: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}time'])!,
-      level: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}level'])!,
-      message: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}message'])!,
-      stack: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}stack']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      time: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}time'])!,
+      level: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}level'])!,
+      message: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}message'])!,
+      stack: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}stack']),
     );
   }
 
@@ -2615,7 +3008,12 @@ class LogTblData extends DataClass implements Insertable<LogTblData> {
 
   /// StackTrace a stack trace associated with this log event
   final String? stack;
-  const LogTblData({required this.id, required this.time, required this.level, required this.message, this.stack});
+  const LogTblData(
+      {required this.id,
+      required this.time,
+      required this.level,
+      required this.message,
+      this.stack});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2635,11 +3033,13 @@ class LogTblData extends DataClass implements Insertable<LogTblData> {
       time: Value(time),
       level: Value(level),
       message: Value(message),
-      stack: stack == null && nullToAbsent ? const Value.absent() : Value(stack),
+      stack:
+          stack == null && nullToAbsent ? const Value.absent() : Value(stack),
     );
   }
 
-  factory LogTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory LogTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return LogTblData(
       id: serializer.fromJson<int>(json['id']),
@@ -2661,7 +3061,12 @@ class LogTblData extends DataClass implements Insertable<LogTblData> {
     };
   }
 
-  LogTblData copyWith({int? id, int? time, int? level, String? message, Value<String?> stack = const Value.absent()}) =>
+  LogTblData copyWith(
+          {int? id,
+          int? time,
+          int? level,
+          String? message,
+          Value<String?> stack = const Value.absent()}) =>
       LogTblData(
         id: id ?? this.id,
         time: time ?? this.time,
@@ -2732,7 +3137,11 @@ class LogTblCompanion extends UpdateCompanion<LogTblData> {
   }
 
   LogTblCompanion copyWith(
-      {Value<int>? id, Value<int>? time, Value<int>? level, Value<String>? message, Value<String?>? stack}) {
+      {Value<int>? id,
+      Value<int>? time,
+      Value<int>? level,
+      Value<String>? message,
+      Value<String?>? stack}) {
     return LogTblCompanion(
       id: id ?? this.id,
       time: time ?? this.time,
@@ -2776,23 +3185,36 @@ class LogTblCompanion extends UpdateCompanion<LogTblData> {
   }
 }
 
-class LogPrefixTbl extends Table with TableInfo<LogPrefixTbl, LogPrefixTblData> {
+class LogPrefixTbl extends Table
+    with TableInfo<LogPrefixTbl, LogPrefixTblData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   LogPrefixTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _prefixMeta = VerificationMeta('prefix');
-  late final GeneratedColumn<String> prefix = GeneratedColumn<String>('prefix', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL');
-  static const VerificationMeta _logIdMeta = VerificationMeta('logId');
-  late final GeneratedColumn<int> logId = GeneratedColumn<int>('log_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL');
-  static const VerificationMeta _wordMeta = VerificationMeta('word');
-  late final GeneratedColumn<String> word = GeneratedColumn<String>('word', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL');
-  static const VerificationMeta _lenMeta = VerificationMeta('len');
-  late final GeneratedColumn<int> len = GeneratedColumn<int>('len', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL');
+  static const VerificationMeta _prefixMeta = const VerificationMeta('prefix');
+  late final GeneratedColumn<String> prefix = GeneratedColumn<String>(
+      'prefix', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _logIdMeta = const VerificationMeta('logId');
+  late final GeneratedColumn<int> logId = GeneratedColumn<int>(
+      'log_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _wordMeta = const VerificationMeta('word');
+  late final GeneratedColumn<String> word = GeneratedColumn<String>(
+      'word', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _lenMeta = const VerificationMeta('len');
+  late final GeneratedColumn<int> len = GeneratedColumn<int>(
+      'len', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
   List<GeneratedColumn> get $columns => [prefix, logId, word, len];
   @override
@@ -2801,26 +3223,31 @@ class LogPrefixTbl extends Table with TableInfo<LogPrefixTbl, LogPrefixTblData> 
   String get actualTableName => $name;
   static const String $name = 'log_prefix_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<LogPrefixTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<LogPrefixTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('prefix')) {
-      context.handle(_prefixMeta, prefix.isAcceptableOrUnknown(data['prefix']!, _prefixMeta));
+      context.handle(_prefixMeta,
+          prefix.isAcceptableOrUnknown(data['prefix']!, _prefixMeta));
     } else if (isInserting) {
       context.missing(_prefixMeta);
     }
     if (data.containsKey('log_id')) {
-      context.handle(_logIdMeta, logId.isAcceptableOrUnknown(data['log_id']!, _logIdMeta));
+      context.handle(
+          _logIdMeta, logId.isAcceptableOrUnknown(data['log_id']!, _logIdMeta));
     } else if (isInserting) {
       context.missing(_logIdMeta);
     }
     if (data.containsKey('word')) {
-      context.handle(_wordMeta, word.isAcceptableOrUnknown(data['word']!, _wordMeta));
+      context.handle(
+          _wordMeta, word.isAcceptableOrUnknown(data['word']!, _wordMeta));
     } else if (isInserting) {
       context.missing(_wordMeta);
     }
     if (data.containsKey('len')) {
-      context.handle(_lenMeta, len.isAcceptableOrUnknown(data['len']!, _lenMeta));
+      context.handle(
+          _lenMeta, len.isAcceptableOrUnknown(data['len']!, _lenMeta));
     } else if (isInserting) {
       context.missing(_lenMeta);
     }
@@ -2833,10 +3260,14 @@ class LogPrefixTbl extends Table with TableInfo<LogPrefixTbl, LogPrefixTblData> 
   LogPrefixTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return LogPrefixTblData(
-      prefix: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}prefix'])!,
-      logId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}log_id'])!,
-      word: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}word'])!,
-      len: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}len'])!,
+      prefix: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}prefix'])!,
+      logId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}log_id'])!,
+      word: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}word'])!,
+      len: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}len'])!,
     );
   }
 
@@ -2856,7 +3287,8 @@ class LogPrefixTbl extends Table with TableInfo<LogPrefixTbl, LogPrefixTblData> 
   bool get dontWriteConstraints => true;
 }
 
-class LogPrefixTblData extends DataClass implements Insertable<LogPrefixTblData> {
+class LogPrefixTblData extends DataClass
+    implements Insertable<LogPrefixTblData> {
   /// req Prefix (first 3 chars of word, lowercased)
   final String prefix;
 
@@ -2869,7 +3301,11 @@ class LogPrefixTblData extends DataClass implements Insertable<LogPrefixTblData>
 
   /// req Word's length
   final int len;
-  const LogPrefixTblData({required this.prefix, required this.logId, required this.word, required this.len});
+  const LogPrefixTblData(
+      {required this.prefix,
+      required this.logId,
+      required this.word,
+      required this.len});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2889,7 +3325,8 @@ class LogPrefixTblData extends DataClass implements Insertable<LogPrefixTblData>
     );
   }
 
-  factory LogPrefixTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory LogPrefixTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return LogPrefixTblData(
       prefix: serializer.fromJson<String>(json['prefix']),
@@ -2909,7 +3346,9 @@ class LogPrefixTblData extends DataClass implements Insertable<LogPrefixTblData>
     };
   }
 
-  LogPrefixTblData copyWith({String? prefix, int? logId, String? word, int? len}) => LogPrefixTblData(
+  LogPrefixTblData copyWith(
+          {String? prefix, int? logId, String? word, int? len}) =>
+      LogPrefixTblData(
         prefix: prefix ?? this.prefix,
         logId: logId ?? this.logId,
         word: word ?? this.word,
@@ -2978,7 +3417,11 @@ class LogPrefixTblCompanion extends UpdateCompanion<LogPrefixTblData> {
   }
 
   LogPrefixTblCompanion copyWith(
-      {Value<String>? prefix, Value<int>? logId, Value<String>? word, Value<int>? len, Value<int>? rowid}) {
+      {Value<String>? prefix,
+      Value<int>? logId,
+      Value<String>? word,
+      Value<int>? len,
+      Value<int>? rowid}) {
     return LogPrefixTblCompanion(
       prefix: prefix ?? this.prefix,
       logId: logId ?? this.logId,
@@ -3022,49 +3465,66 @@ class LogPrefixTblCompanion extends UpdateCompanion<LogPrefixTblData> {
   }
 }
 
-class CharacteristicTbl extends Table with TableInfo<CharacteristicTbl, CharacteristicTblData> {
+class CharacteristicTbl extends Table
+    with TableInfo<CharacteristicTbl, CharacteristicTblData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   CharacteristicTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _typeMeta = VerificationMeta('type');
-  late final GeneratedColumn<String> type = GeneratedColumn<String>('type', aliasedName, false,
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL CHECK (length(type) > 0 AND length(type) <= 255)');
-  static const VerificationMeta _idMeta = VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL');
-  static const VerificationMeta _dataMeta = VerificationMeta('data');
-  late final GeneratedColumn<String> data = GeneratedColumn<String>('data', aliasedName, false,
+      $customConstraints:
+          'NOT NULL CHECK (length(type) > 0 AND length(type) <= 255)');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _dataMeta = const VerificationMeta('data');
+  late final GeneratedColumn<String> data = GeneratedColumn<String>(
+      'data', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL CHECK (length(data) > 2 AND json_valid(data))');
-  static const VerificationMeta _metaCreatedAtMeta = VerificationMeta('metaCreatedAt');
-  late final GeneratedColumn<int> metaCreatedAt = GeneratedColumn<int>('meta_created_at', aliasedName, false,
+      $customConstraints:
+          'NOT NULL CHECK (length(data) > 2 AND json_valid(data))');
+  static const VerificationMeta _metaCreatedAtMeta =
+      const VerificationMeta('metaCreatedAt');
+  late final GeneratedColumn<int> metaCreatedAt = GeneratedColumn<int>(
+      'meta_created_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _metaUpdatedAtMeta = VerificationMeta('metaUpdatedAt');
-  late final GeneratedColumn<int> metaUpdatedAt = GeneratedColumn<int>('meta_updated_at', aliasedName, false,
+  static const VerificationMeta _metaUpdatedAtMeta =
+      const VerificationMeta('metaUpdatedAt');
+  late final GeneratedColumn<int> metaUpdatedAt = GeneratedColumn<int>(
+      'meta_updated_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
+      $customConstraints:
+          'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
   @override
-  List<GeneratedColumn> get $columns => [type, id, data, metaCreatedAt, metaUpdatedAt];
+  List<GeneratedColumn> get $columns =>
+      [type, id, data, metaCreatedAt, metaUpdatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'characteristic_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<CharacteristicTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+      Insertable<CharacteristicTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('type')) {
-      context.handle(_typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
@@ -3074,17 +3534,22 @@ class CharacteristicTbl extends Table with TableInfo<CharacteristicTbl, Characte
       context.missing(_idMeta);
     }
     if (data.containsKey('data')) {
-      context.handle(_dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
+      context.handle(
+          _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
     } else if (isInserting) {
       context.missing(_dataMeta);
     }
     if (data.containsKey('meta_created_at')) {
       context.handle(
-          _metaCreatedAtMeta, metaCreatedAt.isAcceptableOrUnknown(data['meta_created_at']!, _metaCreatedAtMeta));
+          _metaCreatedAtMeta,
+          metaCreatedAt.isAcceptableOrUnknown(
+              data['meta_created_at']!, _metaCreatedAtMeta));
     }
     if (data.containsKey('meta_updated_at')) {
       context.handle(
-          _metaUpdatedAtMeta, metaUpdatedAt.isAcceptableOrUnknown(data['meta_updated_at']!, _metaUpdatedAtMeta));
+          _metaUpdatedAtMeta,
+          metaUpdatedAt.isAcceptableOrUnknown(
+              data['meta_updated_at']!, _metaUpdatedAtMeta));
     }
     return context;
   }
@@ -3095,11 +3560,16 @@ class CharacteristicTbl extends Table with TableInfo<CharacteristicTbl, Characte
   CharacteristicTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CharacteristicTblData(
-      type: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      data: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}data'])!,
-      metaCreatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_created_at'])!,
-      metaUpdatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_updated_at'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      data: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}data'])!,
+      metaCreatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}meta_created_at'])!,
+      metaUpdatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}meta_updated_at'])!,
     );
   }
 
@@ -3116,7 +3586,8 @@ class CharacteristicTbl extends Table with TableInfo<CharacteristicTbl, Characte
   bool get dontWriteConstraints => true;
 }
 
-class CharacteristicTblData extends DataClass implements Insertable<CharacteristicTblData> {
+class CharacteristicTblData extends DataClass
+    implements Insertable<CharacteristicTblData> {
   /// req Type
   final String type;
 
@@ -3158,7 +3629,8 @@ class CharacteristicTblData extends DataClass implements Insertable<Characterist
     );
   }
 
-  factory CharacteristicTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory CharacteristicTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CharacteristicTblData(
       type: serializer.fromJson<String>(json['type']),
@@ -3180,7 +3652,12 @@ class CharacteristicTblData extends DataClass implements Insertable<Characterist
     };
   }
 
-  CharacteristicTblData copyWith({String? type, int? id, String? data, int? metaCreatedAt, int? metaUpdatedAt}) =>
+  CharacteristicTblData copyWith(
+          {String? type,
+          int? id,
+          String? data,
+          int? metaCreatedAt,
+          int? metaUpdatedAt}) =>
       CharacteristicTblData(
         type: type ?? this.type,
         id: id ?? this.id,
@@ -3213,7 +3690,8 @@ class CharacteristicTblData extends DataClass implements Insertable<Characterist
           other.metaUpdatedAt == this.metaUpdatedAt);
 }
 
-class CharacteristicTblCompanion extends UpdateCompanion<CharacteristicTblData> {
+class CharacteristicTblCompanion
+    extends UpdateCompanion<CharacteristicTblData> {
   final Value<String> type;
   final Value<int> id;
   final Value<String> data;
@@ -3316,42 +3794,66 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   KvTbl(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _kMeta = VerificationMeta('k');
-  late final GeneratedColumn<String> k = GeneratedColumn<String>('k', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL PRIMARY KEY');
-  static const VerificationMeta _vstringMeta = VerificationMeta('vstring');
-  late final GeneratedColumn<String> vstring = GeneratedColumn<String>('vstring', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _vintMeta = VerificationMeta('vint');
-  late final GeneratedColumn<int> vint = GeneratedColumn<int>('vint', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _vdoubleMeta = VerificationMeta('vdouble');
-  late final GeneratedColumn<double> vdouble = GeneratedColumn<double>('vdouble', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _vboolMeta = VerificationMeta('vbool');
-  late final GeneratedColumn<int> vbool = GeneratedColumn<int>('vbool', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false, $customConstraints: '');
-  static const VerificationMeta _metaCreatedAtMeta = VerificationMeta('metaCreatedAt');
-  late final GeneratedColumn<int> metaCreatedAt = GeneratedColumn<int>('meta_created_at', aliasedName, false,
+  static const VerificationMeta _kMeta = const VerificationMeta('k');
+  late final GeneratedColumn<String> k = GeneratedColumn<String>(
+      'k', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _vstringMeta =
+      const VerificationMeta('vstring');
+  late final GeneratedColumn<String> vstring = GeneratedColumn<String>(
+      'vstring', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _vintMeta = const VerificationMeta('vint');
+  late final GeneratedColumn<int> vint = GeneratedColumn<int>(
+      'vint', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _vdoubleMeta =
+      const VerificationMeta('vdouble');
+  late final GeneratedColumn<double> vdouble = GeneratedColumn<double>(
+      'vdouble', aliasedName, true,
+      type: DriftSqlType.double,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _vboolMeta = const VerificationMeta('vbool');
+  late final GeneratedColumn<int> vbool = GeneratedColumn<int>(
+      'vbool', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _metaCreatedAtMeta =
+      const VerificationMeta('metaCreatedAt');
+  late final GeneratedColumn<int> metaCreatedAt = GeneratedColumn<int>(
+      'meta_created_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\'))',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
-  static const VerificationMeta _metaUpdatedAtMeta = VerificationMeta('metaUpdatedAt');
-  late final GeneratedColumn<int> metaUpdatedAt = GeneratedColumn<int>('meta_updated_at', aliasedName, false,
+  static const VerificationMeta _metaUpdatedAtMeta =
+      const VerificationMeta('metaUpdatedAt');
+  late final GeneratedColumn<int> metaUpdatedAt = GeneratedColumn<int>(
+      'meta_updated_at', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
+      $customConstraints:
+          'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
   @override
-  List<GeneratedColumn> get $columns => [k, vstring, vint, vdouble, vbool, metaCreatedAt, metaUpdatedAt];
+  List<GeneratedColumn> get $columns =>
+      [k, vstring, vint, vdouble, vbool, metaCreatedAt, metaUpdatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'kv_tbl';
   @override
-  VerificationContext validateIntegrity(Insertable<KvTblData> instance, {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<KvTblData> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('k')) {
@@ -3360,24 +3862,32 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
       context.missing(_kMeta);
     }
     if (data.containsKey('vstring')) {
-      context.handle(_vstringMeta, vstring.isAcceptableOrUnknown(data['vstring']!, _vstringMeta));
+      context.handle(_vstringMeta,
+          vstring.isAcceptableOrUnknown(data['vstring']!, _vstringMeta));
     }
     if (data.containsKey('vint')) {
-      context.handle(_vintMeta, vint.isAcceptableOrUnknown(data['vint']!, _vintMeta));
+      context.handle(
+          _vintMeta, vint.isAcceptableOrUnknown(data['vint']!, _vintMeta));
     }
     if (data.containsKey('vdouble')) {
-      context.handle(_vdoubleMeta, vdouble.isAcceptableOrUnknown(data['vdouble']!, _vdoubleMeta));
+      context.handle(_vdoubleMeta,
+          vdouble.isAcceptableOrUnknown(data['vdouble']!, _vdoubleMeta));
     }
     if (data.containsKey('vbool')) {
-      context.handle(_vboolMeta, vbool.isAcceptableOrUnknown(data['vbool']!, _vboolMeta));
+      context.handle(
+          _vboolMeta, vbool.isAcceptableOrUnknown(data['vbool']!, _vboolMeta));
     }
     if (data.containsKey('meta_created_at')) {
       context.handle(
-          _metaCreatedAtMeta, metaCreatedAt.isAcceptableOrUnknown(data['meta_created_at']!, _metaCreatedAtMeta));
+          _metaCreatedAtMeta,
+          metaCreatedAt.isAcceptableOrUnknown(
+              data['meta_created_at']!, _metaCreatedAtMeta));
     }
     if (data.containsKey('meta_updated_at')) {
       context.handle(
-          _metaUpdatedAtMeta, metaUpdatedAt.isAcceptableOrUnknown(data['meta_updated_at']!, _metaUpdatedAtMeta));
+          _metaUpdatedAtMeta,
+          metaUpdatedAt.isAcceptableOrUnknown(
+              data['meta_updated_at']!, _metaUpdatedAtMeta));
     }
     return context;
   }
@@ -3388,13 +3898,20 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
   KvTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return KvTblData(
-      k: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}k'])!,
-      vstring: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}vstring']),
-      vint: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}vint']),
-      vdouble: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}vdouble']),
-      vbool: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}vbool']),
-      metaCreatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_created_at'])!,
-      metaUpdatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_updated_at'])!,
+      k: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}k'])!,
+      vstring: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}vstring']),
+      vint: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}vint']),
+      vdouble: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}vdouble']),
+      vbool: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}vbool']),
+      metaCreatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}meta_created_at'])!,
+      metaUpdatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}meta_updated_at'])!,
     );
   }
 
@@ -3464,16 +3981,22 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
   KvTblCompanion toCompanion(bool nullToAbsent) {
     return KvTblCompanion(
       k: Value(k),
-      vstring: vstring == null && nullToAbsent ? const Value.absent() : Value(vstring),
+      vstring: vstring == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vstring),
       vint: vint == null && nullToAbsent ? const Value.absent() : Value(vint),
-      vdouble: vdouble == null && nullToAbsent ? const Value.absent() : Value(vdouble),
-      vbool: vbool == null && nullToAbsent ? const Value.absent() : Value(vbool),
+      vdouble: vdouble == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vdouble),
+      vbool:
+          vbool == null && nullToAbsent ? const Value.absent() : Value(vbool),
       metaCreatedAt: Value(metaCreatedAt),
       metaUpdatedAt: Value(metaUpdatedAt),
     );
   }
 
-  factory KvTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory KvTblData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return KvTblData(
       k: serializer.fromJson<String>(json['k']),
@@ -3531,7 +4054,8 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
   }
 
   @override
-  int get hashCode => Object.hash(k, vstring, vint, vdouble, vbool, metaCreatedAt, metaUpdatedAt);
+  int get hashCode => Object.hash(
+      k, vstring, vint, vdouble, vbool, metaCreatedAt, metaUpdatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3666,77 +4190,89 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
   late final InvoiceTbl invoiceTbl = InvoiceTbl(this);
-  late final Index invoiceCreatedAtIdx =
-      Index('invoice_created_at_idx', 'CREATE INDEX IF NOT EXISTS invoice_created_at_idx ON invoice_tbl (created_at)');
-  late final Index invoiceUpdatedAtIdx =
-      Index('invoice_updated_at_idx', 'CREATE INDEX IF NOT EXISTS invoice_updated_at_idx ON invoice_tbl (updated_at)');
-  late final Index invoiceIssuedAtIdx =
-      Index('invoice_issued_at_idx', 'CREATE INDEX IF NOT EXISTS invoice_issued_at_idx ON invoice_tbl (issued_at)');
-  late final Index invoiceDueAtIdx =
-      Index('invoice_due_at_idx', 'CREATE INDEX IF NOT EXISTS invoice_due_at_idx ON invoice_tbl (due_at)');
-  late final Index invoicePaidAtIdx =
-      Index('invoice_paid_at_idx', 'CREATE INDEX IF NOT EXISTS invoice_paid_at_idx ON invoice_tbl (paid_at)');
-  late final Index invoiceOrganizationIdIdx = Index('invoice_organization_id_idx',
+  late final Index invoiceCreatedAtIdx = Index('invoice_created_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_created_at_idx ON invoice_tbl (created_at)');
+  late final Index invoiceUpdatedAtIdx = Index('invoice_updated_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_updated_at_idx ON invoice_tbl (updated_at)');
+  late final Index invoiceIssuedAtIdx = Index('invoice_issued_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_issued_at_idx ON invoice_tbl (issued_at)');
+  late final Index invoiceDueAtIdx = Index('invoice_due_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_due_at_idx ON invoice_tbl (due_at)');
+  late final Index invoicePaidAtIdx = Index('invoice_paid_at_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_paid_at_idx ON invoice_tbl (paid_at)');
+  late final Index invoiceOrganizationIdIdx = Index(
+      'invoice_organization_id_idx',
       'CREATE INDEX IF NOT EXISTS invoice_organization_id_idx ON invoice_tbl (organization_id)');
-  late final Index invoiceCounterpartyIdIdx = Index('invoice_counterparty_id_idx',
+  late final Index invoiceCounterpartyIdIdx = Index(
+      'invoice_counterparty_id_idx',
       'CREATE INDEX IF NOT EXISTS invoice_counterparty_id_idx ON invoice_tbl (counterparty_id)');
-  late final Index invoiceStatusIdx =
-      Index('invoice_status_idx', 'CREATE INDEX IF NOT EXISTS invoice_status_idx ON invoice_tbl (status)');
+  late final Index invoiceStatusIdx = Index('invoice_status_idx',
+      'CREATE INDEX IF NOT EXISTS invoice_status_idx ON invoice_tbl (status)');
   late final Trigger invoiceUpdatedAtTrig = Trigger(
       'CREATE TRIGGER IF NOT EXISTS invoice_updated_at_trig AFTER UPDATE ON invoice_tbl BEGIN UPDATE invoice_tbl SET updated_at = strftime(\'%s\', \'now\') WHERE id = NEW.id;END',
       'invoice_updated_at_trig');
   late final ServiceTbl serviceTbl = ServiceTbl(this);
-  late final Index serviceInvoiceIdIdx =
-      Index('service_invoice_id_idx', 'CREATE INDEX IF NOT EXISTS service_invoice_id_idx ON service_tbl (invoice_id)');
+  late final Index serviceInvoiceIdIdx = Index('service_invoice_id_idx',
+      'CREATE INDEX IF NOT EXISTS service_invoice_id_idx ON service_tbl (invoice_id)');
   late final OrganizationTbl organizationTbl = OrganizationTbl(this);
-  late final Index organizationCreatedAtIdx = Index('organization_created_at_idx',
+  late final Index organizationCreatedAtIdx = Index(
+      'organization_created_at_idx',
       'CREATE INDEX IF NOT EXISTS organization_created_at_idx ON organization_tbl (created_at)');
-  late final Index organizationUpdatedAtIdx = Index('organization_updated_at_idx',
+  late final Index organizationUpdatedAtIdx = Index(
+      'organization_updated_at_idx',
       'CREATE INDEX IF NOT EXISTS organization_updated_at_idx ON organization_tbl (updated_at)');
   late final Trigger organizationUpdatedAtTrig = Trigger(
       'CREATE TRIGGER IF NOT EXISTS organization_updated_at_trig AFTER UPDATE ON organization_tbl BEGIN UPDATE organization_tbl SET updated_at = strftime(\'%s\', \'now\') WHERE id = NEW.id;END',
       'organization_updated_at_trig');
   late final ContactTbl contactTbl = ContactTbl(this);
-  late final Index contactOrganizationIdIdx = Index('contact_organization_id_idx',
+  late final Index contactOrganizationIdIdx = Index(
+      'contact_organization_id_idx',
       'CREATE INDEX IF NOT EXISTS contact_organization_id_idx ON contact_tbl (organization_id)');
   late final AccountTbl accountTbl = AccountTbl(this);
-  late final Index accountOrganizationIdIdx = Index('account_organization_id_idx',
+  late final Index accountOrganizationIdIdx = Index(
+      'account_organization_id_idx',
       'CREATE INDEX IF NOT EXISTS account_organization_id_idx ON account_tbl (organization_id)');
   late final IntermediaryTbl intermediaryTbl = IntermediaryTbl(this);
-  late final Index intermediaryAccountIdIdx = Index('intermediary_account_id_idx',
+  late final Index intermediaryAccountIdIdx = Index(
+      'intermediary_account_id_idx',
       'CREATE INDEX IF NOT EXISTS intermediary_account_id_idx ON intermediary_tbl (account_id)');
   late final SettingsTbl settingsTbl = SettingsTbl(this);
   late final Trigger settingsMetaUpdatedAtTrig = Trigger(
       'CREATE TRIGGER IF NOT EXISTS settings_meta_updated_at_trig AFTER UPDATE ON settings_tbl BEGIN UPDATE settings_tbl SET meta_updated_at = strftime(\'%s\', \'now\') WHERE user_id = NEW.user_id;END',
       'settings_meta_updated_at_trig');
   late final LogTbl logTbl = LogTbl(this);
-  late final Index logTimeIdx = Index('log_time_idx', 'CREATE INDEX IF NOT EXISTS log_time_idx ON log_tbl (time)');
-  late final Index logLevelIdx = Index('log_level_idx', 'CREATE INDEX IF NOT EXISTS log_level_idx ON log_tbl (level)');
+  late final Index logTimeIdx = Index('log_time_idx',
+      'CREATE INDEX IF NOT EXISTS log_time_idx ON log_tbl (time)');
+  late final Index logLevelIdx = Index('log_level_idx',
+      'CREATE INDEX IF NOT EXISTS log_level_idx ON log_tbl (level)');
   late final LogPrefixTbl logPrefixTbl = LogPrefixTbl(this);
-  late final Index logPrefixPrefixIdx =
-      Index('log_prefix_prefix_idx', 'CREATE INDEX IF NOT EXISTS log_prefix_prefix_idx ON log_prefix_tbl (prefix)');
-  late final Index logPrefixLogIdIdx =
-      Index('log_prefix_log_id_idx', 'CREATE INDEX IF NOT EXISTS log_prefix_log_id_idx ON log_prefix_tbl (log_id)');
-  late final Index logPrefixLenIdx =
-      Index('log_prefix_len_idx', 'CREATE INDEX IF NOT EXISTS log_prefix_len_idx ON log_prefix_tbl (len)');
+  late final Index logPrefixPrefixIdx = Index('log_prefix_prefix_idx',
+      'CREATE INDEX IF NOT EXISTS log_prefix_prefix_idx ON log_prefix_tbl (prefix)');
+  late final Index logPrefixLogIdIdx = Index('log_prefix_log_id_idx',
+      'CREATE INDEX IF NOT EXISTS log_prefix_log_id_idx ON log_prefix_tbl (log_id)');
+  late final Index logPrefixLenIdx = Index('log_prefix_len_idx',
+      'CREATE INDEX IF NOT EXISTS log_prefix_len_idx ON log_prefix_tbl (len)');
   late final CharacteristicTbl characteristicTbl = CharacteristicTbl(this);
-  late final Index characteristicMetaCreatedAtIdx = Index('characteristic_meta_created_at_idx',
+  late final Index characteristicMetaCreatedAtIdx = Index(
+      'characteristic_meta_created_at_idx',
       'CREATE INDEX IF NOT EXISTS characteristic_meta_created_at_idx ON characteristic_tbl (meta_created_at)');
-  late final Index characteristicMetaUpdatedAtIdx = Index('characteristic_meta_updated_at_idx',
+  late final Index characteristicMetaUpdatedAtIdx = Index(
+      'characteristic_meta_updated_at_idx',
       'CREATE INDEX IF NOT EXISTS characteristic_meta_updated_at_idx ON characteristic_tbl (meta_updated_at)');
   late final Trigger characteristicMetaUpdatedAtTrig = Trigger(
       'CREATE TRIGGER IF NOT EXISTS characteristic_meta_updated_at_trig AFTER UPDATE ON characteristic_tbl BEGIN UPDATE characteristic_tbl SET meta_updated_at = strftime(\'%s\', \'now\') WHERE type = NEW.type AND id = NEW.id;END',
       'characteristic_meta_updated_at_trig');
   late final KvTbl kvTbl = KvTbl(this);
-  late final Index kvMetaCreatedAtIdx =
-      Index('kv_meta_created_at_idx', 'CREATE INDEX IF NOT EXISTS kv_meta_created_at_idx ON kv_tbl (meta_created_at)');
-  late final Index kvMetaUpdatedAtIdx =
-      Index('kv_meta_updated_at_idx', 'CREATE INDEX IF NOT EXISTS kv_meta_updated_at_idx ON kv_tbl (meta_updated_at)');
+  late final Index kvMetaCreatedAtIdx = Index('kv_meta_created_at_idx',
+      'CREATE INDEX IF NOT EXISTS kv_meta_created_at_idx ON kv_tbl (meta_created_at)');
+  late final Index kvMetaUpdatedAtIdx = Index('kv_meta_updated_at_idx',
+      'CREATE INDEX IF NOT EXISTS kv_meta_updated_at_idx ON kv_tbl (meta_updated_at)');
   late final Trigger kvMetaUpdatedAtTrig = Trigger(
       'CREATE TRIGGER IF NOT EXISTS kv_meta_updated_at_trig AFTER UPDATE ON kv_tbl BEGIN UPDATE kv_tbl SET meta_updated_at = strftime(\'%s\', \'now\') WHERE k = NEW.k;END',
       'kv_meta_updated_at_trig');
   @override
-  Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  Iterable<TableInfo<Table, Object?>> get allTables =>
+      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
         invoiceTbl,
@@ -3783,91 +4319,106 @@ abstract class _$Database extends GeneratedDatabase {
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
           WritePropagation(
-            on: TableUpdateQuery.onTableName('invoice_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('invoice_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('invoice_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('invoice_tbl', limitUpdateKind: UpdateKind.delete),
+            on: TableUpdateQuery.onTableName('invoice_tbl',
+                limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('service_tbl', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('invoice_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('invoice_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('service_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('organization_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('organization_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('organization_tbl', limitUpdateKind: UpdateKind.delete),
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('contact_tbl', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('organization_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('contact_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('organization_tbl', limitUpdateKind: UpdateKind.delete),
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('account_tbl', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('organization_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('organization_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('account_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('account_tbl', limitUpdateKind: UpdateKind.delete),
+            on: TableUpdateQuery.onTableName('account_tbl',
+                limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('intermediary_tbl', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('account_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('account_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('intermediary_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('settings_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('settings_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('settings_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('log_tbl', limitUpdateKind: UpdateKind.delete),
+            on: TableUpdateQuery.onTableName('log_tbl',
+                limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('log_prefix_tbl', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('log_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('log_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('log_prefix_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('characteristic_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('characteristic_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('characteristic_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
-            on: TableUpdateQuery.onTableName('kv_tbl', limitUpdateKind: UpdateKind.update),
+            on: TableUpdateQuery.onTableName('kv_tbl',
+                limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('kv_tbl', kind: UpdateKind.update),
             ],

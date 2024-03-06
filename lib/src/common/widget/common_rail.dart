@@ -25,6 +25,10 @@ class CommonRail extends StatelessWidget {
         label: Text('Favorite'),
       ), */
     (
+      name: Routes.organizations.name,
+      destination: const NavigationRailDestination(icon: Icon(Icons.business), label: Text('Organizations')),
+    ),
+    (
       name: Routes.settings.name,
       destination: const NavigationRailDestination(icon: Icon(Icons.settings), label: Text('Settings')),
     ),

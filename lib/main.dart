@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' as io;
 
 import 'package:flutter/widgets.dart';
 import 'package:invoice/src/common/util/app_zone.dart';
@@ -8,6 +9,7 @@ import 'package:invoice/src/common/widget/app_error.dart';
 import 'package:invoice/src/feature/initialization/data/initialization.dart';
 import 'package:invoice/src/feature/initialization/widget/inherited_dependencies.dart';
 import 'package:invoice/src/feature/settings/widget/settings_scope.dart';
+import 'package:octopus/octopus.dart';
 
 void main() => appZone(
       () async {
@@ -19,8 +21,11 @@ void main() => appZone(
           onSuccess: (dependencies) => runApp(
             InheritedDependencies(
               dependencies: dependencies,
-              child: const SettingsScope(
-                child: App(),
+              child: SettingsScope(
+                child: NoAnimationScope(
+                  noAnimation: io.Platform.isWindows || io.Platform.isMacOS || io.Platform.isLinux,
+                  child: const App(),
+                ),
               ),
             ),
           ),

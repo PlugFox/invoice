@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS organization_tbl (
     address TEXT,
 
     -- Tax identification number of the organization
-    inn TEXT, -- NOT NULL PRIMARY CHECK (length(inn) > 0),
+    tax TEXT, -- NOT NULL PRIMARY CHECK (length(tax) > 0),
 
     -- Description of the organization
     description TEXT

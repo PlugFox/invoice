@@ -74,7 +74,7 @@ Organization _decodeOrganization(OrganizationTblData org) {
     address: org.address,
     createdAt: decodeDateTime(org.createdAt),
     updatedAt: decodeDateTime(org.updatedAt),
-    inn: org.inn,
+    tax: org.tax,
     description: org.description,
     type: OrganizationType.values[org.type],
   );
@@ -88,6 +88,6 @@ OrganizationTblCompanion _encodeOrganization(Organization inv) => OrganizationTb
       description: Value(inv.description),
       name: Value(inv.name),
       address: Value(inv.address),
-      inn: Value(inv.inn),
+      tax: Value(inv.tax),
       type: Value(inv.type.index),
     );

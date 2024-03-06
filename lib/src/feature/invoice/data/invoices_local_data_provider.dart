@@ -125,7 +125,7 @@ Invoice _decodeInvoice({
             address: it.address,
             createdAt: decodeDateTime(it.createdAt),
             updatedAt: decodeDateTime(it.updatedAt),
-            inn: it.inn,
+            tax: it.tax,
             description: it.description,
             type: OrganizationType.values[it.type],
           ),

@@ -11,7 +11,7 @@ class Organization implements Comparable<Organization> {
     required this.type,
     required this.name,
     required this.address,
-    required this.inn,
+    required this.tax,
     required this.description,
   });
 
@@ -27,7 +27,7 @@ class Organization implements Comparable<Organization> {
 
   final String? address;
 
-  final String? inn;
+  final String? tax;
 
   final String? description;
 
