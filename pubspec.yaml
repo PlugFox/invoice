@@ -53,7 +53,7 @@ dependencies:
   octopus: ^0.0.0
 
   # Utility
-  meta: any
+  meta: 1.11.0
   collection: any
   async: any
   path: any
