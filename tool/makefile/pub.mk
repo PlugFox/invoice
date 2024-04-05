@@ -35,6 +35,7 @@ build_runner:
 # Generate code
 codegen: get fluttergen l10n build_runner format
 
+# Format and fix code
 fix: format
 	@dart fix --apply lib
 
