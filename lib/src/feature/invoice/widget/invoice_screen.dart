@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/widget/adaptive_date_picker.dart';
+import 'package:invoice/src/common/widget/app_text_field.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/organization_picker.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
@@ -240,7 +241,7 @@ class _InvoiceFormColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) {
-          final paddingH = math.max<double>(16, (constraints.maxWidth - Config.maxScreenLayoutWidth) / 2);
+          final paddingH = math.max<double>(8, (constraints.maxWidth - Config.maxScreenLayoutWidth) / 2);
           final form = _InheritedInvoiceForm.of(context, listen: true).form;
           final changed = form.changed;
           return Column(
@@ -385,17 +386,19 @@ class _InvoiceFormColumn extends StatelessWidget {
                         children: <Widget>[
                           _InvoiceFormSection(
                             children: <Widget>[
-                              TextField(
+                              AppTextField(
                                 controller: form.number,
-                                decoration: InputDecoration(
-                                  labelText: 'Number',
-                                  prefixIcon: const Icon(Icons.numbers),
-                                  suffixIcon: IconButton(
-                                    // Generate new number
-                                    icon: const Icon(Icons.restore),
-                                    onPressed: form.generateNumber,
-                                  ),
+                                label: 'Number',
+                                prefixIcon: const Icon(Icons.numbers),
+                                suffixIcon: IconButton(
+                                  // Generate new number
+                                  icon: const Icon(Icons.restore),
+                                  onPressed: form.generateNumber,
                                 ),
+                                multiline: false,
+                                autocorrect: false,
+                                keyboardType: TextInputType.text,
+                                minLines: 1,
                               ),
                               AdaptiveDatePicker(
                                 labelText: 'Issued at',
@@ -457,14 +460,21 @@ class _InvoiceFormColumn extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16),
-                      child: TextField(
+                      child: AppTextField(
                         controller: form.description,
                         expands: true,
                         minLines: null,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          labelText: 'Description',
-                        ),
+                        multiline: true,
+                        label: 'Description',
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        hint: '________________________\n'
+                            '_________________________\n'
+                            '___________\n'
+                            '_________________________\n'
+                            '______________\n'
+                            '_________________',
+                        autocorrect: true,
+                        keyboardType: TextInputType.multiline,
                       ),
                     ),
                   ],

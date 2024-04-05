@@ -32,9 +32,12 @@ class AdaptiveDatePicker extends StatelessWidget {
           prefixIcon: const Icon(Icons.calendar_today),
           suffixIcon: isRequired
               ? null
-              : IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () => controller.value = null,
+              : ValueListenableBuilder<DateTime?>(
+                  valueListenable: controller,
+                  builder: (context, value, child) => IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: value == null ? null : () => controller.value = null,
+                  ),
                 ),
         ),
         child: ValueListenableBuilder<DateTime?>(

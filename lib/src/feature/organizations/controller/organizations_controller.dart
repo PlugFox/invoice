@@ -61,47 +61,61 @@ final class OrganizationsController extends StateController<OrganizationsState> 
   /// Create new organization
   FutureOr<void> createOrganization({
     required String name,
+    OrganizationType? type,
+    String? address,
+    String? tax,
+    String? description,
     void Function(Organization organization)? onSuccess,
-  }) =>
-      handle(() async {
-        setState(OrganizationsState.processing(data: state.data));
-        final organization = await _repository.createOrganization(name);
-        setState(OrganizationsState.successful(data: [organization, ...state.data]..sort()));
-        onSuccess?.call(organization);
-      }, error: (error, stackTrace) {
-        setState(OrganizationsState.error(
-          data: state.data,
-          message: kDebugMode ? error.toString() : 'An error has occurred',
-        ));
-      }, done: () {
-        setState(OrganizationsState.idle(data: state.data));
-      });
+  }) {
+    if (name.isEmpty) return null;
+    return handle(() async {
+      setState(OrganizationsState.processing(data: state.data));
+      final organization = await _repository.createOrganization(
+        name: name,
+        type: type,
+        address: address,
+        tax: tax,
+        description: description,
+      );
+      setState(OrganizationsState.successful(data: [organization, ...state.data]..sort()));
+      onSuccess?.call(organization);
+    }, error: (error, stackTrace) {
+      setState(OrganizationsState.error(
+        data: state.data,
+        message: kDebugMode ? error.toString() : 'An error has occurred',
+      ));
+    }, done: () {
+      setState(OrganizationsState.idle(data: state.data));
+    });
+  }
 
   /// Update organization
   FutureOr<void> updateOrganization({
     required Organization organization,
     void Function(Organization organization)? onSuccess,
-  }) =>
-      handle(() async {
-        setState(OrganizationsState.processing(data: state.data));
-        final updatedOrganization = await _repository.updateOrganization(organization);
-        final newData = state.data.toList();
-        final index = newData.indexWhere((element) => element.id == updatedOrganization.id);
-        if (index == -1) {
-          newData.insert(0, updatedOrganization);
-        } else {
-          newData[index] = updatedOrganization;
-        }
-        setState(OrganizationsState.successful(data: newData..sort()));
-        onSuccess?.call(updatedOrganization);
-      }, error: (error, stackTrace) {
-        setState(OrganizationsState.error(
-          data: state.data,
-          message: kDebugMode ? error.toString() : 'An error has occurred',
-        ));
-      }, done: () {
-        setState(OrganizationsState.idle(data: state.data));
-      });
+  }) {
+    if (organization.name.isEmpty) return null;
+    return handle(() async {
+      setState(OrganizationsState.processing(data: state.data));
+      final updatedOrganization = await _repository.updateOrganization(organization);
+      final newData = state.data.toList();
+      final index = newData.indexWhere((element) => element.id == updatedOrganization.id);
+      if (index == -1) {
+        newData.insert(0, updatedOrganization);
+      } else {
+        newData[index] = updatedOrganization;
+      }
+      setState(OrganizationsState.successful(data: newData..sort()));
+      onSuccess?.call(updatedOrganization);
+    }, error: (error, stackTrace) {
+      setState(OrganizationsState.error(
+        data: state.data,
+        message: kDebugMode ? error.toString() : 'An error has occurred',
+      ));
+    }, done: () {
+      setState(OrganizationsState.idle(data: state.data));
+    });
+  }
 
   /// Delete organization
   FutureOr<void> deleteOrganization({

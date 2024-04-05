@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:invoice/src/common/util/date_util.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
 import 'package:invoice/src/feature/organizations/model/organization.dart';
-import 'package:invoice/src/feature/organizations/widget/organization_bottom_sheet.dart';
+import 'package:invoice/src/feature/organizations/widget/organization_dialog.dart';
 import 'package:invoice/src/feature/organizations/widget/organizations_scope.dart';
 
 /// {@template organizations_screen}
@@ -23,26 +24,6 @@ class OrganizationsScreen extends StatelessWidget {
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          onPressed: () => OrganizationBottomSheet.show(
-            context,
-            Organization(
-              id: -1,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-              name: 'New',
-              address: null,
-              description: null,
-              tax: null,
-              type: OrganizationType.organization,
-            ),
-            create: true,
-          ),
-          tooltip: 'Create new organization or counterparty',
-          child: const Icon(Icons.add),
-        ),
-      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverCommonHeader(
@@ -97,6 +78,23 @@ class OrganizationsScreen extends StatelessWidget {
               ),
             ),
           SliverPadding(
+            padding: ScaffoldPadding.of(context).copyWith(top: 16),
+            sliver: SliverToBoxAdapter(
+              child: SizedBox(
+                height: 48,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.business),
+                  label: const Text('Create new organization'),
+                  onPressed: () => OrganizationsScope.of(context).createOrganization(
+                    name: 'New organization',
+                    type: OrganizationType.organization,
+                    onSuccess: (organization) => OrganizationDialog.show(context, organization),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverPadding(
             padding: ScaffoldPadding.of(context).copyWith(
               top: 24,
             ),
@@ -138,6 +136,23 @@ class OrganizationsScreen extends StatelessWidget {
                 },
               ),
             ),
+          SliverPadding(
+            padding: ScaffoldPadding.of(context).copyWith(top: 16),
+            sliver: SliverToBoxAdapter(
+              child: SizedBox(
+                height: 48,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.person),
+                  label: const Text('Create new counterparty'),
+                  onPressed: () => OrganizationsScope.of(context).createOrganization(
+                    name: 'New client',
+                    type: OrganizationType.counterparty,
+                    onSuccess: (client) => OrganizationDialog.show(context, client),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -155,7 +170,13 @@ class _OrganizationTile extends StatelessWidget {
   /// Open organization
   static void openOrganization(BuildContext context, Organization organization) {
     if (!context.mounted) return;
-    OrganizationBottomSheet.show(context, organization);
+    OrganizationsScope.of(context).fetchOrganizationById(
+      organization.id,
+      onSuccess: (organization) {
+        if (!context.mounted) return;
+        OrganizationDialog.show(context, organization).ignore();
+      },
+    );
   }
 
   /// Clone organization
@@ -166,18 +187,10 @@ class _OrganizationTile extends StatelessWidget {
       id,
       onSuccess: (organization) => controller.createOrganization(
         name: '${organization.name} (copy)',
-        onSuccess: (organization) => controller.updateOrganization(
-          organization: Organization(
-            id: organization.id,
-            createdAt: organization.createdAt,
-            updatedAt: organization.updatedAt,
-            name: organization.name,
-            address: organization.address,
-            description: organization.description,
-            tax: organization.tax,
-            type: organization.type,
-          ),
-        ),
+        type: organization.type,
+        address: organization.address,
+        description: organization.description,
+        tax: organization.tax,
       ),
     );
   }
@@ -211,7 +224,7 @@ class _OrganizationTile extends StatelessWidget {
         actions: <Widget>[
           adaptiveAction(
             context: context,
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             child: Text(
               'Cancel',
               style: theme.textTheme.labelLarge,
@@ -221,7 +234,7 @@ class _OrganizationTile extends StatelessWidget {
             context: context,
             onPressed: () {
               controller.deleteOrganization(id: id);
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop();
             },
             child: Text(
               'Delete',
@@ -231,7 +244,7 @@ class _OrganizationTile extends StatelessWidget {
         ],
       ),
       context: context,
-    );
+    ).ignore();
   }
 
   @override
@@ -246,9 +259,9 @@ class _OrganizationTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox.square(
+                SizedBox.square(
                   dimension: 48,
-                  child: Icon(Icons.receipt),
+                  child: Icon(organization.type.isOrganization ? Icons.business : Icons.person),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -257,14 +270,30 @@ class _OrganizationTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        organization.id.toString(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            '[${organization.id.toString().padLeft(5, '0')}]',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.labelSmall?.copyWith(height: 1),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            organization.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1),
+                          ),
+                        ],
                       ),
                       Text(
-                        organization.createdAt.toString(),
+                        organization.address ??
+                            organization.description ??
+                            'Created at: ${DateUtil.format(organization.createdAt)}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1),

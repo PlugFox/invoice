@@ -3,12 +3,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/localization/localization.dart';
 import 'package:invoice/src/common/router/router_state_mixin.dart';
-import 'package:invoice/src/common/widget/common_rail.dart';
+import 'package:invoice/src/common/widget/overlay_menu.dart';
 import 'package:invoice/src/common/widget/window_scope.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
 import 'package:invoice/src/feature/organizations/widget/organizations_scope.dart';
 import 'package:invoice/src/feature/settings/widget/settings_scope.dart';
-import 'package:octopus/octopus.dart';
 
 /// {@template app}
 /// App widget.
@@ -26,7 +25,7 @@ class _AppState extends State<App> with RouterStateMixin {
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-        title: 'Application',
+        title: 'Invoice generator',
         debugShowCheckedModeBanner: !Config.environment.isProduction,
 
         // Router
@@ -49,14 +48,10 @@ class _AppState extends State<App> with RouterStateMixin {
         builder: (context, child) => WindowScope(
           key: builderKey,
           title: Localization.of(context).title,
-          child: OctopusTools(
-            enable: true,
-            octopus: router,
-            child: CommonRail(
-              child: OrganizationsScope(
-                child: InvoicesScope(
-                  child: child ?? const SizedBox.shrink(),
-                ),
+          child: OrganizationsScope(
+            child: InvoicesScope(
+              child: OverlayMenu(
+                child: child ?? const SizedBox.shrink(),
               ),
             ),
           ),

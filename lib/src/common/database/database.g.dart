@@ -895,9 +895,7 @@ class OrganizationTbl extends Table with TableInfo<OrganizationTbl, Organization
       defaultValue: const CustomExpression('0'));
   static const VerificationMeta _nameMeta = VerificationMeta('name');
   late final GeneratedColumn<String> name = GeneratedColumn<String>('name', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL UNIQUE CHECK (length(name) > 0)');
+      type: DriftSqlType.string, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (length(name) > 0)');
   static const VerificationMeta _addressMeta = VerificationMeta('address');
   late final GeneratedColumn<String> address = GeneratedColumn<String>('address', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false, $customConstraints: '');

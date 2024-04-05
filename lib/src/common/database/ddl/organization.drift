@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS organization_tbl (
     type INTEGER NOT NULL DEFAULT 0 CHECK (type = 0 OR type = 1),
 
     -- Name of the organization
-    name TEXT NOT NULL UNIQUE CHECK (length(name) > 0),
+    name TEXT NOT NULL /* UNIQUE */ CHECK (length(name) > 0),
 
     -- Address of the organization
     address TEXT,

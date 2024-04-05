@@ -38,7 +38,14 @@ class Organization implements Comparable<Organization> {
   int get hashCode => id.hashCode;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Organization && id == other.id;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Organization &&
+          id == other.id &&
+          name == other.name &&
+          address == other.address &&
+          tax == other.tax &&
+          description == other.description);
 
   @override
   String toString() => 'Organization{name: $name}';
@@ -51,6 +58,10 @@ enum OrganizationType {
   const OrganizationType(this.name);
 
   final String name;
+
+  bool get isOrganization => this == OrganizationType.organization;
+
+  bool get isCounterparty => this == OrganizationType.counterparty;
 
   @override
   String toString() => name;

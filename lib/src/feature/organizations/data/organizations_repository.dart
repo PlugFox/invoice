@@ -9,7 +9,13 @@ abstract interface class IOrganizationsRepository {
   Future<Organization> getOrganizationById(OrganizationId id);
 
   /// Create organization.
-  Future<Organization> createOrganization(String name);
+  Future<Organization> createOrganization({
+    required String name,
+    OrganizationType? type,
+    String? address,
+    String? tax,
+    String? description,
+  });
 
   /// Update organization.
   Future<Organization> updateOrganization(Organization organization);
@@ -25,7 +31,20 @@ class OrganizationsRepositoryImpl implements IOrganizationsRepository {
   final IOrganizationsLocalDataProvider _localDataProvider;
 
   @override
-  Future<Organization> createOrganization(String name) => _localDataProvider.createOrganization(name);
+  Future<Organization> createOrganization({
+    required String name,
+    OrganizationType? type,
+    String? address,
+    String? tax,
+    String? description,
+  }) =>
+      _localDataProvider.createOrganization(
+        name: name,
+        type: type,
+        address: address,
+        tax: tax,
+        description: description,
+      );
 
   @override
   Future<void> deleteOrganizationById(OrganizationId id) => _localDataProvider.deleteOrganizationById(id);

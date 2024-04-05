@@ -184,12 +184,14 @@ class _WindowButtons$Windows extends StatelessWidget {
               icon: Icons.minimize,
             ),
 
-            /* ValueListenableBuilder<bool>(
+            // Set full screen
+            ValueListenableBuilder<bool>(
               valueListenable: _isFullScreen,
               builder: (context, isFullScreen, _) => _WindowButton(
-                    onPressed: () => windowManager.setFullScreen(!isFullScreen),
-                    icon: isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
-                  )), */
+                onPressed: () => windowManager.setFullScreen(!isFullScreen),
+                icon: isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+              ),
+            ),
 
             // Close
             _WindowButton(

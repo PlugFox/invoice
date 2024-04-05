@@ -12,8 +12,12 @@ class OrganizationsScope extends StatefulWidget {
   /// {@macro organizations_scope}
   const OrganizationsScope({
     required this.child,
+    this.lazy = false,
     super.key, // ignore: unused_element
   });
+
+  /// Whether the controller should be initialized lazily.
+  final bool lazy;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -41,7 +45,8 @@ class OrganizationsScope extends StatefulWidget {
 class _OrganizationsScopeState extends State<OrganizationsScope> {
   List<Organization> _list = const [];
   Map<OrganizationId, Organization> _table = const {};
-  late final OrganizationsController _controller = _initController();
+  OrganizationsController get _controller => _$controller ??= _initController();
+  OrganizationsController? _$controller;
 
   late ScaffoldMessengerState _scaffoldMessenger;
 
@@ -75,6 +80,12 @@ class _OrganizationsScopeState extends State<OrganizationsScope> {
   }
 
   /* #region Lifecycle */
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.lazy) _controller;
+  }
 
   @override
   void didChangeDependencies() {

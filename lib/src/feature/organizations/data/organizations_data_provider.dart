@@ -13,7 +13,13 @@ abstract interface class IOrganizationsLocalDataProvider {
   Future<Organization> getOrganizationById(OrganizationId id);
 
   /// Create organization.
-  Future<Organization> createOrganization(String name);
+  Future<Organization> createOrganization({
+    required String name,
+    OrganizationType? type,
+    String? address,
+    String? tax,
+    String? description,
+  });
 
   /// Update organization.
   Future<Organization> updateOrganization(Organization organization);
@@ -28,17 +34,34 @@ class OrganizationsLocalDataProviderDriftImpl implements IOrganizationsLocalData
   final Database _db;
 
   @override
-  Future<Organization> createOrganization(String name) => _db
-      .into(_db.organizationTbl)
-      .insert(OrganizationTblCompanion.insert(name: name), mode: InsertMode.insert)
-      .then(getOrganizationById);
+  Future<Organization> createOrganization({
+    required String name,
+    OrganizationType? type,
+    String? address,
+    String? tax,
+    String? description,
+  }) {
+    Value<String?> mullIfEmpty(String? value) =>
+        value == null || value.isEmpty ? const Value<String?>(null) : Value<String?>(value);
+    return _db
+        .into(_db.organizationTbl)
+        .insert(
+          OrganizationTblCompanion.insert(
+            name: name,
+            type: Value<int>.absentIfNull(type?.index),
+            address: mullIfEmpty(address),
+            tax: mullIfEmpty(tax),
+            description: mullIfEmpty(description),
+          ),
+          mode: InsertMode.insert,
+        )
+        .then(getOrganizationById);
+  }
 
   @override
   Future<void> deleteOrganizationById(OrganizationId id) =>
-      _db.update(_db.organizationTbl).replace(OrganizationTblCompanion(
-            id: Value(id),
-            deleted: const Value(1),
-          ));
+      (_db.update(_db.organizationTbl)..where((tbl) => tbl.id.equals(id)))
+          .write(const OrganizationTblCompanion(deleted: Value(1)));
 
   @override
   Future<List<Organization>> getAllOrganizations() async {
@@ -80,14 +103,18 @@ Organization _decodeOrganization(OrganizationTblData org) {
   );
 }
 
-OrganizationTblCompanion _encodeOrganization(Organization inv) => OrganizationTblCompanion(
-      id: Value(inv.id),
-      deleted: const Value.absent(),
-      createdAt: const Value.absent(),
-      updatedAt: const Value.absent(),
-      description: Value(inv.description),
-      name: Value(inv.name),
-      address: Value(inv.address),
-      tax: Value(inv.tax),
-      type: Value(inv.type.index),
-    );
+OrganizationTblCompanion _encodeOrganization(Organization inv) {
+  Value<String?> mullIfEmpty(String? value) =>
+      value == null || value.isEmpty ? const Value<String?>(null) : Value<String?>(value);
+  return OrganizationTblCompanion(
+    id: Value(inv.id),
+    deleted: const Value<int>.absent(),
+    createdAt: const Value<int>.absent(),
+    updatedAt: const Value<int>.absent(),
+    name: Value<String>(inv.name),
+    type: Value<int>(inv.type.index),
+    description: mullIfEmpty(inv.description),
+    address: mullIfEmpty(inv.address),
+    tax: mullIfEmpty(inv.tax),
+  );
+}
