@@ -121,6 +121,7 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
 
   /// When invoices changed
   void _onInvoicesChanged() {
+    if (_controller.state.isProcessing) return;
     final updatedInvoice = _controller.state.data.firstWhereOrNull((i) => i.id == form.id);
     if (updatedInvoice == null) return;
     _fillForm(updatedInvoice);

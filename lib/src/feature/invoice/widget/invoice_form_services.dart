@@ -86,99 +86,95 @@ class InvoiceFormServices extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => CustomScrollView(
-        slivers: <Widget>[
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: 8),
-            sliver: SliverToBoxAdapter(
-              child: SizedBox(
-                height: 48,
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    ElevatedButton.icon(
-                      onPressed: () => addService(context),
-                      label: const Text('Add service'),
-                      icon: const Icon(Icons.add),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: 8),
-            sliver: ValueListenableBuilder<List<ProvidedService>>(
-              valueListenable: form.services,
-              builder: (context, services, child) => SliverFixedExtentList(
-                itemExtent: 64,
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final service = services[index];
-                    return SizedBox(
-                      key: ObjectKey(service),
-                      height: 56,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          if (index == 0) const SizedBox(height: 1) else const Divider(height: 1),
-                          Expanded(
-                            child: Row(
+  Widget build(BuildContext context) => Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: 8),
+                  sliver: ValueListenableBuilder<List<ProvidedService>>(
+                    valueListenable: form.services,
+                    builder: (context, services, child) => SliverFixedExtentList(
+                      itemExtent: 64,
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final service = services[index];
+                          return SizedBox(
+                            key: ObjectKey(service),
+                            height: 56,
+                            child: Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  '#${index + 1}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                const SizedBox(width: 16),
+                                if (index == 0) const SizedBox(height: 1) else const Divider(height: 1),
                                 Expanded(
-                                  child: Column(
+                                  child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(service.name,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: Theme.of(context).textTheme.bodyLarge),
                                       Text(
-                                        service.amount.toString(),
+                                        '#${index + 1}',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context).textTheme.bodySmall,
+                                        style: Theme.of(context).textTheme.bodyLarge,
+                                      ),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(service.name,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context).textTheme.bodyLarge),
+                                            Text(
+                                              service.amount.toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context).textTheme.bodySmall,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      SizedBox.square(
+                                        dimension: 48,
+                                        child: IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          color: Colors.red,
+                                          tooltip: 'Delete service ${service.name}',
+                                          onPressed: () => form.changeServices(
+                                              (services) => services.where((s) => s.number != service.number)),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                const SizedBox(width: 16),
-                                SizedBox.square(
-                                  dimension: 48,
-                                  child: IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    color: Colors.red,
-                                    tooltip: 'Delete service ${service.name}',
-                                    onPressed: () => form.changeServices(
-                                        (services) => services.where((s) => s.number != service.number)),
-                                  ),
-                                ),
                               ],
                             ),
-                          ),
-                        ],
+                          );
+                        },
+                        childCount: services.length,
                       ),
-                    );
-                  },
-                  childCount: services.length,
+                    ),
+                  ),
                 ),
-              ),
+              ],
+            ),
+          ),
+          Positioned(
+            right: 16,
+            bottom: 16,
+            width: 48,
+            height: 48,
+            child: FloatingActionButton(
+              onPressed: () => addService(context),
+              tooltip: 'Add service',
+              child: const Icon(Icons.add),
             ),
           ),
         ],
