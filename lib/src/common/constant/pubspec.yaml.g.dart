@@ -127,10 +127,10 @@ sealed class Pubspec {
     4,
     6,
     19,
-    14,
-    21,
-    624,
-    97,
+    27,
+    16,
+    187,
+    138,
   );
 
   /// Name
@@ -514,6 +514,9 @@ sealed class Pubspec {
       'uses-material-design': true,
       'shaders': <Object>[
         r'assets/shaders/shimmer.frag',
+      ],
+      'assets': <Object>[
+        r'assets/icons/',
       ],
     },
     'flutter_intl': <String, Object>{

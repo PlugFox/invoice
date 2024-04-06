@@ -116,8 +116,8 @@ flutter:
   shaders:
     - assets/shaders/shimmer.frag
 
-  #assets:
-  #  - assets/images/
+  assets:
+    - assets/icons/
 
 flutter_intl:
   enabled: true
