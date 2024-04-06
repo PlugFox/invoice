@@ -155,7 +155,7 @@ Invoice _decodeInvoice({
           ProvidedService(
             number: service.number,
             name: service.name,
-            amount: Money.fromInt(service.amount, code: inv.currency),
+            amount: Fixed.fromInt(service.amount),
           ),
     ]..sort((a, b) => a.number.compareTo(b.number)))
         .toList(growable: false),

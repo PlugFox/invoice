@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:control/control.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,14 @@ final class InvoiceFormController extends Controller with ConcurrentControllerHa
   String _generateNumber() {
     final dt = issuedAt.value.toUtc();
     return '${dt.day + dt.month * 100 + dt.year * 10000}-${id.toRadixString(36)}';
+  }
+
+  /// Change services list
+  void changeServices(List<ProvidedService> Function(List<ProvidedService> services) fn) {
+    final list = fn(services.value);
+    if (identical(list, services.value)) return;
+    final copy = list.mapIndexed((i, s) => s.copyWith(number: i + 1)).toList(growable: false);
+    services.value = copy;
   }
 
   /// Re eval total

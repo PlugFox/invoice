@@ -131,12 +131,12 @@ class ProvidedService implements Comparable<ProvidedService> {
 
   final String name;
 
-  final Money amount;
+  final Fixed amount;
 
   ProvidedService copyWith({
     int? number,
     String? name,
-    Money? amount,
+    Fixed? amount,
   }) =>
       ProvidedService(
         number: number ?? this.number,
