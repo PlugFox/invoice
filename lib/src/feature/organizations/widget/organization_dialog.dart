@@ -142,7 +142,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     label: 'Address',
                     autocorrect: true,
                     order: 1,
-                    hint: 'Address',
+                    hint: 'Address of ${type.isOrganization ? 'organization' : 'client'}',
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) => FocusScope.of(context).nextFocus(),
@@ -156,7 +156,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     label: 'Tax',
                     autocorrect: false,
                     order: 2,
-                    hint: 'Tax',
+                    hint: 'Tax ID or VAT number',
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) => FocusScope.of(context).nextFocus(),
@@ -169,7 +169,9 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     label: 'Description',
                     autocorrect: true,
                     order: 3,
-                    hint: 'Description',
+                    hint: '________________\n'
+                        '_______________________\n'
+                        '_______________________',
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => FocusScope.of(context).unfocus(),
@@ -178,6 +180,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     minLines: 3,
                     suffixIcon: const Icon(Icons.description),
                   ),
+                  const SizedBox(height: 16),
                   SizedBox(
                     height: 48,
                     child: Row(
@@ -185,6 +188,16 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
+                        TextButton.icon(
+                          icon: const Icon(Icons.cancel),
+                          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                          label: const Text(
+                            'Cancel',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
                         ListenableBuilder(
                           listenable: _formListenable,
                           builder: (context, _) {
@@ -193,7 +206,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                                 _address.text != widget.organization.address ||
                                 _tax.text != widget.organization.tax ||
                                 _description.text != widget.organization.description;
-                            return TextButton.icon(
+                            return ElevatedButton.icon(
                               icon: const Icon(Icons.save),
                               onPressed: _name.text.isEmpty || !updated ? null : save,
                               label: const Text(
@@ -214,63 +227,3 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
         ),
       );
 }
-
-/*
-  ValueListenableBuilder<OrganizationType>(
-    valueListenable: _type,
-    builder: (context, value, _) => Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        if (widget.create)
-          ToggleButtons(
-            isSelected: <bool>[
-              value == OrganizationType.organization,
-              value == OrganizationType.counterparty
-            ],
-            onPressed: (index) =>
-                _type.value = index == 0 ? OrganizationType.organization : OrganizationType.counterparty,
-            children: const <Widget>[
-              Icon(Icons.business),
-              Icon(Icons.person),
-            ],
-          ),
-        const SizedBox(width: 16),
-        Text(value.name),
-      ],
-    ),
-  ),
-  CommonHeader(
-    title: Text(widget.organization.name),
-    actions: <Widget>[
-      IconButton(
-        icon: const Icon(Icons.edit),
-        onPressed: () {
-          //Navigator.of(context).pop();
-          //OrganizationsScope.of(context).editOrganization(widget.organization);
-        },
-      ),
-      IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () {
-          //Navigator.of(context).pop();
-          //OrganizationsScope.of(context).deleteOrganization(widget.organization);
-        },
-      ),
-    ],
-  ),
-  ListTile(
-    leading: const Icon(Icons.business),
-    title: Text(widget.organization.name),
-    subtitle: Text(widget.organization.tax ?? ''),
-  ),
-  ListTile(
-    leading: const Icon(Icons.email),
-    title: Text(widget.organization.email),
-  ),
-  ListTile(
-    leading: const Icon(Icons.phone),
-    title: Text(widget.organization.phone),
-  ),
-*/

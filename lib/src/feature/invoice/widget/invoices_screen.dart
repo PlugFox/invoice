@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/router/routes.dart';
+import 'package:invoice/src/common/util/date_util.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
@@ -186,13 +187,16 @@ class _InvoiceTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        invoice.id.toString(),
+                        switch (invoice.number) {
+                          String text when text.isNotEmpty => text,
+                          _ => invoice.id.toString().padLeft(6, '0'),
+                        },
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1),
                       ),
                       Text(
-                        invoice.createdAt.toString(),
+                        DateUtil.format(invoice.createdAt),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1),
