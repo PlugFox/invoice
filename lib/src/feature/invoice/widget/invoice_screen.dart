@@ -7,11 +7,11 @@ import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/widget/adaptive_date_picker.dart';
 import 'package:invoice/src/common/widget/app_text_field.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
-import 'package:invoice/src/common/widget/organization_picker.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+import 'package:invoice/src/feature/organizations/widget/organization_picker.dart';
 
 // TODO(plugfox): add form validators
 
@@ -401,16 +401,16 @@ class _InvoiceFormColumn extends StatelessWidget {
                                 minLines: 1,
                               ),
                               AdaptiveDatePicker(
-                                labelText: 'Issued at',
+                                label: 'Issued at',
                                 controller: form.issuedAt,
                                 isRequired: true,
                               ),
                               AdaptiveDatePicker(
-                                labelText: 'Due at',
+                                label: 'Due at',
                                 controller: form.dueAt,
                               ),
                               AdaptiveDatePicker(
-                                labelText: 'Paid at',
+                                label: 'Paid at',
                                 controller: form.paidAt,
                               ),
                             ],
@@ -419,12 +419,16 @@ class _InvoiceFormColumn extends StatelessWidget {
                           _InvoiceFormSection(
                             children: <Widget>[
                               OrganizationPicker(
-                                labelText: 'Organization',
+                                label: 'Organization',
                                 controller: form.organization,
+                                prefixIcon: const Icon(Icons.business),
+                                filter: (organization) => organization.type.isOrganization,
                               ),
                               OrganizationPicker(
-                                labelText: 'Counterparty',
+                                label: 'Counterparty',
                                 controller: form.counterparty,
+                                prefixIcon: const Icon(Icons.person),
+                                filter: (organization) => organization.type.isCounterparty,
                               ),
                             ],
                           ),

@@ -120,6 +120,17 @@ class ProvidedService implements Comparable<ProvidedService> {
 
   final Money amount;
 
+  ProvidedService copyWith({
+    int? number,
+    String? name,
+    Money? amount,
+  }) =>
+      ProvidedService(
+        number: number ?? this.number,
+        name: name ?? this.name,
+        amount: amount ?? this.amount,
+      );
+
   @override
   int compareTo(covariant ProvidedService other) => number.compareTo(other.number);
 

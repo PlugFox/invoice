@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:invoice/src/common/util/date_util.dart';
 
 /// {@template adaptive_date_picker}
 /// AdaptiveDatePicker widget.
@@ -6,13 +8,13 @@ import 'package:flutter/material.dart';
 class AdaptiveDatePicker extends StatelessWidget {
   /// {@macro adaptive_date_picker}
   const AdaptiveDatePicker({
-    required this.labelText,
+    required this.label,
     required this.controller,
     this.isRequired = false,
     super.key, // ignore: unused_element
   });
 
-  final String labelText;
+  final String label;
   final bool isRequired;
   final ValueNotifier<DateTime?> controller;
 
@@ -28,7 +30,7 @@ class AdaptiveDatePicker extends StatelessWidget {
       ).then<void>((value) => controller.value = value ?? controller.value),
       child: InputDecorator(
         decoration: InputDecoration(
-          labelText: labelText,
+          labelText: label,
           prefixIcon: const Icon(Icons.calendar_today),
           suffixIcon: isRequired
               ? null
@@ -43,7 +45,7 @@ class AdaptiveDatePicker extends StatelessWidget {
         child: ValueListenableBuilder<DateTime?>(
           valueListenable: controller,
           builder: (context, value, child) => Text(
-            value?.toIso8601String() ?? '',
+            DateUtil.format(value, format: DateFormat.yMMMd()),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

@@ -84,27 +84,30 @@ class _InvoiceTile extends StatelessWidget {
   }
 
   /// Clone invoice
-  static void cloneInvoice(BuildContext context, InvoiceId id) {
+  static void copyInvoice(BuildContext context, InvoiceId id) {
     if (!context.mounted) return;
     final controller = InvoicesScope.of(context);
+    final now = DateTime.now();
     controller.fetchInvoiceById(
       id,
-      onSuccess: (invoice) => controller.createInvoice(
-        onSuccess: (invoice) => controller.updateInvoice(
+      onSuccess: (source) => controller.createInvoice(
+        onSuccess: (target) => controller.updateInvoice(
           invoice: Invoice(
-            id: invoice.id,
-            createdAt: invoice.createdAt,
-            updatedAt: invoice.updatedAt,
-            number: invoice.number,
-            status: invoice.status,
-            total: invoice.total,
-            services: invoice.services,
-            description: invoice.description,
-            organization: invoice.organization,
-            counterparty: invoice.counterparty,
-            issuedAt: invoice.issuedAt,
-            dueAt: invoice.dueAt,
-            paidAt: invoice.paidAt,
+            id: target.id,
+            createdAt: now,
+            updatedAt: now,
+            number: Invoice.generateNumber(target.id, now),
+            status: InvoiceStatus.draft,
+            total: source.total,
+            services: source.services.map((e) => e.copyWith()).toList(growable: false),
+            description: source.description,
+            organization: source.organization,
+            counterparty: source.counterparty,
+            issuedAt: now,
+            dueAt: now.day > DateUtils.getDaysInMonth(now.year, now.month) / 2
+                ? DateTime(now.year, now.month + 2, 1)
+                : DateTime(now.year, now.month + 1, 1),
+            paidAt: null,
           ),
         ),
       ),
@@ -222,10 +225,10 @@ class _InvoiceTile extends StatelessWidget {
                             onTap: () => openInvoice(context, invoice.id),
                           ),
                           _InvoicePopupMenuItem(
-                            value: 'clone',
+                            value: 'copy',
                             icon: const Icon(Icons.content_copy, size: 20),
                             label: const Text('Copy'),
-                            onTap: () => cloneInvoice(context, invoice.id),
+                            onTap: () => copyInvoice(context, invoice.id),
                           ),
                           _InvoicePopupMenuItem(
                             enabled: false,
