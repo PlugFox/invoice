@@ -1,17 +1,15 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/widget/input_text_field.dart';
-import 'package:invoice/src/feature/organizations/model/organization.dart';
-import 'package:invoice/src/feature/organizations/widget/organizations_scope.dart';
+import 'package:money2/money2.dart';
 
-/// {@template organization_picker}
-/// OrganizationPicker widget.
+/// {@template currency_picker}
+/// CurrencyPicker widget.
 /// {@endtemplate}
-class OrganizationPicker extends StatelessWidget {
-  /// {@macro organization_picker}
-  const OrganizationPicker({
+class CurrencyPicker extends StatelessWidget {
+  /// {@macro currency_picker}
+  const CurrencyPicker({
     required this.label,
     required this.controller,
     this.initialValue,
@@ -33,25 +31,26 @@ class OrganizationPicker extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FloatingLabelBehavior? floatingLabelBehavior;
   final Widget? prefixIcon;
-  final ValueNotifier<Organization?> controller;
-  final bool Function(Organization organization)? filter;
+  final ValueNotifier<Currency> controller;
+  final bool Function(Currency currency)? filter;
 
   static String? _lastSearchText;
-  Future<List<Organization>> optionsBuilder(BuildContext context, TextEditingValue value) async {
+  Future<List<Currency>> optionsBuilder(BuildContext context, TextEditingValue value) async {
     final text = _lastSearchText = value.text.trim().toLowerCase();
-    final organizations = OrganizationsScope.getOrganizations(context, listen: false);
+    final currencies = CommonCurrencies().asList();
     final where = filter?.call ?? (_) => true;
-    if (text.isEmpty) return organizations.where(where).take(suggestionsLimit).toList(growable: false);
-    final result = <Organization>[];
+    if (text.isEmpty) return currencies.where(where).take(suggestionsLimit).toList(growable: false);
+    final result = <Currency>[];
     final stopwatch = Stopwatch()..start();
     try {
-      for (final org in organizations) {
-        final Organization(:name, :tax, :address, :description) = org;
+      for (final c in currencies) {
+        final Currency(:name, :code, :symbol, :country, :unit) = c;
         final contains = name.toLowerCase().contains(text) ||
-            tax != null && tax.toLowerCase().contains(text) ||
-            address != null && address.toLowerCase().contains(text) ||
-            description != null && description.toLowerCase().contains(text);
-        if (contains && where(org)) result.add(org);
+            code.toLowerCase().contains(text) ||
+            symbol.toLowerCase().contains(text) ||
+            country.toLowerCase().contains(text) ||
+            unit.toLowerCase().contains(text);
+        if (contains && where(c)) result.add(c);
         if (result.length >= suggestionsLimit) break;
         if (stopwatch.elapsedMilliseconds > 8) {
           await Future<void>.delayed(Duration.zero);
@@ -77,8 +76,8 @@ class OrganizationPicker extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Autocomplete<Organization>(
-                initialValue: initialValue ?? TextEditingValue(text: controller.value?.name ?? ''),
+              child: Autocomplete<Currency>(
+                initialValue: initialValue ?? TextEditingValue(text: controller.value.name),
                 optionsBuilder: (textEditingValue) => optionsBuilder(context, textEditingValue),
                 displayStringForOption: (option) => option.name,
                 onSelected: (value) => controller.value = value,
@@ -109,26 +108,22 @@ class OrganizationPicker extends StatelessWidget {
                   focusNode: focusNode,
                   expands: false,
                   keyboardType: TextInputType.text,
-                  autofillHints: const <String>[AutofillHints.organizationName],
+                  //autofillHints: const <String>[AutofillHints.currencyName],
                   autocorrect: true,
                   textInputAction: textInputAction,
-                  /* onFieldSubmitted: (value) {
-                    onFieldSubmitted();
-                    controller.text = value;
-                  }, */
                   label: label,
                   hint: hint,
                   floatingLabelBehavior: floatingLabelBehavior,
                   prefixIcon: prefixIcon,
-                  suffixIcon: ValueListenableBuilder<Organization?>(
+                  suffixIcon: ValueListenableBuilder<Currency?>(
                     valueListenable: controller,
                     builder: (context, value, child) => IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: value == null
                           ? null
                           : () {
+                              //controller.value = CommonCurrencies().usd;
                               textController.clear();
-                              controller.value = null;
                             },
                     ),
                   ),

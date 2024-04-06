@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:invoice/src/common/widget/app_text_field.dart';
+import 'package:invoice/src/common/widget/input_text_field.dart';
 import 'package:invoice/src/feature/organizations/model/organization.dart';
 import 'package:invoice/src/feature/organizations/widget/organizations_scope.dart';
 
@@ -123,7 +123,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  AppTextField(
+                  InputTextField(
                     controller: _name,
                     label: 'Name',
                     autocorrect: true,
@@ -137,7 +137,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     autofillHints: const <String>[AutofillHints.name],
                   ),
                   const SizedBox(height: 16),
-                  AppTextField(
+                  InputTextField(
                     controller: _address,
                     label: 'Address',
                     autocorrect: true,
@@ -151,7 +151,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     autofillHints: const <String>[AutofillHints.streetAddressLine1],
                   ),
                   const SizedBox(height: 16),
-                  AppTextField(
+                  InputTextField(
                     controller: _tax,
                     label: 'Tax',
                     autocorrect: false,
@@ -164,7 +164,7 @@ class _OrganizationDialogState extends State<OrganizationDialog> {
                     prefixIcon: const Icon(Icons.monetization_on),
                   ),
                   const SizedBox(height: 16),
-                  AppTextField(
+                  InputTextField(
                     controller: _description,
                     label: 'Description',
                     autocorrect: true,

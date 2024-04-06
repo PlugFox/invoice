@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/widget/adaptive_date_picker.dart';
-import 'package:invoice/src/common/widget/app_text_field.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
+import 'package:invoice/src/common/widget/currency_picker.dart';
+import 'package:invoice/src/common/widget/input_text_field.dart';
+import 'package:invoice/src/common/widget/output_text_field.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
@@ -249,244 +251,318 @@ class _InvoiceFormColumn extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
-                height: 48,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: paddingH),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: const Icon(Icons.save),
-                          tooltip: 'Save changes (Ctrl + S)',
-                          onPressed:
-                              changed ? () => _InheritedInvoiceForm.of(context, listen: false)._saveForm() : null,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.copy),
-                          tooltip: 'Dublicate invoice',
-                          onPressed: null,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.preview),
-                          tooltip: 'Preview PDF',
-                          onPressed: null,
-                        ),
-                      ),
-                      const Spacer(),
-                      /* const VerticalDivider(),
-                      const Spacer(), */
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.print),
-                          tooltip: 'Print invoice',
-                          onPressed: null,
-                        ),
-                      ),
-                      /* const SizedBox(width: 8),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.share),
-                          tooltip: 'Share invoice',
-                          onPressed: null,
-                        ),
-                      ), */
-                      const SizedBox(width: 8),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.email),
-                          tooltip: 'Send email',
-                          onPressed: null,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.file_download),
-                          tooltip: 'Download pdf',
-                          onPressed: null,
-                        ),
-                      ),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.data_object),
-                          tooltip: 'Export to JSON',
-                          onPressed: null,
-                        ),
-                      ),
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.copy_all),
-                          tooltip: 'Copy to clipboard',
-                          onPressed: null,
-                        ),
-                      ),
-                      const Spacer(),
-                      /* const VerticalDivider(),
-                      const Spacer(), */
-                      const SizedBox.square(
-                        dimension: 48,
-                        child: IconButton(
-                          icon: Icon(Icons.delete),
-                          tooltip: 'Delete invoice',
-                          color: Colors.red,
-                          onPressed: null,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _InvoiceHeaderButtons(paddingH: paddingH, changed: changed),
               const SizedBox(height: 4),
               //Divider(height: 1, indent: paddingH, endIndent: paddingH),
-              SizedBox(
-                height: 48,
-                child: TabBar(
-                  tabAlignment: TabAlignment.fill,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  padding: EdgeInsets.symmetric(horizontal: paddingH),
-                  tabs: const <Widget>[
-                    Tab(/* text: 'Form', */ icon: Icon(Icons.edit, size: 20)),
-                    Tab(/* text: 'Services', */ icon: Icon(Icons.list, size: 20)),
-                    Tab(/* text: 'Description', */ icon: Icon(Icons.description, size: 20)),
-                  ],
-                ),
-              ),
+              _InvoiceHeaderTabBar(paddingH: paddingH),
               Expanded(
                 child: TabBarView(
                   children: <Widget>[
-                    SingleChildScrollView(
-                      primary: true,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: paddingH,
-                        vertical: 16,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          _InvoiceFormSection(
-                            children: <Widget>[
-                              AppTextField(
-                                controller: form.number,
-                                label: 'Number',
-                                prefixIcon: const Icon(Icons.numbers),
-                                suffixIcon: IconButton(
-                                  // Generate new number
-                                  icon: const Icon(Icons.restore),
-                                  onPressed: form.generateNumber,
-                                ),
-                                multiline: false,
-                                autocorrect: false,
-                                keyboardType: TextInputType.text,
-                                minLines: 1,
-                              ),
-                              AdaptiveDatePicker(
-                                label: 'Issued at',
-                                controller: form.issuedAt,
-                                isRequired: true,
-                              ),
-                              AdaptiveDatePicker(
-                                label: 'Due at',
-                                controller: form.dueAt,
-                              ),
-                              AdaptiveDatePicker(
-                                label: 'Paid at',
-                                controller: form.paidAt,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          _InvoiceFormSection(
-                            children: <Widget>[
-                              OrganizationPicker(
-                                label: 'Organization',
-                                controller: form.organization,
-                                prefixIcon: const Icon(Icons.business),
-                                filter: (organization) => organization.type.isOrganization,
-                              ),
-                              OrganizationPicker(
-                                label: 'Counterparty',
-                                controller: form.counterparty,
-                                prefixIcon: const Icon(Icons.person),
-                                filter: (organization) => organization.type.isCounterparty,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          const _InvoiceFormSection(
-                            children: <Widget>[
-                              ColoredBox(color: Colors.grey, child: SizedBox.expand()),
-                              ColoredBox(color: Colors.red, child: SizedBox.expand()),
-                              ColoredBox(color: Colors.green, child: SizedBox.expand()),
-                              ColoredBox(color: Colors.yellow, child: SizedBox.expand()),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          const _InvoiceFormSection(
-                            children: <Widget>[
-                              ColoredBox(color: Colors.red, child: SizedBox.expand()),
-                              ColoredBox(color: Colors.blue, child: SizedBox.expand()),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    ListView.builder(
-                      itemCount: 6,
-                      padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: 8),
-                      itemExtent: 64 + 16,
-                      itemBuilder: (context, index) => const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: ColoredBox(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: AppTextField(
-                        controller: form.description,
-                        expands: true,
-                        minLines: null,
-                        multiline: true,
-                        label: 'Description',
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        hint: '________________________\n'
-                            '_________________________\n'
-                            '___________\n'
-                            '_________________________\n'
-                            '______________\n'
-                            '_________________',
-                        autocorrect: true,
-                        keyboardType: TextInputType.multiline,
-                      ),
-                    ),
+                    _InvoiceFormDetails(paddingH: paddingH, form: form),
+                    _InvoiceFormServices(paddingH: paddingH, form: form),
+                    _InvoiceFormDescription(form: form),
                   ],
                 ),
               ),
             ],
           );
         },
+      );
+}
+
+class _InvoiceFormDescription extends StatelessWidget {
+  const _InvoiceFormDescription({
+    required this.form,
+    super.key, // ignore: unused_element
+  });
+
+  final InvoiceFormController form;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: InputTextField(
+          controller: form.description,
+          expands: true,
+          minLines: null,
+          multiline: true,
+          label: 'Description',
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hint: '________________________\n'
+              '_________________________\n'
+              '___________\n'
+              '_________________________\n'
+              '______________\n'
+              '_________________',
+          autocorrect: true,
+          keyboardType: TextInputType.multiline,
+        ),
+      );
+}
+
+class _InvoiceFormServices extends StatelessWidget {
+  const _InvoiceFormServices({
+    required this.paddingH,
+    required this.form,
+    super.key, // ignore: unused_element
+  });
+
+  final double paddingH;
+  final InvoiceFormController form;
+
+  @override
+  Widget build(BuildContext context) => ListView.builder(
+        itemCount: 6,
+        padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: 8),
+        itemExtent: 64 + 16,
+        itemBuilder: (context, index) => const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: ColoredBox(
+            color: Colors.grey,
+          ),
+        ),
+      );
+}
+
+class _InvoiceFormDetails extends StatelessWidget {
+  const _InvoiceFormDetails({
+    required this.paddingH,
+    required this.form,
+    super.key, // ignore: unused_element
+  });
+
+  final double paddingH;
+  final InvoiceFormController form;
+
+  @override
+  Widget build(BuildContext context) => SingleChildScrollView(
+        primary: true,
+        padding: EdgeInsets.symmetric(
+          horizontal: paddingH,
+          vertical: 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            _InvoiceFormSection(
+              children: <Widget>[
+                InputTextField(
+                  controller: form.number,
+                  label: 'Number',
+                  prefixIcon: const Icon(Icons.numbers),
+                  suffixIcon: IconButton(
+                    // Generate new number
+                    icon: const Icon(Icons.restore),
+                    onPressed: form.generateNumber,
+                  ),
+                  multiline: false,
+                  autocorrect: false,
+                  keyboardType: TextInputType.text,
+                  minLines: 1,
+                ),
+                AdaptiveDatePicker(
+                  label: 'Issued at',
+                  controller: form.issuedAt,
+                  isRequired: true,
+                ),
+                AdaptiveDatePicker(
+                  label: 'Due at',
+                  controller: form.dueAt,
+                ),
+                AdaptiveDatePicker(
+                  label: 'Paid at',
+                  controller: form.paidAt,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _InvoiceFormSection(
+              children: <Widget>[
+                OrganizationPicker(
+                  label: 'Organization',
+                  controller: form.organization,
+                  prefixIcon: const Icon(Icons.business),
+                  filter: (organization) => organization.type.isOrganization,
+                ),
+                OrganizationPicker(
+                  label: 'Counterparty',
+                  controller: form.counterparty,
+                  prefixIcon: const Icon(Icons.person),
+                  filter: (organization) => organization.type.isCounterparty,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _InvoiceFormSection(
+              children: <Widget>[
+                CurrencyPicker(
+                  label: 'Currency',
+                  controller: form.currency,
+                  prefixIcon: const Icon(Icons.money),
+                ),
+                OutputTextField(
+                  label: 'Total',
+                  controller: form.total,
+                  output: (value) => value.amount.toString(),
+                  prefixIcon: const Icon(Icons.monetization_on),
+                  multiline: false,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                ),
+              ],
+            ),
+            /* const SizedBox(height: 16),
+            const _InvoiceFormSection(
+              children: <Widget>[
+                ColoredBox(color: Colors.red, child: SizedBox.expand()),
+                ColoredBox(color: Colors.blue, child: SizedBox.expand()),
+              ],
+            ), */
+          ],
+        ),
+      );
+}
+
+class _InvoiceHeaderTabBar extends StatelessWidget {
+  const _InvoiceHeaderTabBar({
+    required this.paddingH,
+    super.key, // ignore: unused_element
+  });
+
+  final double paddingH;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: 48,
+        child: TabBar(
+          tabAlignment: TabAlignment.fill,
+          indicatorSize: TabBarIndicatorSize.tab,
+          padding: EdgeInsets.symmetric(horizontal: paddingH),
+          tabs: const <Widget>[
+            Tab(/* text: 'Form', */ icon: Icon(Icons.edit, size: 20)),
+            Tab(/* text: 'Services', */ icon: Icon(Icons.list, size: 20)),
+            Tab(/* text: 'Description', */ icon: Icon(Icons.description, size: 20)),
+          ],
+        ),
+      );
+}
+
+class _InvoiceHeaderButtons extends StatelessWidget {
+  const _InvoiceHeaderButtons({
+    required this.paddingH,
+    required this.changed,
+    super.key, // ignore: unused_element
+  });
+
+  final double paddingH;
+  final bool changed;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: 48,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: paddingH),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: const Icon(Icons.save),
+                  tooltip: 'Save changes (Ctrl + S)',
+                  onPressed: changed ? () => _InheritedInvoiceForm.of(context, listen: false)._saveForm() : null,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.copy),
+                  tooltip: 'Dublicate invoice',
+                  onPressed: null,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.preview),
+                  tooltip: 'Preview PDF',
+                  onPressed: null,
+                ),
+              ),
+              const Spacer(),
+              /* const VerticalDivider(),
+              const Spacer(), */
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.print),
+                  tooltip: 'Print invoice',
+                  onPressed: null,
+                ),
+              ),
+              /* const SizedBox(width: 8),
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.share),
+                  tooltip: 'Share invoice',
+                  onPressed: null,
+                ),
+              ), */
+              const SizedBox(width: 8),
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.email),
+                  tooltip: 'Send email',
+                  onPressed: null,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.file_download),
+                  tooltip: 'Download pdf',
+                  onPressed: null,
+                ),
+              ),
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.data_object),
+                  tooltip: 'Export to JSON',
+                  onPressed: null,
+                ),
+              ),
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.copy_all),
+                  tooltip: 'Copy to clipboard',
+                  onPressed: null,
+                ),
+              ),
+              const Spacer(),
+              /* const VerticalDivider(),
+              const Spacer(), */
+              const SizedBox.square(
+                dimension: 48,
+                child: IconButton(
+                  icon: Icon(Icons.delete),
+                  tooltip: 'Delete invoice',
+                  color: Colors.red,
+                  onPressed: null,
+                ),
+              ),
+            ],
+          ),
+        ),
       );
 }
 

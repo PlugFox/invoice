@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AppTextField extends StatefulWidget {
-  const AppTextField({
+class InputTextField extends StatefulWidget {
+  const InputTextField({
     this.enabled = true,
     this.controller,
     this.label,
@@ -48,10 +48,10 @@ class AppTextField extends StatefulWidget {
   final void Function(String)? onSubmitted;
 
   @override
-  State<AppTextField> createState() => _AppTextFieldState();
+  State<InputTextField> createState() => _InputTextFieldState();
 }
 
-class _AppTextFieldState extends State<AppTextField> {
+class _InputTextFieldState extends State<InputTextField> {
   late TextEditingController _controller;
 
   @override
@@ -61,7 +61,7 @@ class _AppTextFieldState extends State<AppTextField> {
   }
 
   @override
-  void didUpdateWidget(covariant AppTextField oldWidget) {
+  void didUpdateWidget(covariant InputTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!identical(oldWidget.controller, widget.controller)) {
       final current = _controller;
@@ -90,6 +90,7 @@ class _AppTextFieldState extends State<AppTextField> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 onSubmitted: widget.onSubmitted,
                 focusNode: widget.focusNode,
                 controller: _controller,

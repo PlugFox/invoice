@@ -86,7 +86,20 @@ class Invoice implements Comparable<Invoice> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Invoice && id == other.id && updatedAt == other.updatedAt && listEquals(services, other.services);
+      other is Invoice &&
+          id == other.id &&
+          updatedAt == other.updatedAt &&
+          createdAt == other.createdAt &&
+          issuedAt == other.issuedAt &&
+          dueAt == other.dueAt &&
+          paidAt == other.paidAt &&
+          organization == other.organization &&
+          counterparty == other.counterparty &&
+          status == other.status &&
+          number == other.number &&
+          total == other.total &&
+          description == other.description &&
+          listEquals(services, other.services);
 
   @override
   String toString() => 'Invoice{number: $number, status: $status}';
