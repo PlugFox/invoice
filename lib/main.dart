@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' as io;
 
 import 'package:flutter/widgets.dart';
 import 'package:invoice/src/common/util/app_zone.dart';
@@ -10,6 +9,7 @@ import 'package:invoice/src/feature/initialization/data/initialization.dart';
 import 'package:invoice/src/feature/initialization/widget/inherited_dependencies.dart';
 import 'package:invoice/src/feature/settings/widget/settings_scope.dart';
 import 'package:octopus/octopus.dart';
+import 'package:platform_info/platform_info.dart';
 
 void main() => appZone(
       () async {
@@ -23,7 +23,7 @@ void main() => appZone(
               dependencies: dependencies,
               child: SettingsScope(
                 child: NoAnimationScope(
-                  noAnimation: io.Platform.isWindows || io.Platform.isMacOS || io.Platform.isLinux,
+                  noAnimation: platform.isWeb || platform.isDesktop,
                   child: const App(),
                 ),
               ),
