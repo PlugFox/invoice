@@ -126,11 +126,11 @@ sealed class Pubspec {
     2024,
     4,
     6,
-    0,
-    35,
-    18,
-    545,
-    666,
+    19,
+    14,
+    21,
+    624,
+    97,
   );
 
   /// Name
@@ -454,7 +454,7 @@ sealed class Pubspec {
     'pubspec_generator': r'^4.1.0-pre.1',
     'flutter_gen_runner': r'^5.3.2',
     'flutter_launcher_icons': r'^0.13.1',
-    'flutter_native_splash': r'^2.3.8',
+    'flutter_native_splash': r'^2.4.0',
   };
 
   /// Dependency overrides

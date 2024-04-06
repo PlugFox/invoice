@@ -15,7 +15,7 @@
     "type": "text",
     "description": "Language"
   },
-  "title": "Invoices",
+  "title": "Invoice Generator",
   "routes": "Routes",
   "recent": "Recent",
   "starred": "Starred",
