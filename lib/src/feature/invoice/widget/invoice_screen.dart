@@ -4,16 +4,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
-import 'package:invoice/src/common/widget/adaptive_date_picker.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
-import 'package:invoice/src/common/widget/currency_picker.dart';
-import 'package:invoice/src/common/widget/input_text_field.dart';
-import 'package:invoice/src/common/widget/output_text_field.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
+import 'package:invoice/src/feature/invoice/widget/invoice_form_description.dart';
+import 'package:invoice/src/feature/invoice/widget/invoice_form_details.dart';
+import 'package:invoice/src/feature/invoice/widget/invoice_form_services.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
-import 'package:invoice/src/feature/organizations/widget/organization_picker.dart';
 
 // TODO(plugfox): add form validators
 
@@ -258,169 +256,15 @@ class _InvoiceFormColumn extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: <Widget>[
-                    _InvoiceFormDetails(paddingH: paddingH, form: form),
-                    _InvoiceFormServices(paddingH: paddingH, form: form),
-                    _InvoiceFormDescription(form: form),
+                    InvoiceFormDetails(paddingH: paddingH, form: form),
+                    InvoiceFormServices(paddingH: paddingH, form: form),
+                    InvoiceFormDescription(paddingH: paddingH, form: form),
                   ],
                 ),
               ),
             ],
           );
         },
-      );
-}
-
-class _InvoiceFormDescription extends StatelessWidget {
-  const _InvoiceFormDescription({
-    required this.form,
-    super.key, // ignore: unused_element
-  });
-
-  final InvoiceFormController form;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: InputTextField(
-          controller: form.description,
-          expands: true,
-          minLines: null,
-          multiline: true,
-          label: 'Description',
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hint: '________________________\n'
-              '_________________________\n'
-              '___________\n'
-              '_________________________\n'
-              '______________\n'
-              '_________________',
-          autocorrect: true,
-          keyboardType: TextInputType.multiline,
-        ),
-      );
-}
-
-class _InvoiceFormServices extends StatelessWidget {
-  const _InvoiceFormServices({
-    required this.paddingH,
-    required this.form,
-    super.key, // ignore: unused_element
-  });
-
-  final double paddingH;
-  final InvoiceFormController form;
-
-  @override
-  Widget build(BuildContext context) => ListView.builder(
-        itemCount: 6,
-        padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: 8),
-        itemExtent: 64 + 16,
-        itemBuilder: (context, index) => const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
-          child: ColoredBox(
-            color: Colors.grey,
-          ),
-        ),
-      );
-}
-
-class _InvoiceFormDetails extends StatelessWidget {
-  const _InvoiceFormDetails({
-    required this.paddingH,
-    required this.form,
-    super.key, // ignore: unused_element
-  });
-
-  final double paddingH;
-  final InvoiceFormController form;
-
-  @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        primary: true,
-        padding: EdgeInsets.symmetric(
-          horizontal: paddingH,
-          vertical: 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _InvoiceFormSection(
-              children: <Widget>[
-                InputTextField(
-                  controller: form.number,
-                  label: 'Number',
-                  prefixIcon: const Icon(Icons.numbers),
-                  suffixIcon: IconButton(
-                    // Generate new number
-                    icon: const Icon(Icons.restore),
-                    onPressed: form.generateNumber,
-                  ),
-                  multiline: false,
-                  autocorrect: false,
-                  keyboardType: TextInputType.text,
-                  minLines: 1,
-                ),
-                AdaptiveDatePicker(
-                  label: 'Issued at',
-                  controller: form.issuedAt,
-                  isRequired: true,
-                ),
-                AdaptiveDatePicker(
-                  label: 'Due at',
-                  controller: form.dueAt,
-                ),
-                AdaptiveDatePicker(
-                  label: 'Paid at',
-                  controller: form.paidAt,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            _InvoiceFormSection(
-              children: <Widget>[
-                OrganizationPicker(
-                  label: 'Organization',
-                  controller: form.organization,
-                  prefixIcon: const Icon(Icons.business),
-                  filter: (organization) => organization.type.isOrganization,
-                ),
-                OrganizationPicker(
-                  label: 'Counterparty',
-                  controller: form.counterparty,
-                  prefixIcon: const Icon(Icons.person),
-                  filter: (organization) => organization.type.isCounterparty,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            _InvoiceFormSection(
-              children: <Widget>[
-                CurrencyPicker(
-                  label: 'Currency',
-                  controller: form.currency,
-                  prefixIcon: const Icon(Icons.money),
-                ),
-                OutputTextField(
-                  label: 'Total',
-                  controller: form.total,
-                  output: (value) => value.amount.toString(),
-                  prefixIcon: const Icon(Icons.monetization_on),
-                  multiline: false,
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                ),
-              ],
-            ),
-            /* const SizedBox(height: 16),
-            const _InvoiceFormSection(
-              children: <Widget>[
-                ColoredBox(color: Colors.red, child: SizedBox.expand()),
-                ColoredBox(color: Colors.blue, child: SizedBox.expand()),
-              ],
-            ), */
-          ],
-        ),
       );
 }
 
@@ -561,69 +405,6 @@ class _InvoiceHeaderButtons extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-      );
-}
-
-class _InvoiceFormSection extends StatelessWidget {
-  const _InvoiceFormSection({
-    required this.children,
-    super.key, // ignore: unused_element
-  });
-
-  final List<Widget> children;
-
-  static List<Widget> _buildOneColumn(List<Widget> children) => List<Widget>.generate(
-        children.length,
-        (i) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: SizedBox(
-            height: 64,
-            child: children[i],
-          ),
-        ),
-        growable: false,
-      );
-
-  static List<Widget> _buildTwoColumn(List<Widget> children) => List<Widget>.generate(
-        (children.length / 2).ceil(),
-        (i) {
-          final index = i * 2;
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: SizedBox(
-              height: 64,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: children[index]),
-                  const SizedBox(width: 16),
-                  Expanded(child: index + 1 < children.length ? children[index + 1] : const SizedBox.shrink()),
-                ],
-              ),
-            ),
-          );
-        },
-        growable: false,
-      );
-
-  @override
-  Widget build(BuildContext context) => Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final twoColumn = constraints.maxWidth >= Config.maxScreenLayoutWidth * 0.75;
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: twoColumn ? _buildTwoColumn(children) : _buildOneColumn(children),
-              );
-            },
           ),
         ),
       );
