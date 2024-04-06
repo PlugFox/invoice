@@ -6,6 +6,7 @@ import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/common/widget/scaffold_padding.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+import 'package:invoice/src/feature/organizations/widget/organizations_scope.dart';
 import 'package:octopus/octopus.dart';
 
 /// {@template invoices_screen}
@@ -17,16 +18,40 @@ class InvoicesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var invoices = InvoicesScope.getInvoices(context);
-    /* invoices = [
-      for (var i = 0; i < 100; i++) ...invoices,
-    ]; */
-
+    final invoices = InvoicesScope.getInvoices(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => InvoicesScope.of(context).createInvoice(
-          onSuccess: (invoice) => _InvoiceTile.openInvoice(context, invoice.id),
-        ),
+        onPressed: () {
+          final controller = InvoicesScope.of(context);
+          final organizations = OrganizationsScope.getOrganizations(context, listen: false);
+          controller.createInvoice(
+            onSuccess: (target) {
+              final orgs = organizations.where((e) => e.type.isOrganization).take(2).toList(growable: false);
+              final clients = organizations.where((e) => e.type.isCounterparty).take(2).toList(growable: false);
+              final now = DateTime.now();
+              controller.updateInvoice(
+                invoice: Invoice(
+                  id: target.id,
+                  createdAt: target.createdAt,
+                  updatedAt: target.updatedAt,
+                  number: Invoice.generateNumber(target.id, now),
+                  status: InvoiceStatus.draft,
+                  services: const <ProvidedService>[],
+                  total: target.total,
+                  description: target.description,
+                  organization: target.organization ?? (orgs.length == 1 ? orgs.first : null),
+                  counterparty: target.counterparty ?? (clients.length == 1 ? clients.first : null),
+                  issuedAt: now,
+                  dueAt: now.day > DateUtils.getDaysInMonth(now.year, now.month) / 2
+                      ? DateTime(now.year, now.month + 2, 1)
+                      : DateTime(now.year, now.month + 1, 1),
+                  paidAt: null,
+                ),
+                onSuccess: (invoice) => _InvoiceTile.openInvoice(context, invoice.id),
+              );
+            },
+          );
+        },
         tooltip: 'Create new invoice',
         child: const Icon(Icons.add),
       ),
@@ -87,29 +112,31 @@ class _InvoiceTile extends StatelessWidget {
   static void copyInvoice(BuildContext context, InvoiceId id) {
     if (!context.mounted) return;
     final controller = InvoicesScope.of(context);
-    final now = DateTime.now();
     controller.fetchInvoiceById(
       id,
       onSuccess: (source) => controller.createInvoice(
-        onSuccess: (target) => controller.updateInvoice(
-          invoice: Invoice(
-            id: target.id,
-            createdAt: now,
-            updatedAt: now,
-            number: Invoice.generateNumber(target.id, now),
-            status: InvoiceStatus.draft,
-            total: source.total,
-            services: source.services.map((e) => e.copyWith()).toList(growable: false),
-            description: source.description,
-            organization: source.organization,
-            counterparty: source.counterparty,
-            issuedAt: now,
-            dueAt: now.day > DateUtils.getDaysInMonth(now.year, now.month) / 2
-                ? DateTime(now.year, now.month + 2, 1)
-                : DateTime(now.year, now.month + 1, 1),
-            paidAt: null,
-          ),
-        ),
+        onSuccess: (target) {
+          final now = DateTime.now();
+          controller.updateInvoice(
+            invoice: Invoice(
+              id: target.id,
+              createdAt: target.createdAt,
+              updatedAt: target.updatedAt,
+              number: Invoice.generateNumber(target.id, now),
+              status: InvoiceStatus.draft,
+              total: source.total,
+              services: source.services.map((e) => e.copyWith()).toList(growable: false),
+              description: source.description,
+              organization: source.organization,
+              counterparty: source.counterparty,
+              issuedAt: now,
+              dueAt: now.day > DateUtils.getDaysInMonth(now.year, now.month) / 2
+                  ? DateTime(now.year, now.month + 2, 1)
+                  : DateTime(now.year, now.month + 1, 1),
+              paidAt: null,
+            ),
+          );
+        },
       ),
     );
   }

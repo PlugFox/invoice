@@ -19,7 +19,6 @@ class OrganizationPicker extends StatelessWidget {
     this.textInputAction,
     this.floatingLabelBehavior,
     this.prefixIcon,
-    this.suffixIcon,
     this.filter,
     super.key, // ignore: unused_element
   });
@@ -32,7 +31,6 @@ class OrganizationPicker extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FloatingLabelBehavior? floatingLabelBehavior;
   final Widget? prefixIcon;
-  final Widget? suffixIcon;
   final ValueNotifier<Organization?> controller;
   final bool Function(Organization organization)? filter;
 
@@ -79,8 +77,8 @@ class OrganizationPicker extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Autocomplete<Organization>(
                 initialValue: initialValue ?? TextEditingValue(text: controller.value?.name ?? ''),
-                fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) => TextField(
-                  controller: controller,
+                fieldViewBuilder: (context, textController, focusNode, onFieldSubmitted) => TextField(
+                  controller: textController,
                   focusNode: focusNode,
                   maxLines: 1,
                   expands: false,
@@ -103,7 +101,18 @@ class OrganizationPicker extends StatelessWidget {
                     contentPadding: const EdgeInsets.fromLTRB(16, 8, 4, 8),
                     prefixIcon: prefixIcon,
                     prefixIconConstraints: const BoxConstraints.expand(width: 48, height: 48),
-                    suffixIcon: suffixIcon,
+                    suffixIcon: ValueListenableBuilder<Organization?>(
+                      valueListenable: controller,
+                      builder: (context, value, child) => IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: value == null
+                            ? null
+                            : () {
+                                textController.clear();
+                                controller.value = null;
+                              },
+                      ),
+                    ),
                     suffixIconConstraints: const BoxConstraints.expand(width: 48, height: 48),
                     counter: const SizedBox.shrink(),
                     errorText: null,
