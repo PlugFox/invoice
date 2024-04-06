@@ -105,7 +105,7 @@ final class InvoiceFormController extends Controller with ConcurrentControllerHa
   }
 
   /// Change services list
-  void changeServices(List<ProvidedService> Function(List<ProvidedService> services) fn) {
+  void changeServices(Iterable<ProvidedService> Function(List<ProvidedService> services) fn) {
     final list = fn(services.value);
     if (identical(list, services.value)) return;
     final copy = list.mapIndexed((i, s) => s.copyWith(number: i + 1)).toList(growable: false);
@@ -114,9 +114,9 @@ final class InvoiceFormController extends Controller with ConcurrentControllerHa
 
   /// Re eval total
   void _evalTotal() {
-    var total = BigInt.zero;
-    for (final s in services.value) total += s.amount.minorUnits;
-    _total.value = Money.fromBigIntWithCurrency(total, currency.value);
+    var total = Fixed.zero;
+    for (final s in services.value) total += s.amount;
+    _total.value = Money.fromFixedWithCurrency(total, currency.value);
   }
 
   /// On notifiers changed

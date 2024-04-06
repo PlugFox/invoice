@@ -87,6 +87,7 @@ class InvoiceFormDetails extends StatelessWidget {
                 ),
                 OutputTextField(
                   label: 'Total',
+                  enabled: false,
                   controller: form.total,
                   output: (value) => value.amount.toString(),
                   prefixIcon: const Icon(Icons.monetization_on),

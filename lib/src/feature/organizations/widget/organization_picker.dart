@@ -75,62 +75,59 @@ class OrganizationPicker extends StatelessWidget {
         child: SizedBox(
           height: 56,
           child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Autocomplete<Organization>(
-                initialValue: initialValue ?? TextEditingValue(text: controller.value?.name ?? ''),
-                optionsBuilder: (textEditingValue) => optionsBuilder(context, textEditingValue),
-                displayStringForOption: (option) => option.name,
-                onSelected: (value) => controller.value = value,
-                optionsViewBuilder: (context, onSelected, options) => Align(
-                  alignment: Alignment.topLeft,
-                  child: SizedBox(
-                    height: math.min(options.length * 48.0, 5 * 48.0),
-                    width: 320,
-                    child: Material(
-                      elevation: 4,
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemExtent: 48,
-                        itemCount: options.length,
-                        itemBuilder: (context, index) {
-                          final option = options.elementAt(index);
-                          return ListTile(
-                            title: Text(option.name),
-                            onTap: () => onSelected(option),
-                          );
-                        },
-                      ),
+            child: Autocomplete<Organization>(
+              initialValue: initialValue ?? TextEditingValue(text: controller.value?.name ?? ''),
+              optionsBuilder: (textEditingValue) => optionsBuilder(context, textEditingValue),
+              displayStringForOption: (option) => option.name,
+              onSelected: (value) => controller.value = value,
+              optionsViewBuilder: (context, onSelected, options) => Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  height: math.min(options.length * 48.0, 5 * 48.0),
+                  width: 320,
+                  child: Material(
+                    elevation: 4,
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemExtent: 48,
+                      itemCount: options.length,
+                      itemBuilder: (context, index) {
+                        final option = options.elementAt(index);
+                        return ListTile(
+                          title: Text(option.name),
+                          onTap: () => onSelected(option),
+                        );
+                      },
                     ),
                   ),
                 ),
-                fieldViewBuilder: (context, textController, focusNode, onFieldSubmitted) => InputTextField(
-                  controller: textController,
-                  focusNode: focusNode,
-                  expands: false,
-                  keyboardType: TextInputType.text,
-                  autofillHints: const <String>[AutofillHints.organizationName],
-                  autocorrect: true,
-                  textInputAction: textInputAction,
-                  /* onFieldSubmitted: (value) {
-                    onFieldSubmitted();
-                    controller.text = value;
-                  }, */
-                  label: label,
-                  hint: hint,
-                  floatingLabelBehavior: floatingLabelBehavior,
-                  prefixIcon: prefixIcon,
-                  suffixIcon: ValueListenableBuilder<Organization?>(
-                    valueListenable: controller,
-                    builder: (context, value, child) => IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: value == null
-                          ? null
-                          : () {
-                              textController.clear();
-                              controller.value = null;
-                            },
-                    ),
+              ),
+              fieldViewBuilder: (context, textController, focusNode, onFieldSubmitted) => InputTextField(
+                controller: textController,
+                focusNode: focusNode,
+                expands: false,
+                keyboardType: TextInputType.text,
+                autofillHints: const <String>[AutofillHints.organizationName],
+                autocorrect: true,
+                textInputAction: textInputAction,
+                /* onFieldSubmitted: (value) {
+                  onFieldSubmitted();
+                  controller.text = value;
+                }, */
+                label: label,
+                hint: hint,
+                floatingLabelBehavior: floatingLabelBehavior,
+                prefixIcon: prefixIcon,
+                suffixIcon: ValueListenableBuilder<Organization?>(
+                  valueListenable: controller,
+                  builder: (context, value, child) => IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: value == null
+                        ? null
+                        : () {
+                            textController.clear();
+                            controller.value = null;
+                          },
                   ),
                 ),
               ),
