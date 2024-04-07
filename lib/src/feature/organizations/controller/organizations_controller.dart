@@ -23,7 +23,7 @@ final class OrganizationsController extends StateController<OrganizationsState> 
           setState(OrganizationsState.successful(data: organizations..sort()));
           setState(OrganizationsState.idle(data: state.data));
         },
-        error: (error, stackTrace) {
+        error: (error, stackTrace) async {
           setState(OrganizationsState.error(
             data: state.data,
             message: kDebugMode ? error.toString() : 'An error has occurred',
@@ -50,7 +50,7 @@ final class OrganizationsController extends StateController<OrganizationsState> 
           setState(OrganizationsState.successful(data: newData..sort()));
           onSuccess?.call(organization);
         },
-        error: (error, stackTrace) {
+        error: (error, stackTrace) async {
           setState(OrganizationsState.error(
             data: state.data,
             message: kDebugMode ? error.toString() : 'An error has occurred',
@@ -79,12 +79,12 @@ final class OrganizationsController extends StateController<OrganizationsState> 
       );
       setState(OrganizationsState.successful(data: [organization, ...state.data]..sort()));
       onSuccess?.call(organization);
-    }, error: (error, stackTrace) {
+    }, error: (error, stackTrace) async {
       setState(OrganizationsState.error(
         data: state.data,
         message: kDebugMode ? error.toString() : 'An error has occurred',
       ));
-    }, done: () {
+    }, done: () async {
       setState(OrganizationsState.idle(data: state.data));
     });
   }
@@ -107,12 +107,12 @@ final class OrganizationsController extends StateController<OrganizationsState> 
       }
       setState(OrganizationsState.successful(data: newData..sort()));
       onSuccess?.call(updatedOrganization);
-    }, error: (error, stackTrace) {
+    }, error: (error, stackTrace) async {
       setState(OrganizationsState.error(
         data: state.data,
         message: kDebugMode ? error.toString() : 'An error has occurred',
       ));
-    }, done: () {
+    }, done: () async {
       setState(OrganizationsState.idle(data: state.data));
     });
   }
@@ -128,12 +128,12 @@ final class OrganizationsController extends StateController<OrganizationsState> 
         final newData = state.data.where((element) => element.id != id).toList(growable: false);
         setState(OrganizationsState.successful(data: newData));
         onSuccess?.call();
-      }, error: (error, stackTrace) {
+      }, error: (error, stackTrace) async {
         setState(OrganizationsState.error(
           data: state.data,
           message: kDebugMode ? error.toString() : 'An error has occurred',
         ));
-      }, done: () {
+      }, done: () async {
         setState(OrganizationsState.idle(data: state.data));
       });
 }

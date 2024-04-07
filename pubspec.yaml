@@ -73,7 +73,7 @@ dependencies:
   window_manager: ^0.3.4
 
   # State management
-  control: ^0.0.3-pre.1
+  control: ^0.1.0
 
   # Database
   shared_preferences: ^2.2.2

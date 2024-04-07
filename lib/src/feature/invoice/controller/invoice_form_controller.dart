@@ -77,7 +77,7 @@ final class InvoiceFormController extends Controller with ConcurrentControllerHa
   late final List<ValueNotifier<Object?>> _notifiers;
 
   /// Update from invoice
-  void update(Invoice invoice) => handle(() {
+  void update(Invoice invoice) => handle(() async {
         _invoice = invoice;
         issuedAt.value = invoice.issuedAt;
         dueAt.value = invoice.dueAt;

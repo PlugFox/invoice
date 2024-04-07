@@ -23,7 +23,7 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
           setState(InvoicesState.successful(data: invoices..sort()));
           setState(InvoicesState.idle(data: state.data));
         },
-        error: (error, stackTrace) {
+        error: (error, stackTrace) async {
           setState(InvoicesState.error(
             data: state.data,
             message: kDebugMode ? error.toString() : 'An error has occurred',
@@ -50,7 +50,7 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
           setState(InvoicesState.successful(data: newData..sort()));
           onSuccess?.call(invoice);
         },
-        error: (error, stackTrace) {
+        error: (error, stackTrace) async {
           setState(InvoicesState.error(
             data: state.data,
             message: kDebugMode ? error.toString() : 'An error has occurred',
@@ -67,12 +67,12 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
         final invoice = await _repository.createInvoice();
         setState(InvoicesState.successful(data: [invoice, ...state.data]..sort()));
         onSuccess?.call(invoice);
-      }, error: (error, stackTrace) {
+      }, error: (error, stackTrace) async {
         setState(InvoicesState.error(
           data: state.data,
           message: kDebugMode ? error.toString() : 'An error has occurred',
         ));
-      }, done: () {
+      }, done: () async {
         setState(InvoicesState.idle(data: state.data));
       });
 
@@ -93,12 +93,12 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
         }
         setState(InvoicesState.successful(data: newData..sort()));
         onSuccess?.call(updatedInvoice);
-      }, error: (error, stackTrace) {
+      }, error: (error, stackTrace) async {
         setState(InvoicesState.error(
           data: state.data,
           message: kDebugMode ? error.toString() : 'An error has occurred',
         ));
-      }, done: () {
+      }, done: () async {
         setState(InvoicesState.idle(data: state.data));
       });
 
@@ -113,12 +113,12 @@ final class InvoicesController extends StateController<InvoicesState> with Concu
         final newData = state.data.where((element) => element.id != id).toList(growable: false);
         setState(InvoicesState.successful(data: newData));
         onSuccess?.call();
-      }, error: (error, stackTrace) {
+      }, error: (error, stackTrace) async {
         setState(InvoicesState.error(
           data: state.data,
           message: kDebugMode ? error.toString() : 'An error has occurred',
         ));
-      }, done: () {
+      }, done: () async {
         setState(InvoicesState.idle(data: state.data));
       });
 }
