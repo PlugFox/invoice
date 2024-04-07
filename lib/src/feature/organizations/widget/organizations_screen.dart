@@ -293,7 +293,7 @@ class _OrganizationTile extends StatelessWidget {
                       Text(
                         organization.address ??
                             organization.description ??
-                            'Created at: ${DateUtil.format(organization.createdAt)}',
+                            'Created at: ${organization.createdAt.format()}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1),

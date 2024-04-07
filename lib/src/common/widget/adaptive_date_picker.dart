@@ -73,7 +73,7 @@ class AdaptiveDatePicker extends StatelessWidget {
               child: ValueListenableBuilder<DateTime?>(
                 valueListenable: controller,
                 builder: (context, value, child) => Text(
-                  DateUtil.format(value, format: DateFormat.yMMMd()),
+                  value?.format(format: DateFormat.yMMMd()) ?? '-',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

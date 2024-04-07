@@ -226,7 +226,7 @@ class _InvoiceTile extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1),
                       ),
                       Text(
-                        DateUtil.format(invoice.createdAt),
+                        invoice.createdAt.format(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1),
