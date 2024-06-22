@@ -36,7 +36,7 @@ class OrganizationPicker extends StatelessWidget {
   final Widget? prefixIcon;
   final ValueNotifier<Organization?> controller;
   final bool Function(Organization organization)? filter;
-  final Widget Function(BuildContext context)? createNew;
+  final Widget Function(BuildContext context, void Function(Organization) onSelected)? createNew;
 
   static String? _lastSearchText;
   Future<List<Organization>> optionsBuilder(BuildContext context, TextEditingValue value) async {
@@ -113,7 +113,7 @@ class OrganizationPicker extends StatelessWidget {
                       itemExtent: 48,
                       itemCount: options.length,
                       itemBuilder: (context, index) {
-                        if (index == 0 && createNew != null) return createNew!.call(context);
+                        if (index == 0 && createNew != null) return createNew!.call(context, onSelected);
                         final option = options.elementAt(index);
                         return ListTile(
                           title: Text(option.name),

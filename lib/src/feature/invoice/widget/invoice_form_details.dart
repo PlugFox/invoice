@@ -71,12 +71,17 @@ class InvoiceFormDetails extends StatelessWidget {
                   controller: form.organization,
                   prefixIcon: const Icon(Icons.business),
                   filter: (organization) => organization.type.isOrganization,
-                  createNew: (context) => ListTile(
+                  createNew: (context, onSelected) => ListTile(
                     title: const Text('Create new organization'),
                     onTap: () => OrganizationsScope.of(context).createOrganization(
                       name: 'New organization',
                       type: OrganizationType.organization,
-                      onSuccess: (organization) => OrganizationDialog.show(context, organization),
+                      onSuccess: (organization) {
+                        onSelected(organization);
+                        OrganizationDialog.show(context, organization).then<void>((value) {
+                          if (value != null) onSelected(value);
+                        }).ignore();
+                      },
                     ),
                   ),
                 ),
@@ -85,12 +90,17 @@ class InvoiceFormDetails extends StatelessWidget {
                   controller: form.counterparty,
                   prefixIcon: const Icon(Icons.person),
                   filter: (organization) => organization.type.isCounterparty,
-                  createNew: (context) => ListTile(
+                  createNew: (context, onSelected) => ListTile(
                     title: const Text('Create new counterparty'),
                     onTap: () => OrganizationsScope.of(context).createOrganization(
                       name: 'New counterparty',
                       type: OrganizationType.counterparty,
-                      onSuccess: (counterparty) => OrganizationDialog.show(context, counterparty),
+                      onSuccess: (counterparty) {
+                        onSelected(counterparty);
+                        OrganizationDialog.show(context, counterparty).then<void>((value) {
+                          if (value != null) onSelected(value);
+                        }).ignore();
+                      },
                     ),
                   ),
                 ),
