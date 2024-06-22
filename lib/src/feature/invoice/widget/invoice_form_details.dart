@@ -5,7 +5,10 @@ import 'package:invoice/src/common/widget/input_text_field.dart';
 import 'package:invoice/src/common/widget/output_text_field.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
 import 'package:invoice/src/feature/invoice/widget/invoice_form_section.dart';
+import 'package:invoice/src/feature/organizations/model/organization.dart';
+import 'package:invoice/src/feature/organizations/widget/organization_dialog.dart';
 import 'package:invoice/src/feature/organizations/widget/organization_picker.dart';
+import 'package:invoice/src/feature/organizations/widget/organizations_scope.dart';
 
 class InvoiceFormDetails extends StatelessWidget {
   const InvoiceFormDetails({
@@ -68,12 +71,28 @@ class InvoiceFormDetails extends StatelessWidget {
                   controller: form.organization,
                   prefixIcon: const Icon(Icons.business),
                   filter: (organization) => organization.type.isOrganization,
+                  createNew: (context) => ListTile(
+                    title: const Text('Create new organization'),
+                    onTap: () => OrganizationsScope.of(context).createOrganization(
+                      name: 'New organization',
+                      type: OrganizationType.organization,
+                      onSuccess: (organization) => OrganizationDialog.show(context, organization),
+                    ),
+                  ),
                 ),
                 OrganizationPicker(
                   label: 'Counterparty',
                   controller: form.counterparty,
                   prefixIcon: const Icon(Icons.person),
                   filter: (organization) => organization.type.isCounterparty,
+                  createNew: (context) => ListTile(
+                    title: const Text('Create new counterparty'),
+                    onTap: () => OrganizationsScope.of(context).createOrganization(
+                      name: 'New counterparty',
+                      type: OrganizationType.counterparty,
+                      onSuccess: (counterparty) => OrganizationDialog.show(context, counterparty),
+                    ),
+                  ),
                 ),
               ],
             ),

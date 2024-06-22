@@ -22,6 +22,7 @@ class OrganizationPicker extends StatelessWidget {
     this.floatingLabelBehavior,
     this.prefixIcon,
     this.filter,
+    this.createNew,
     super.key, // ignore: unused_element
   });
 
@@ -35,14 +36,33 @@ class OrganizationPicker extends StatelessWidget {
   final Widget? prefixIcon;
   final ValueNotifier<Organization?> controller;
   final bool Function(Organization organization)? filter;
+  final Widget Function(BuildContext context)? createNew;
 
   static String? _lastSearchText;
   Future<List<Organization>> optionsBuilder(BuildContext context, TextEditingValue value) async {
+    final createNewPlaceholder = createNew != null
+        ? Organization(
+            id: -1,
+            name: 'Create new organization',
+            tax: null,
+            address: null,
+            description: null,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            type: OrganizationType.organization,
+          )
+        : null;
     final text = _lastSearchText = value.text.trim().toLowerCase();
     final organizations = OrganizationsScope.getOrganizations(context, listen: false);
     final where = filter?.call ?? (_) => true;
-    if (text.isEmpty) return organizations.where(where).take(suggestionsLimit).toList(growable: false);
-    final result = <Organization>[];
+    if (text.isEmpty)
+      return <Organization>[
+        if (createNewPlaceholder != null) createNewPlaceholder,
+        ...organizations.where(where).take(suggestionsLimit),
+      ];
+    final result = <Organization>[
+      if (createNewPlaceholder != null) createNewPlaceholder,
+    ];
     final stopwatch = Stopwatch()..start();
     try {
       for (final org in organizations) {
@@ -80,6 +100,7 @@ class OrganizationPicker extends StatelessWidget {
               optionsBuilder: (textEditingValue) => optionsBuilder(context, textEditingValue),
               displayStringForOption: (option) => option.name,
               onSelected: (value) => controller.value = value,
+              optionsViewOpenDirection: OptionsViewOpenDirection.down,
               optionsViewBuilder: (context, onSelected, options) => Align(
                 alignment: Alignment.topLeft,
                 child: SizedBox(
@@ -92,6 +113,7 @@ class OrganizationPicker extends StatelessWidget {
                       itemExtent: 48,
                       itemCount: options.length,
                       itemBuilder: (context, index) {
+                        if (index == 0 && createNew != null) return createNew!.call(context);
                         final option = options.elementAt(index);
                         return ListTile(
                           title: Text(option.name),

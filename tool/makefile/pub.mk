@@ -64,7 +64,6 @@ format:
 	@dart format --fix -l 120 .
 	@(dart format --fix -l 120 .)
 
-
 # Analyze code
 analyze: get format
 	@dart analyze --fatal-infos --fatal-warnings
@@ -78,3 +77,9 @@ check: analyze
 # Publish package
 publish:
 	@dart pub publish
+
+# Install pods
+# sudo gem install cocoapods
+pod-install:
+	@(cd ios && pod install)
+	@(cd macos && pod install)
