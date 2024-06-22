@@ -131,7 +131,7 @@ Invoice _decodeInvoice({
           ),
         null => null,
       };
-  final total = Money.fromInt(inv.total, code: inv.currency);
+  final total = Money.fromInt(inv.total, isoCode: inv.currency);
   return Invoice(
     id: inv.id,
     deleted: inv.deleted == 1,
@@ -180,7 +180,7 @@ Invoice _decodeInvoice({
     counterpartyId: Value(inv.counterparty?.id),
     status: Value(InvoiceStatus.values.indexOf(inv.status)),
     number: Value(inv.number),
-    currency: Value(inv.total.currency.code),
+    currency: Value(inv.total.currency.isoCode),
     total: Value(inv.total.minorUnits.toInt()),
     description: Value(inv.description),
   );

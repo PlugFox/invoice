@@ -3663,6 +3663,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
 
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
+  _$DatabaseManager get managers => _$DatabaseManager(this);
   late final InvoiceTbl invoiceTbl = InvoiceTbl(this);
   late final Index invoiceCreatedAtIdx =
       Index('invoice_created_at_idx', 'CREATE INDEX IF NOT EXISTS invoice_created_at_idx ON invoice_tbl (created_at)');
@@ -3872,4 +3873,1558 @@ abstract class _$Database extends GeneratedDatabase {
           ),
         ],
       );
+}
+
+typedef $InvoiceTblInsertCompanionBuilder = InvoiceTblCompanion Function({
+  Value<int> id,
+  Value<int> deleted,
+  Value<int> createdAt,
+  Value<int> updatedAt,
+  Value<int> issuedAt,
+  Value<int?> dueAt,
+  Value<int?> paidAt,
+  Value<int?> organizationId,
+  Value<int?> counterpartyId,
+  Value<String?> number,
+  Value<int> status,
+  Value<String> currency,
+  Value<int> total,
+  Value<String?> description,
+});
+typedef $InvoiceTblUpdateCompanionBuilder = InvoiceTblCompanion Function({
+  Value<int> id,
+  Value<int> deleted,
+  Value<int> createdAt,
+  Value<int> updatedAt,
+  Value<int> issuedAt,
+  Value<int?> dueAt,
+  Value<int?> paidAt,
+  Value<int?> organizationId,
+  Value<int?> counterpartyId,
+  Value<String?> number,
+  Value<int> status,
+  Value<String> currency,
+  Value<int> total,
+  Value<String?> description,
+});
+
+class $InvoiceTblTableManager extends RootTableManager<
+    _$Database,
+    InvoiceTbl,
+    InvoiceTblData,
+    $InvoiceTblFilterComposer,
+    $InvoiceTblOrderingComposer,
+    $InvoiceTblProcessedTableManager,
+    $InvoiceTblInsertCompanionBuilder,
+    $InvoiceTblUpdateCompanionBuilder> {
+  $InvoiceTblTableManager(_$Database db, InvoiceTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $InvoiceTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $InvoiceTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $InvoiceTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> deleted = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> updatedAt = const Value.absent(),
+            Value<int> issuedAt = const Value.absent(),
+            Value<int?> dueAt = const Value.absent(),
+            Value<int?> paidAt = const Value.absent(),
+            Value<int?> organizationId = const Value.absent(),
+            Value<int?> counterpartyId = const Value.absent(),
+            Value<String?> number = const Value.absent(),
+            Value<int> status = const Value.absent(),
+            Value<String> currency = const Value.absent(),
+            Value<int> total = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              InvoiceTblCompanion(
+            id: id,
+            deleted: deleted,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            issuedAt: issuedAt,
+            dueAt: dueAt,
+            paidAt: paidAt,
+            organizationId: organizationId,
+            counterpartyId: counterpartyId,
+            number: number,
+            status: status,
+            currency: currency,
+            total: total,
+            description: description,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> deleted = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> updatedAt = const Value.absent(),
+            Value<int> issuedAt = const Value.absent(),
+            Value<int?> dueAt = const Value.absent(),
+            Value<int?> paidAt = const Value.absent(),
+            Value<int?> organizationId = const Value.absent(),
+            Value<int?> counterpartyId = const Value.absent(),
+            Value<String?> number = const Value.absent(),
+            Value<int> status = const Value.absent(),
+            Value<String> currency = const Value.absent(),
+            Value<int> total = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              InvoiceTblCompanion.insert(
+            id: id,
+            deleted: deleted,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            issuedAt: issuedAt,
+            dueAt: dueAt,
+            paidAt: paidAt,
+            organizationId: organizationId,
+            counterpartyId: counterpartyId,
+            number: number,
+            status: status,
+            currency: currency,
+            total: total,
+            description: description,
+          ),
+        ));
+}
+
+class $InvoiceTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    InvoiceTbl,
+    InvoiceTblData,
+    $InvoiceTblFilterComposer,
+    $InvoiceTblOrderingComposer,
+    $InvoiceTblProcessedTableManager,
+    $InvoiceTblInsertCompanionBuilder,
+    $InvoiceTblUpdateCompanionBuilder> {
+  $InvoiceTblProcessedTableManager(super.$state);
+}
+
+class $InvoiceTblFilterComposer extends FilterComposer<_$Database, InvoiceTbl> {
+  $InvoiceTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get deleted => $state.composableBuilder(
+      column: $state.table.deleted,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get createdAt => $state.composableBuilder(
+      column: $state.table.createdAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get issuedAt => $state.composableBuilder(
+      column: $state.table.issuedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get dueAt => $state.composableBuilder(
+      column: $state.table.dueAt, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get paidAt => $state.composableBuilder(
+      column: $state.table.paidAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get counterpartyId => $state.composableBuilder(
+      column: $state.table.counterpartyId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get number => $state.composableBuilder(
+      column: $state.table.number,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get status => $state.composableBuilder(
+      column: $state.table.status,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get currency => $state.composableBuilder(
+      column: $state.table.currency,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get total => $state.composableBuilder(
+      column: $state.table.total, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $InvoiceTblOrderingComposer extends OrderingComposer<_$Database, InvoiceTbl> {
+  $InvoiceTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get deleted => $state.composableBuilder(
+      column: $state.table.deleted,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get createdAt => $state.composableBuilder(
+      column: $state.table.createdAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get issuedAt => $state.composableBuilder(
+      column: $state.table.issuedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get dueAt => $state.composableBuilder(
+      column: $state.table.dueAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get paidAt => $state.composableBuilder(
+      column: $state.table.paidAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get counterpartyId => $state.composableBuilder(
+      column: $state.table.counterpartyId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get number => $state.composableBuilder(
+      column: $state.table.number,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get status => $state.composableBuilder(
+      column: $state.table.status,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get currency => $state.composableBuilder(
+      column: $state.table.currency,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get total => $state.composableBuilder(
+      column: $state.table.total,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $ServiceTblInsertCompanionBuilder = ServiceTblCompanion Function({
+  Value<int> id,
+  required int invoiceId,
+  required int number,
+  required String name,
+  required int amount,
+});
+typedef $ServiceTblUpdateCompanionBuilder = ServiceTblCompanion Function({
+  Value<int> id,
+  Value<int> invoiceId,
+  Value<int> number,
+  Value<String> name,
+  Value<int> amount,
+});
+
+class $ServiceTblTableManager extends RootTableManager<
+    _$Database,
+    ServiceTbl,
+    ServiceTblData,
+    $ServiceTblFilterComposer,
+    $ServiceTblOrderingComposer,
+    $ServiceTblProcessedTableManager,
+    $ServiceTblInsertCompanionBuilder,
+    $ServiceTblUpdateCompanionBuilder> {
+  $ServiceTblTableManager(_$Database db, ServiceTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $ServiceTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $ServiceTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $ServiceTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> invoiceId = const Value.absent(),
+            Value<int> number = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<int> amount = const Value.absent(),
+          }) =>
+              ServiceTblCompanion(
+            id: id,
+            invoiceId: invoiceId,
+            number: number,
+            name: name,
+            amount: amount,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required int invoiceId,
+            required int number,
+            required String name,
+            required int amount,
+          }) =>
+              ServiceTblCompanion.insert(
+            id: id,
+            invoiceId: invoiceId,
+            number: number,
+            name: name,
+            amount: amount,
+          ),
+        ));
+}
+
+class $ServiceTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    ServiceTbl,
+    ServiceTblData,
+    $ServiceTblFilterComposer,
+    $ServiceTblOrderingComposer,
+    $ServiceTblProcessedTableManager,
+    $ServiceTblInsertCompanionBuilder,
+    $ServiceTblUpdateCompanionBuilder> {
+  $ServiceTblProcessedTableManager(super.$state);
+}
+
+class $ServiceTblFilterComposer extends FilterComposer<_$Database, ServiceTbl> {
+  $ServiceTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get invoiceId => $state.composableBuilder(
+      column: $state.table.invoiceId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get number => $state.composableBuilder(
+      column: $state.table.number,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get name => $state.composableBuilder(
+      column: $state.table.name, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get amount => $state.composableBuilder(
+      column: $state.table.amount,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $ServiceTblOrderingComposer extends OrderingComposer<_$Database, ServiceTbl> {
+  $ServiceTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get invoiceId => $state.composableBuilder(
+      column: $state.table.invoiceId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get number => $state.composableBuilder(
+      column: $state.table.number,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get name => $state.composableBuilder(
+      column: $state.table.name,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get amount => $state.composableBuilder(
+      column: $state.table.amount,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $OrganizationTblInsertCompanionBuilder = OrganizationTblCompanion Function({
+  Value<int> id,
+  Value<int> deleted,
+  Value<int> createdAt,
+  Value<int> updatedAt,
+  Value<int> type,
+  required String name,
+  Value<String?> address,
+  Value<String?> tax,
+  Value<String?> description,
+});
+typedef $OrganizationTblUpdateCompanionBuilder = OrganizationTblCompanion Function({
+  Value<int> id,
+  Value<int> deleted,
+  Value<int> createdAt,
+  Value<int> updatedAt,
+  Value<int> type,
+  Value<String> name,
+  Value<String?> address,
+  Value<String?> tax,
+  Value<String?> description,
+});
+
+class $OrganizationTblTableManager extends RootTableManager<
+    _$Database,
+    OrganizationTbl,
+    OrganizationTblData,
+    $OrganizationTblFilterComposer,
+    $OrganizationTblOrderingComposer,
+    $OrganizationTblProcessedTableManager,
+    $OrganizationTblInsertCompanionBuilder,
+    $OrganizationTblUpdateCompanionBuilder> {
+  $OrganizationTblTableManager(_$Database db, OrganizationTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $OrganizationTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $OrganizationTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $OrganizationTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> deleted = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> updatedAt = const Value.absent(),
+            Value<int> type = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String?> address = const Value.absent(),
+            Value<String?> tax = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              OrganizationTblCompanion(
+            id: id,
+            deleted: deleted,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            type: type,
+            name: name,
+            address: address,
+            tax: tax,
+            description: description,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> deleted = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> updatedAt = const Value.absent(),
+            Value<int> type = const Value.absent(),
+            required String name,
+            Value<String?> address = const Value.absent(),
+            Value<String?> tax = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              OrganizationTblCompanion.insert(
+            id: id,
+            deleted: deleted,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            type: type,
+            name: name,
+            address: address,
+            tax: tax,
+            description: description,
+          ),
+        ));
+}
+
+class $OrganizationTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    OrganizationTbl,
+    OrganizationTblData,
+    $OrganizationTblFilterComposer,
+    $OrganizationTblOrderingComposer,
+    $OrganizationTblProcessedTableManager,
+    $OrganizationTblInsertCompanionBuilder,
+    $OrganizationTblUpdateCompanionBuilder> {
+  $OrganizationTblProcessedTableManager(super.$state);
+}
+
+class $OrganizationTblFilterComposer extends FilterComposer<_$Database, OrganizationTbl> {
+  $OrganizationTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get deleted => $state.composableBuilder(
+      column: $state.table.deleted,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get createdAt => $state.composableBuilder(
+      column: $state.table.createdAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get type => $state.composableBuilder(
+      column: $state.table.type, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get name => $state.composableBuilder(
+      column: $state.table.name, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get address => $state.composableBuilder(
+      column: $state.table.address,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get tax => $state.composableBuilder(
+      column: $state.table.tax, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $OrganizationTblOrderingComposer extends OrderingComposer<_$Database, OrganizationTbl> {
+  $OrganizationTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get deleted => $state.composableBuilder(
+      column: $state.table.deleted,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get createdAt => $state.composableBuilder(
+      column: $state.table.createdAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get updatedAt => $state.composableBuilder(
+      column: $state.table.updatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get type => $state.composableBuilder(
+      column: $state.table.type,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get name => $state.composableBuilder(
+      column: $state.table.name,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get address => $state.composableBuilder(
+      column: $state.table.address,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get tax => $state.composableBuilder(
+      column: $state.table.tax, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $ContactTblInsertCompanionBuilder = ContactTblCompanion Function({
+  Value<int> id,
+  required int organizationId,
+  required int type,
+  required String value,
+  Value<String?> description,
+});
+typedef $ContactTblUpdateCompanionBuilder = ContactTblCompanion Function({
+  Value<int> id,
+  Value<int> organizationId,
+  Value<int> type,
+  Value<String> value,
+  Value<String?> description,
+});
+
+class $ContactTblTableManager extends RootTableManager<
+    _$Database,
+    ContactTbl,
+    ContactTblData,
+    $ContactTblFilterComposer,
+    $ContactTblOrderingComposer,
+    $ContactTblProcessedTableManager,
+    $ContactTblInsertCompanionBuilder,
+    $ContactTblUpdateCompanionBuilder> {
+  $ContactTblTableManager(_$Database db, ContactTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $ContactTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $ContactTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $ContactTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> organizationId = const Value.absent(),
+            Value<int> type = const Value.absent(),
+            Value<String> value = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              ContactTblCompanion(
+            id: id,
+            organizationId: organizationId,
+            type: type,
+            value: value,
+            description: description,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required int organizationId,
+            required int type,
+            required String value,
+            Value<String?> description = const Value.absent(),
+          }) =>
+              ContactTblCompanion.insert(
+            id: id,
+            organizationId: organizationId,
+            type: type,
+            value: value,
+            description: description,
+          ),
+        ));
+}
+
+class $ContactTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    ContactTbl,
+    ContactTblData,
+    $ContactTblFilterComposer,
+    $ContactTblOrderingComposer,
+    $ContactTblProcessedTableManager,
+    $ContactTblInsertCompanionBuilder,
+    $ContactTblUpdateCompanionBuilder> {
+  $ContactTblProcessedTableManager(super.$state);
+}
+
+class $ContactTblFilterComposer extends FilterComposer<_$Database, ContactTbl> {
+  $ContactTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get type => $state.composableBuilder(
+      column: $state.table.type, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get value => $state.composableBuilder(
+      column: $state.table.value, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $ContactTblOrderingComposer extends OrderingComposer<_$Database, ContactTbl> {
+  $ContactTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get type => $state.composableBuilder(
+      column: $state.table.type,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get value => $state.composableBuilder(
+      column: $state.table.value,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $AccountTblInsertCompanionBuilder = AccountTblCompanion Function({
+  Value<int> id,
+  required int organizationId,
+  required String name,
+  Value<String?> address,
+  Value<String?> swift,
+  Value<String?> iban,
+  Value<String?> beneficiary,
+  Value<String?> description,
+});
+typedef $AccountTblUpdateCompanionBuilder = AccountTblCompanion Function({
+  Value<int> id,
+  Value<int> organizationId,
+  Value<String> name,
+  Value<String?> address,
+  Value<String?> swift,
+  Value<String?> iban,
+  Value<String?> beneficiary,
+  Value<String?> description,
+});
+
+class $AccountTblTableManager extends RootTableManager<
+    _$Database,
+    AccountTbl,
+    AccountTblData,
+    $AccountTblFilterComposer,
+    $AccountTblOrderingComposer,
+    $AccountTblProcessedTableManager,
+    $AccountTblInsertCompanionBuilder,
+    $AccountTblUpdateCompanionBuilder> {
+  $AccountTblTableManager(_$Database db, AccountTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $AccountTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $AccountTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $AccountTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> organizationId = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String?> address = const Value.absent(),
+            Value<String?> swift = const Value.absent(),
+            Value<String?> iban = const Value.absent(),
+            Value<String?> beneficiary = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              AccountTblCompanion(
+            id: id,
+            organizationId: organizationId,
+            name: name,
+            address: address,
+            swift: swift,
+            iban: iban,
+            beneficiary: beneficiary,
+            description: description,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required int organizationId,
+            required String name,
+            Value<String?> address = const Value.absent(),
+            Value<String?> swift = const Value.absent(),
+            Value<String?> iban = const Value.absent(),
+            Value<String?> beneficiary = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              AccountTblCompanion.insert(
+            id: id,
+            organizationId: organizationId,
+            name: name,
+            address: address,
+            swift: swift,
+            iban: iban,
+            beneficiary: beneficiary,
+            description: description,
+          ),
+        ));
+}
+
+class $AccountTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    AccountTbl,
+    AccountTblData,
+    $AccountTblFilterComposer,
+    $AccountTblOrderingComposer,
+    $AccountTblProcessedTableManager,
+    $AccountTblInsertCompanionBuilder,
+    $AccountTblUpdateCompanionBuilder> {
+  $AccountTblProcessedTableManager(super.$state);
+}
+
+class $AccountTblFilterComposer extends FilterComposer<_$Database, AccountTbl> {
+  $AccountTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get name => $state.composableBuilder(
+      column: $state.table.name, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get address => $state.composableBuilder(
+      column: $state.table.address,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get swift => $state.composableBuilder(
+      column: $state.table.swift, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get iban => $state.composableBuilder(
+      column: $state.table.iban, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get beneficiary => $state.composableBuilder(
+      column: $state.table.beneficiary,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $AccountTblOrderingComposer extends OrderingComposer<_$Database, AccountTbl> {
+  $AccountTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get name => $state.composableBuilder(
+      column: $state.table.name,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get address => $state.composableBuilder(
+      column: $state.table.address,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get swift => $state.composableBuilder(
+      column: $state.table.swift,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get iban => $state.composableBuilder(
+      column: $state.table.iban,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get beneficiary => $state.composableBuilder(
+      column: $state.table.beneficiary,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $IntermediaryTblInsertCompanionBuilder = IntermediaryTblCompanion Function({
+  Value<int> id,
+  required int accountId,
+  required String name,
+  Value<String?> address,
+  Value<String?> swift,
+  Value<String?> description,
+});
+typedef $IntermediaryTblUpdateCompanionBuilder = IntermediaryTblCompanion Function({
+  Value<int> id,
+  Value<int> accountId,
+  Value<String> name,
+  Value<String?> address,
+  Value<String?> swift,
+  Value<String?> description,
+});
+
+class $IntermediaryTblTableManager extends RootTableManager<
+    _$Database,
+    IntermediaryTbl,
+    IntermediaryTblData,
+    $IntermediaryTblFilterComposer,
+    $IntermediaryTblOrderingComposer,
+    $IntermediaryTblProcessedTableManager,
+    $IntermediaryTblInsertCompanionBuilder,
+    $IntermediaryTblUpdateCompanionBuilder> {
+  $IntermediaryTblTableManager(_$Database db, IntermediaryTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $IntermediaryTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $IntermediaryTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $IntermediaryTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> accountId = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String?> address = const Value.absent(),
+            Value<String?> swift = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              IntermediaryTblCompanion(
+            id: id,
+            accountId: accountId,
+            name: name,
+            address: address,
+            swift: swift,
+            description: description,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required int accountId,
+            required String name,
+            Value<String?> address = const Value.absent(),
+            Value<String?> swift = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+          }) =>
+              IntermediaryTblCompanion.insert(
+            id: id,
+            accountId: accountId,
+            name: name,
+            address: address,
+            swift: swift,
+            description: description,
+          ),
+        ));
+}
+
+class $IntermediaryTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    IntermediaryTbl,
+    IntermediaryTblData,
+    $IntermediaryTblFilterComposer,
+    $IntermediaryTblOrderingComposer,
+    $IntermediaryTblProcessedTableManager,
+    $IntermediaryTblInsertCompanionBuilder,
+    $IntermediaryTblUpdateCompanionBuilder> {
+  $IntermediaryTblProcessedTableManager(super.$state);
+}
+
+class $IntermediaryTblFilterComposer extends FilterComposer<_$Database, IntermediaryTbl> {
+  $IntermediaryTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get accountId => $state.composableBuilder(
+      column: $state.table.accountId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get name => $state.composableBuilder(
+      column: $state.table.name, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get address => $state.composableBuilder(
+      column: $state.table.address,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get swift => $state.composableBuilder(
+      column: $state.table.swift, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $IntermediaryTblOrderingComposer extends OrderingComposer<_$Database, IntermediaryTbl> {
+  $IntermediaryTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get accountId => $state.composableBuilder(
+      column: $state.table.accountId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get name => $state.composableBuilder(
+      column: $state.table.name,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get address => $state.composableBuilder(
+      column: $state.table.address,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get swift => $state.composableBuilder(
+      column: $state.table.swift,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get description => $state.composableBuilder(
+      column: $state.table.description,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $SettingsTblInsertCompanionBuilder = SettingsTblCompanion Function({
+  required String userId,
+  required String jsonData,
+  Value<String?> memo,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
+typedef $SettingsTblUpdateCompanionBuilder = SettingsTblCompanion Function({
+  Value<String> userId,
+  Value<String> jsonData,
+  Value<String?> memo,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
+
+class $SettingsTblTableManager extends RootTableManager<
+    _$Database,
+    SettingsTbl,
+    SettingsTblData,
+    $SettingsTblFilterComposer,
+    $SettingsTblOrderingComposer,
+    $SettingsTblProcessedTableManager,
+    $SettingsTblInsertCompanionBuilder,
+    $SettingsTblUpdateCompanionBuilder> {
+  $SettingsTblTableManager(_$Database db, SettingsTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $SettingsTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $SettingsTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $SettingsTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<String> userId = const Value.absent(),
+            Value<String> jsonData = const Value.absent(),
+            Value<String?> memo = const Value.absent(),
+            Value<int> metaCreatedAt = const Value.absent(),
+            Value<int> metaUpdatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SettingsTblCompanion(
+            userId: userId,
+            jsonData: jsonData,
+            memo: memo,
+            metaCreatedAt: metaCreatedAt,
+            metaUpdatedAt: metaUpdatedAt,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required String userId,
+            required String jsonData,
+            Value<String?> memo = const Value.absent(),
+            Value<int> metaCreatedAt = const Value.absent(),
+            Value<int> metaUpdatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SettingsTblCompanion.insert(
+            userId: userId,
+            jsonData: jsonData,
+            memo: memo,
+            metaCreatedAt: metaCreatedAt,
+            metaUpdatedAt: metaUpdatedAt,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $SettingsTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    SettingsTbl,
+    SettingsTblData,
+    $SettingsTblFilterComposer,
+    $SettingsTblOrderingComposer,
+    $SettingsTblProcessedTableManager,
+    $SettingsTblInsertCompanionBuilder,
+    $SettingsTblUpdateCompanionBuilder> {
+  $SettingsTblProcessedTableManager(super.$state);
+}
+
+class $SettingsTblFilterComposer extends FilterComposer<_$Database, SettingsTbl> {
+  $SettingsTblFilterComposer(super.$state);
+  ColumnFilters<String> get userId => $state.composableBuilder(
+      column: $state.table.userId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get jsonData => $state.composableBuilder(
+      column: $state.table.jsonData,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get memo => $state.composableBuilder(
+      column: $state.table.memo, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get metaCreatedAt => $state.composableBuilder(
+      column: $state.table.metaCreatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get metaUpdatedAt => $state.composableBuilder(
+      column: $state.table.metaUpdatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $SettingsTblOrderingComposer extends OrderingComposer<_$Database, SettingsTbl> {
+  $SettingsTblOrderingComposer(super.$state);
+  ColumnOrderings<String> get userId => $state.composableBuilder(
+      column: $state.table.userId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get jsonData => $state.composableBuilder(
+      column: $state.table.jsonData,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get memo => $state.composableBuilder(
+      column: $state.table.memo,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get metaCreatedAt => $state.composableBuilder(
+      column: $state.table.metaCreatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get metaUpdatedAt => $state.composableBuilder(
+      column: $state.table.metaUpdatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $LogTblInsertCompanionBuilder = LogTblCompanion Function({
+  Value<int> id,
+  Value<int> time,
+  required int level,
+  required String message,
+  Value<String?> stack,
+});
+typedef $LogTblUpdateCompanionBuilder = LogTblCompanion Function({
+  Value<int> id,
+  Value<int> time,
+  Value<int> level,
+  Value<String> message,
+  Value<String?> stack,
+});
+
+class $LogTblTableManager extends RootTableManager<
+    _$Database,
+    LogTbl,
+    LogTblData,
+    $LogTblFilterComposer,
+    $LogTblOrderingComposer,
+    $LogTblProcessedTableManager,
+    $LogTblInsertCompanionBuilder,
+    $LogTblUpdateCompanionBuilder> {
+  $LogTblTableManager(_$Database db, LogTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $LogTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $LogTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $LogTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> time = const Value.absent(),
+            Value<int> level = const Value.absent(),
+            Value<String> message = const Value.absent(),
+            Value<String?> stack = const Value.absent(),
+          }) =>
+              LogTblCompanion(
+            id: id,
+            time: time,
+            level: level,
+            message: message,
+            stack: stack,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> time = const Value.absent(),
+            required int level,
+            required String message,
+            Value<String?> stack = const Value.absent(),
+          }) =>
+              LogTblCompanion.insert(
+            id: id,
+            time: time,
+            level: level,
+            message: message,
+            stack: stack,
+          ),
+        ));
+}
+
+class $LogTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    LogTbl,
+    LogTblData,
+    $LogTblFilterComposer,
+    $LogTblOrderingComposer,
+    $LogTblProcessedTableManager,
+    $LogTblInsertCompanionBuilder,
+    $LogTblUpdateCompanionBuilder> {
+  $LogTblProcessedTableManager(super.$state);
+}
+
+class $LogTblFilterComposer extends FilterComposer<_$Database, LogTbl> {
+  $LogTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get time => $state.composableBuilder(
+      column: $state.table.time, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get level => $state.composableBuilder(
+      column: $state.table.level, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get message => $state.composableBuilder(
+      column: $state.table.message,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get stack => $state.composableBuilder(
+      column: $state.table.stack, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $LogTblOrderingComposer extends OrderingComposer<_$Database, LogTbl> {
+  $LogTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get time => $state.composableBuilder(
+      column: $state.table.time,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get level => $state.composableBuilder(
+      column: $state.table.level,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get message => $state.composableBuilder(
+      column: $state.table.message,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get stack => $state.composableBuilder(
+      column: $state.table.stack,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $LogPrefixTblInsertCompanionBuilder = LogPrefixTblCompanion Function({
+  required String prefix,
+  required int logId,
+  required String word,
+  required int len,
+  Value<int> rowid,
+});
+typedef $LogPrefixTblUpdateCompanionBuilder = LogPrefixTblCompanion Function({
+  Value<String> prefix,
+  Value<int> logId,
+  Value<String> word,
+  Value<int> len,
+  Value<int> rowid,
+});
+
+class $LogPrefixTblTableManager extends RootTableManager<
+    _$Database,
+    LogPrefixTbl,
+    LogPrefixTblData,
+    $LogPrefixTblFilterComposer,
+    $LogPrefixTblOrderingComposer,
+    $LogPrefixTblProcessedTableManager,
+    $LogPrefixTblInsertCompanionBuilder,
+    $LogPrefixTblUpdateCompanionBuilder> {
+  $LogPrefixTblTableManager(_$Database db, LogPrefixTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $LogPrefixTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $LogPrefixTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $LogPrefixTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<String> prefix = const Value.absent(),
+            Value<int> logId = const Value.absent(),
+            Value<String> word = const Value.absent(),
+            Value<int> len = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LogPrefixTblCompanion(
+            prefix: prefix,
+            logId: logId,
+            word: word,
+            len: len,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required String prefix,
+            required int logId,
+            required String word,
+            required int len,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LogPrefixTblCompanion.insert(
+            prefix: prefix,
+            logId: logId,
+            word: word,
+            len: len,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $LogPrefixTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    LogPrefixTbl,
+    LogPrefixTblData,
+    $LogPrefixTblFilterComposer,
+    $LogPrefixTblOrderingComposer,
+    $LogPrefixTblProcessedTableManager,
+    $LogPrefixTblInsertCompanionBuilder,
+    $LogPrefixTblUpdateCompanionBuilder> {
+  $LogPrefixTblProcessedTableManager(super.$state);
+}
+
+class $LogPrefixTblFilterComposer extends FilterComposer<_$Database, LogPrefixTbl> {
+  $LogPrefixTblFilterComposer(super.$state);
+  ColumnFilters<String> get prefix => $state.composableBuilder(
+      column: $state.table.prefix,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get logId => $state.composableBuilder(
+      column: $state.table.logId, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get word => $state.composableBuilder(
+      column: $state.table.word, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get len => $state.composableBuilder(
+      column: $state.table.len, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $LogPrefixTblOrderingComposer extends OrderingComposer<_$Database, LogPrefixTbl> {
+  $LogPrefixTblOrderingComposer(super.$state);
+  ColumnOrderings<String> get prefix => $state.composableBuilder(
+      column: $state.table.prefix,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get logId => $state.composableBuilder(
+      column: $state.table.logId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get word => $state.composableBuilder(
+      column: $state.table.word,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get len => $state.composableBuilder(
+      column: $state.table.len, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $CharacteristicTblInsertCompanionBuilder = CharacteristicTblCompanion Function({
+  required String type,
+  required int id,
+  required String data,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
+typedef $CharacteristicTblUpdateCompanionBuilder = CharacteristicTblCompanion Function({
+  Value<String> type,
+  Value<int> id,
+  Value<String> data,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
+
+class $CharacteristicTblTableManager extends RootTableManager<
+    _$Database,
+    CharacteristicTbl,
+    CharacteristicTblData,
+    $CharacteristicTblFilterComposer,
+    $CharacteristicTblOrderingComposer,
+    $CharacteristicTblProcessedTableManager,
+    $CharacteristicTblInsertCompanionBuilder,
+    $CharacteristicTblUpdateCompanionBuilder> {
+  $CharacteristicTblTableManager(_$Database db, CharacteristicTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $CharacteristicTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $CharacteristicTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $CharacteristicTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<String> type = const Value.absent(),
+            Value<int> id = const Value.absent(),
+            Value<String> data = const Value.absent(),
+            Value<int> metaCreatedAt = const Value.absent(),
+            Value<int> metaUpdatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CharacteristicTblCompanion(
+            type: type,
+            id: id,
+            data: data,
+            metaCreatedAt: metaCreatedAt,
+            metaUpdatedAt: metaUpdatedAt,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required String type,
+            required int id,
+            required String data,
+            Value<int> metaCreatedAt = const Value.absent(),
+            Value<int> metaUpdatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CharacteristicTblCompanion.insert(
+            type: type,
+            id: id,
+            data: data,
+            metaCreatedAt: metaCreatedAt,
+            metaUpdatedAt: metaUpdatedAt,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $CharacteristicTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    CharacteristicTbl,
+    CharacteristicTblData,
+    $CharacteristicTblFilterComposer,
+    $CharacteristicTblOrderingComposer,
+    $CharacteristicTblProcessedTableManager,
+    $CharacteristicTblInsertCompanionBuilder,
+    $CharacteristicTblUpdateCompanionBuilder> {
+  $CharacteristicTblProcessedTableManager(super.$state);
+}
+
+class $CharacteristicTblFilterComposer extends FilterComposer<_$Database, CharacteristicTbl> {
+  $CharacteristicTblFilterComposer(super.$state);
+  ColumnFilters<String> get type => $state.composableBuilder(
+      column: $state.table.type, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get data => $state.composableBuilder(
+      column: $state.table.data, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get metaCreatedAt => $state.composableBuilder(
+      column: $state.table.metaCreatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get metaUpdatedAt => $state.composableBuilder(
+      column: $state.table.metaUpdatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $CharacteristicTblOrderingComposer extends OrderingComposer<_$Database, CharacteristicTbl> {
+  $CharacteristicTblOrderingComposer(super.$state);
+  ColumnOrderings<String> get type => $state.composableBuilder(
+      column: $state.table.type,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get data => $state.composableBuilder(
+      column: $state.table.data,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get metaCreatedAt => $state.composableBuilder(
+      column: $state.table.metaCreatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get metaUpdatedAt => $state.composableBuilder(
+      column: $state.table.metaUpdatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $KvTblInsertCompanionBuilder = KvTblCompanion Function({
+  required String k,
+  Value<String?> vstring,
+  Value<int?> vint,
+  Value<double?> vdouble,
+  Value<int?> vbool,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
+typedef $KvTblUpdateCompanionBuilder = KvTblCompanion Function({
+  Value<String> k,
+  Value<String?> vstring,
+  Value<int?> vint,
+  Value<double?> vdouble,
+  Value<int?> vbool,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
+
+class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, $KvTblFilterComposer,
+    $KvTblOrderingComposer, $KvTblProcessedTableManager, $KvTblInsertCompanionBuilder, $KvTblUpdateCompanionBuilder> {
+  $KvTblTableManager(_$Database db, KvTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $KvTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $KvTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $KvTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<String> k = const Value.absent(),
+            Value<String?> vstring = const Value.absent(),
+            Value<int?> vint = const Value.absent(),
+            Value<double?> vdouble = const Value.absent(),
+            Value<int?> vbool = const Value.absent(),
+            Value<int> metaCreatedAt = const Value.absent(),
+            Value<int> metaUpdatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              KvTblCompanion(
+            k: k,
+            vstring: vstring,
+            vint: vint,
+            vdouble: vdouble,
+            vbool: vbool,
+            metaCreatedAt: metaCreatedAt,
+            metaUpdatedAt: metaUpdatedAt,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required String k,
+            Value<String?> vstring = const Value.absent(),
+            Value<int?> vint = const Value.absent(),
+            Value<double?> vdouble = const Value.absent(),
+            Value<int?> vbool = const Value.absent(),
+            Value<int> metaCreatedAt = const Value.absent(),
+            Value<int> metaUpdatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              KvTblCompanion.insert(
+            k: k,
+            vstring: vstring,
+            vint: vint,
+            vdouble: vdouble,
+            vbool: vbool,
+            metaCreatedAt: metaCreatedAt,
+            metaUpdatedAt: metaUpdatedAt,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $KvTblProcessedTableManager extends ProcessedTableManager<_$Database, KvTbl, KvTblData, $KvTblFilterComposer,
+    $KvTblOrderingComposer, $KvTblProcessedTableManager, $KvTblInsertCompanionBuilder, $KvTblUpdateCompanionBuilder> {
+  $KvTblProcessedTableManager(super.$state);
+}
+
+class $KvTblFilterComposer extends FilterComposer<_$Database, KvTbl> {
+  $KvTblFilterComposer(super.$state);
+  ColumnFilters<String> get k => $state.composableBuilder(
+      column: $state.table.k, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get vstring => $state.composableBuilder(
+      column: $state.table.vstring,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get vint => $state.composableBuilder(
+      column: $state.table.vint, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<double> get vdouble => $state.composableBuilder(
+      column: $state.table.vdouble,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get vbool => $state.composableBuilder(
+      column: $state.table.vbool, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get metaCreatedAt => $state.composableBuilder(
+      column: $state.table.metaCreatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get metaUpdatedAt => $state.composableBuilder(
+      column: $state.table.metaUpdatedAt,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $KvTblOrderingComposer extends OrderingComposer<_$Database, KvTbl> {
+  $KvTblOrderingComposer(super.$state);
+  ColumnOrderings<String> get k => $state.composableBuilder(
+      column: $state.table.k, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get vstring => $state.composableBuilder(
+      column: $state.table.vstring,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get vint => $state.composableBuilder(
+      column: $state.table.vint,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<double> get vdouble => $state.composableBuilder(
+      column: $state.table.vdouble,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get vbool => $state.composableBuilder(
+      column: $state.table.vbool,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get metaCreatedAt => $state.composableBuilder(
+      column: $state.table.metaCreatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get metaUpdatedAt => $state.composableBuilder(
+      column: $state.table.metaUpdatedAt,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class _$DatabaseManager {
+  final _$Database _db;
+  _$DatabaseManager(this._db);
+  $InvoiceTblTableManager get invoiceTbl => $InvoiceTblTableManager(_db, _db.invoiceTbl);
+  $ServiceTblTableManager get serviceTbl => $ServiceTblTableManager(_db, _db.serviceTbl);
+  $OrganizationTblTableManager get organizationTbl => $OrganizationTblTableManager(_db, _db.organizationTbl);
+  $ContactTblTableManager get contactTbl => $ContactTblTableManager(_db, _db.contactTbl);
+  $AccountTblTableManager get accountTbl => $AccountTblTableManager(_db, _db.accountTbl);
+  $IntermediaryTblTableManager get intermediaryTbl => $IntermediaryTblTableManager(_db, _db.intermediaryTbl);
+  $SettingsTblTableManager get settingsTbl => $SettingsTblTableManager(_db, _db.settingsTbl);
+  $LogTblTableManager get logTbl => $LogTblTableManager(_db, _db.logTbl);
+  $LogPrefixTblTableManager get logPrefixTbl => $LogPrefixTblTableManager(_db, _db.logPrefixTbl);
+  $CharacteristicTblTableManager get characteristicTbl => $CharacteristicTblTableManager(_db, _db.characteristicTbl);
+  $KvTblTableManager get kvTbl => $KvTblTableManager(_db, _db.kvTbl);
 }

@@ -44,7 +44,7 @@ class CurrencyPicker extends StatelessWidget {
     final stopwatch = Stopwatch()..start();
     try {
       for (final c in currencies) {
-        final Currency(:name, :code, :symbol, :country, :unit) = c;
+        final Currency(:name, isoCode: code, :symbol, :country, :unit) = c;
         final contains = name.toLowerCase().contains(text) ||
             code.toLowerCase().contains(text) ||
             symbol.toLowerCase().contains(text) ||

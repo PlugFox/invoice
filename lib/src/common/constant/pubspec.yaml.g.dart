@@ -124,13 +124,13 @@ sealed class Pubspec {
   /// Build date and time (UTC)
   static final DateTime timestamp = DateTime.utc(
     2024,
-    5,
-    10,
-    17,
-    17,
-    25,
-    457,
-    963,
+    6,
+    22,
+    11,
+    23,
+    53,
+    613,
+    156,
   );
 
   /// Name
@@ -427,7 +427,7 @@ sealed class Pubspec {
     'platform_info': r'^4.0.2',
     'rxdart': r'^0.28.0-dev.0',
     'url_launcher': r'^6.2.2',
-    'money2': r'^4.0.0',
+    'money2': r'^5.0.1',
     'l': r'^5.0.0-pre.2',
     'win32': r'^5.4.0',
     'window_manager': r'^0.3.8',
@@ -449,7 +449,7 @@ sealed class Pubspec {
     'integration_test': <String, Object>{
       'sdk': r'flutter',
     },
-    'flutter_lints': r'^3.0.2',
+    'flutter_lints': r'^4.0.0',
     'build_runner': r'^2.4.6',
     'drift_dev': r'^2.14.1',
     'pubspec_generator': r'^4.1.0-pre.1',
@@ -534,5 +534,4 @@ sealed class Pubspec {
       'line_length': 120,
     },
   };
-
 }

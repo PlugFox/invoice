@@ -66,7 +66,10 @@ class InvoiceFormServices extends StatelessWidget {
                               ProvidedService(
                                 number: services.length + 1,
                                 name: nameValue,
-                                amount: Fixed.fromNum(amountValue, scale: form.currency.value.scale),
+                                amount: Fixed.fromNum(
+                                  amountValue,
+                                  scale: form.currency.value.decimalDigits,
+                                ),
                               ),
                             ]);
                         Navigator.of(context, rootNavigator: true).pop();
