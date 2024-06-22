@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
@@ -6,12 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
+import 'package:invoice/src/feature/invoice/controller/invoice_pdf_controller.dart';
 import 'package:invoice/src/feature/invoice/controller/invoices_controller.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/invoice/widget/invoice_form_description.dart';
 import 'package:invoice/src/feature/invoice/widget/invoice_form_details.dart';
 import 'package:invoice/src/feature/invoice/widget/invoice_form_services.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 
 // TODO(plugfox): add form validators
 
@@ -94,7 +98,10 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
   late InvoicesController _controller;
   final FocusNode _focusNode = FocusNode();
 
-  final Widget _layout = SafeArea(
+  Timer? _debounceTimer;
+  final InvoicePDFController _pdfController = InvoicePDFController();
+
+  late final Widget _layout = SafeArea(
     child: CustomMultiChildLayout(
       delegate: _InvoicePositionDelegate(),
       children: <LayoutId>[
@@ -104,7 +111,9 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
         ),
         LayoutId(
           id: 'preview',
-          child: const _PreviewInvoicePreviewColumn(),
+          child: _PreviewInvoice(
+            pdfController: _pdfController,
+          ),
         ),
       ],
     ),
@@ -117,6 +126,7 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
     _controller = InvoicesScope.of(context)
       ..fetchInvoiceById(widget.invoice.id)
       ..addListener(_onInvoicesChanged);
+    _onInvoicesChanged();
   }
 
   /// When invoices changed
@@ -125,6 +135,16 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
     final updatedInvoice = _controller.state.data.firstWhereOrNull((i) => i.id == form.id);
     if (updatedInvoice == null) return;
     _fillForm(updatedInvoice);
+
+    // Update PDF preview
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(
+      const Duration(milliseconds: 500),
+      () {
+        if (!mounted) return;
+        _pdfController.rebuild(form.createInvoice()).ignore();
+      },
+    );
   }
 
   /// Fill form from upcoming invoice
@@ -411,10 +431,58 @@ class _InvoiceHeaderButtons extends StatelessWidget {
       );
 }
 
-class _PreviewInvoicePreviewColumn extends StatelessWidget {
-  const _PreviewInvoicePreviewColumn({
+class _PreviewInvoice extends StatefulWidget {
+  const _PreviewInvoice({
+    required this.pdfController,
     super.key, // ignore: unused_element
   });
+
+  final InvoicePDFController pdfController;
+
+  @override
+  State<_PreviewInvoice> createState() => _PreviewInvoiceState();
+}
+
+class _PreviewInvoiceState extends State<_PreviewInvoice> {
+  final ValueNotifier<bool> _loading = ValueNotifier<bool>(false);
+  final ValueNotifier<String?> _error = ValueNotifier<String?>(null);
+  final ValueNotifier<Uint8List?> _pdf = ValueNotifier<Uint8List?>(null);
+  //final ValueNotifier<PdfPageFormat> _format = ValueNotifier<PdfPageFormat>(PdfPageFormat.letter);
+
+  @override
+  void initState() {
+    super.initState();
+    widget.pdfController.addListener(_onStateChanged);
+    _onStateChanged();
+  }
+
+  @override
+  void didUpdateWidget(covariant _PreviewInvoice oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(widget.pdfController, oldWidget.pdfController)) {
+      oldWidget.pdfController.removeListener(_onStateChanged);
+      widget.pdfController.addListener(_onStateChanged);
+      _onStateChanged();
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.pdfController.removeListener(_onStateChanged);
+    super.dispose();
+  }
+
+  void _onStateChanged() {
+    if (!mounted) return;
+    final state = widget.pdfController.value;
+    _loading.value = state.loading;
+    _error.value = state.error;
+    _pdf.value = state.pdf.isEmpty ? null : state.pdf;
+    /* _format.value = switch (state.template.format) {
+      InvoiceTemplateFormat.a4 => PdfPageFormat.a4,
+      InvoiceTemplateFormat.letter => PdfPageFormat.letter,
+    }; */
+  }
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -428,9 +496,19 @@ class _PreviewInvoicePreviewColumn extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Placeholder(),
+                  child: ValueListenableBuilder<Uint8List?>(
+                    valueListenable: _pdf,
+                    builder: (context, bytes, _) {
+                      if (bytes == null) return const Center(child: CircularProgressIndicator());
+                      return PdfPreviewCustom(
+                        build: (_) => bytes,
+                        maxPageWidth: 880,
+                        padding: const EdgeInsets.fromLTRB(8, 16, 16, 16),
+                        scrollViewDecoration: const BoxDecoration(),
+                        loadingWidget: const CircularProgressIndicator(),
+                        pageFormat: PdfPageFormat.a4,
+                      );
+                    },
                   ),
                 ),
               ),

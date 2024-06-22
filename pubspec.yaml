@@ -57,7 +57,7 @@ dependencies:
   json_annotation: ^4.8.1
 
   # Utility
-  collection: any
+  collection: ^1.18.0
   async: any
   path: any
   convert: any
@@ -95,6 +95,8 @@ dependencies:
   #google_fonts: ^6.1.0
   #font_awesome_flutter: ^10.6.0
   drift_db_viewer: ^2.0.0
+  pdf: ^3.10.8
+  printing: ^5.12.0
 
 dev_dependencies:
   # Unit & Widget tests for Flutter
