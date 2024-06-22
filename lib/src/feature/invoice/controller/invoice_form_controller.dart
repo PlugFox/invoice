@@ -122,7 +122,7 @@ final class InvoiceFormController extends Controller with ConcurrentControllerHa
   /// On notifiers changed
   void _onChanged() {
     _evalTotal();
-    if (_changed) return;
+    //if (_changed) return;
     _changed = true;
     notifyListeners();
   }

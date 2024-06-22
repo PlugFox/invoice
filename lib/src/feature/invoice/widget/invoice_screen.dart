@@ -122,20 +122,15 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
   @override
   void initState() {
     super.initState();
-    form = InvoiceFormController(widget.invoice);
+    form = InvoiceFormController(widget.invoice)..addListener(_onFormChanged);
     _controller = InvoicesScope.of(context)
       ..fetchInvoiceById(widget.invoice.id)
       ..addListener(_onInvoicesChanged);
     _onInvoicesChanged();
   }
 
-  /// When invoices changed
-  void _onInvoicesChanged() {
-    if (_controller.state.isProcessing) return;
-    final updatedInvoice = _controller.state.data.firstWhereOrNull((i) => i.id == form.id);
-    if (updatedInvoice == null) return;
-    _fillForm(updatedInvoice);
-
+  void _onFormChanged() {
+    if (!mounted) return;
     // Update PDF preview
     _debounceTimer?.cancel();
     _debounceTimer = Timer(
@@ -147,6 +142,15 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
     );
   }
 
+  /// When invoices changed
+  void _onInvoicesChanged() {
+    if (!mounted) return;
+    if (_controller.state.isProcessing) return;
+    final updatedInvoice = _controller.state.data.firstWhereOrNull((i) => i.id == form.id);
+    if (updatedInvoice == null) return;
+    _fillForm(updatedInvoice);
+  }
+
   /// Fill form from upcoming invoice
   void _fillForm(Invoice invoice) => form.update(invoice);
 
@@ -155,8 +159,13 @@ class _InvoiceScaffoldState extends State<_InvoiceScaffold> {
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _focusNode.dispose();
+    form
+      ..removeListener(_onFormChanged)
+      ..dispose();
     _controller.removeListener(_onInvoicesChanged);
+    _pdfController.dispose();
     super.dispose();
   }
 
