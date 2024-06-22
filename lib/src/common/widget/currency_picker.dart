@@ -81,6 +81,7 @@ class CurrencyPicker extends StatelessWidget {
                 optionsBuilder: (textEditingValue) => optionsBuilder(context, textEditingValue),
                 displayStringForOption: (option) => option.name,
                 onSelected: (value) => controller.value = value,
+                optionsViewOpenDirection: OptionsViewOpenDirection.down,
                 optionsViewBuilder: (context, onSelected, options) => Align(
                   alignment: Alignment.topLeft,
                   child: SizedBox(

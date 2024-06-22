@@ -71,6 +71,9 @@ dependencies:
   # Logger
   l: ^5.0.0-pre.2
 
+  # Web
+  web: ^0.5.1
+
   # Desktop
   win32: ^5.4.0
   window_manager: ^0.3.8
