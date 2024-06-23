@@ -20,8 +20,6 @@ import 'package:octopus/octopus.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
-// TODO(plugfox): add form validators
-
 /// {@template invoice_screen}
 /// InvoiceScreen widget.
 /// {@endtemplate}
