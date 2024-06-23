@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:invoice/src/common/constant/config.dart';
+import 'package:invoice/src/common/router/routes.dart';
 import 'package:invoice/src/common/widget/common_header.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_form_controller.dart';
 import 'package:invoice/src/feature/invoice/controller/invoice_pdf_controller.dart';
@@ -14,6 +16,7 @@ import 'package:invoice/src/feature/invoice/widget/invoice_form_description.dart
 import 'package:invoice/src/feature/invoice/widget/invoice_form_details.dart';
 import 'package:invoice/src/feature/invoice/widget/invoice_form_services.dart';
 import 'package:invoice/src/feature/invoice/widget/invoices_scope.dart';
+import 'package:octopus/octopus.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
@@ -351,21 +354,73 @@ class _InvoiceHeaderButtons extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const SizedBox.square(
+              SizedBox.square(
                 dimension: 48,
                 child: IconButton(
-                  icon: Icon(Icons.copy),
+                  icon: const Icon(Icons.copy),
                   tooltip: 'Dublicate invoice',
-                  onPressed: null,
+                  onPressed: () {
+                    final invoiceData = context.findAncestorStateOfType<_InvoiceScaffoldState>()?.form.createInvoice();
+                    if (invoiceData == null) return;
+                    final controller = InvoicesScope.of(context);
+                    controller.createInvoice(onSuccess: (invoice) {
+                      final now = DateTime.now();
+                      controller.updateInvoice(
+                        invoice: Invoice(
+                          id: invoice.id,
+                          counterparty: invoiceData.counterparty,
+                          createdAt: invoiceData.createdAt,
+                          description: invoiceData.description,
+                          dueAt: now.day > DateUtils.getDaysInMonth(now.year, now.month) / 2
+                              ? DateTime(now.year, now.month + 2, 1)
+                              : DateTime(now.year, now.month + 1, 1),
+                          issuedAt: now,
+                          number: Invoice.generateNumber(invoice.id, now),
+                          status: InvoiceStatus.draft,
+                          organization: invoiceData.organization,
+                          paidAt: null,
+                          total: invoiceData.total,
+                          updatedAt: invoiceData.updatedAt,
+                          services: invoiceData.services.map((e) => e.copyWith()).toList(growable: false),
+                        ),
+                        onSuccess: (invoice) => Octopus.of(context).setState(
+                          (state) => state
+                            ..add(
+                              Routes.invoice.node(
+                                arguments: {'id': invoice.id.toString()},
+                              ),
+                            ),
+                        ),
+                      );
+                    });
+                  },
                 ),
               ),
               const SizedBox(width: 8),
-              const SizedBox.square(
+              SizedBox.square(
                 dimension: 48,
                 child: IconButton(
-                  icon: Icon(Icons.preview),
+                  icon: const Icon(Icons.preview),
                   tooltip: 'Preview PDF',
-                  onPressed: null,
+                  onPressed: () {
+                    final pdfController = context.findAncestorStateOfType<_InvoiceScaffoldState>()?._pdfController;
+                    if (pdfController == null) return;
+                    final size = MediaQuery.sizeOf(context);
+                    showModalBottomSheet<void>(
+                      context: context,
+                      showDragHandle: false,
+                      useRootNavigator: true,
+                      useSafeArea: true,
+                      isDismissible: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                      ),
+                      builder: (context) => SizedBox(
+                          width: size.width * 0.75,
+                          height: size.height * 0.9,
+                          child: _PreviewInvoice(pdfController: pdfController)),
+                    );
+                  },
                 ),
               ),
               const Spacer(),
@@ -425,13 +480,66 @@ class _InvoiceHeaderButtons extends StatelessWidget {
               const Spacer(),
               /* const VerticalDivider(),
               const Spacer(), */
-              const SizedBox.square(
+              SizedBox.square(
                 dimension: 48,
                 child: IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   tooltip: 'Delete invoice',
                   color: Colors.red,
-                  onPressed: null,
+                  onPressed: () {
+                    final id = _InheritedInvoiceForm.of(context, listen: false).form.id;
+                    final controller = InvoicesScope.of(context);
+                    final theme = Theme.of(context);
+
+                    void pop() => Octopus.of(context).setState((state) => state..removeByName('invoice'));
+
+                    Widget adaptiveAction(
+                        {required BuildContext context, required VoidCallback onPressed, required Widget child}) {
+                      switch (theme.platform) {
+                        case TargetPlatform.android:
+                        case TargetPlatform.fuchsia:
+                        case TargetPlatform.linux:
+                        case TargetPlatform.windows:
+                          return TextButton(onPressed: onPressed, child: child);
+                        case TargetPlatform.iOS:
+                        case TargetPlatform.macOS:
+                          return CupertinoDialogAction(onPressed: onPressed, child: child);
+                      }
+                    }
+
+                    showAdaptiveDialog<void>(
+                      useRootNavigator: true,
+                      builder: (context) => AlertDialog.adaptive(
+                        title: const Text('Delete invoice'),
+                        titlePadding: const EdgeInsets.all(16),
+                        icon: const Icon(Icons.warning, color: Colors.red),
+                        iconColor: Colors.red,
+                        content: const Text('Are you sure you want to delete this invoice?'),
+                        actions: <Widget>[
+                          adaptiveAction(
+                            context: context,
+                            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                            child: Text(
+                              'Cancel',
+                              style: theme.textTheme.labelLarge,
+                            ),
+                          ),
+                          adaptiveAction(
+                            context: context,
+                            onPressed: () {
+                              controller.deleteInvoice(id: id, onSuccess: pop);
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                            child: Text(
+                              'Delete',
+                              style: theme.textTheme.labelLarge?.copyWith(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                      context: context,
+                    );
+                  },
                 ),
               ),
             ],
