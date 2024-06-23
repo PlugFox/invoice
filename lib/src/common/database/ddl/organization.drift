@@ -139,3 +139,27 @@ CREATE TABLE IF NOT EXISTS intermediary_tbl (
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS intermediary_account_id_idx ON intermediary_tbl (account_id);
+
+-- Organization's avatar table
+CREATE TABLE IF NOT EXISTS avatar_tbl (
+    -- Unique identifier
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+
+    -- Organization identifier
+    organization_id INTEGER NOT NULL CHECK (organization_id > 0),
+
+    -- Binary data of the avatar
+    bytes BLOB,
+
+    -- Extension of the file
+    extension TEXT NOT NULL CHECK (length(extension) > 0),
+
+    -- Foreign keys
+    FOREIGN KEY (organization_id)
+        REFERENCES organization_tbl (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+) STRICT;
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS avatar_organization_id_idx ON avatar_tbl (organization_id);

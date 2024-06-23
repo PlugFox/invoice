@@ -2225,6 +2225,243 @@ class IntermediaryTblCompanion extends UpdateCompanion<IntermediaryTblData> {
   }
 }
 
+class AvatarTbl extends Table with TableInfo<AvatarTbl, AvatarTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  AvatarTbl(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _organizationIdMeta = VerificationMeta('organizationId');
+  late final GeneratedColumn<int> organizationId = GeneratedColumn<int>('organization_id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true, $customConstraints: 'NOT NULL CHECK (organization_id > 0)');
+  static const VerificationMeta _bytesMeta = VerificationMeta('bytes');
+  late final GeneratedColumn<Uint8List> bytes = GeneratedColumn<Uint8List>('bytes', aliasedName, true,
+      type: DriftSqlType.blob, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _extensionMeta = VerificationMeta('extension');
+  late final GeneratedColumn<String> extension = GeneratedColumn<String>('extension', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL CHECK (length(extension) > 0)');
+  @override
+  List<GeneratedColumn> get $columns => [id, organizationId, bytes, extension];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'avatar_tbl';
+  @override
+  VerificationContext validateIntegrity(Insertable<AvatarTblData> instance, {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('organization_id')) {
+      context.handle(
+          _organizationIdMeta, organizationId.isAcceptableOrUnknown(data['organization_id']!, _organizationIdMeta));
+    } else if (isInserting) {
+      context.missing(_organizationIdMeta);
+    }
+    if (data.containsKey('bytes')) {
+      context.handle(_bytesMeta, bytes.isAcceptableOrUnknown(data['bytes']!, _bytesMeta));
+    }
+    if (data.containsKey('extension')) {
+      context.handle(_extensionMeta, extension.isAcceptableOrUnknown(data['extension']!, _extensionMeta));
+    } else if (isInserting) {
+      context.missing(_extensionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AvatarTblData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AvatarTblData(
+      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      organizationId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}organization_id'])!,
+      bytes: attachedDatabase.typeMapping.read(DriftSqlType.blob, data['${effectivePrefix}bytes']),
+      extension: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}extension'])!,
+    );
+  }
+
+  @override
+  AvatarTbl createAlias(String alias) {
+    return AvatarTbl(attachedDatabase, alias);
+  }
+
+  @override
+  bool get isStrict => true;
+  @override
+  List<String> get customConstraints =>
+      const ['FOREIGN KEY(organization_id)REFERENCES organization_tbl(id)ON UPDATE CASCADE ON DELETE CASCADE'];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class AvatarTblData extends DataClass implements Insertable<AvatarTblData> {
+  /// Unique identifier
+  final int id;
+
+  /// Organization identifier
+  final int organizationId;
+
+  /// Binary data of the avatar
+  final Uint8List? bytes;
+
+  /// Extension of the file
+  final String extension;
+  const AvatarTblData({required this.id, required this.organizationId, this.bytes, required this.extension});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['organization_id'] = Variable<int>(organizationId);
+    if (!nullToAbsent || bytes != null) {
+      map['bytes'] = Variable<Uint8List>(bytes);
+    }
+    map['extension'] = Variable<String>(extension);
+    return map;
+  }
+
+  AvatarTblCompanion toCompanion(bool nullToAbsent) {
+    return AvatarTblCompanion(
+      id: Value(id),
+      organizationId: Value(organizationId),
+      bytes: bytes == null && nullToAbsent ? const Value.absent() : Value(bytes),
+      extension: Value(extension),
+    );
+  }
+
+  factory AvatarTblData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AvatarTblData(
+      id: serializer.fromJson<int>(json['id']),
+      organizationId: serializer.fromJson<int>(json['organization_id']),
+      bytes: serializer.fromJson<Uint8List?>(json['bytes']),
+      extension: serializer.fromJson<String>(json['extension']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'organization_id': serializer.toJson<int>(organizationId),
+      'bytes': serializer.toJson<Uint8List?>(bytes),
+      'extension': serializer.toJson<String>(extension),
+    };
+  }
+
+  AvatarTblData copyWith(
+          {int? id, int? organizationId, Value<Uint8List?> bytes = const Value.absent(), String? extension}) =>
+      AvatarTblData(
+        id: id ?? this.id,
+        organizationId: organizationId ?? this.organizationId,
+        bytes: bytes.present ? bytes.value : this.bytes,
+        extension: extension ?? this.extension,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('AvatarTblData(')
+          ..write('id: $id, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('bytes: $bytes, ')
+          ..write('extension: $extension')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, organizationId, $driftBlobEquality.hash(bytes), extension);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AvatarTblData &&
+          other.id == this.id &&
+          other.organizationId == this.organizationId &&
+          $driftBlobEquality.equals(other.bytes, this.bytes) &&
+          other.extension == this.extension);
+}
+
+class AvatarTblCompanion extends UpdateCompanion<AvatarTblData> {
+  final Value<int> id;
+  final Value<int> organizationId;
+  final Value<Uint8List?> bytes;
+  final Value<String> extension;
+  const AvatarTblCompanion({
+    this.id = const Value.absent(),
+    this.organizationId = const Value.absent(),
+    this.bytes = const Value.absent(),
+    this.extension = const Value.absent(),
+  });
+  AvatarTblCompanion.insert({
+    this.id = const Value.absent(),
+    required int organizationId,
+    this.bytes = const Value.absent(),
+    required String extension,
+  })  : organizationId = Value(organizationId),
+        extension = Value(extension);
+  static Insertable<AvatarTblData> custom({
+    Expression<int>? id,
+    Expression<int>? organizationId,
+    Expression<Uint8List>? bytes,
+    Expression<String>? extension,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (organizationId != null) 'organization_id': organizationId,
+      if (bytes != null) 'bytes': bytes,
+      if (extension != null) 'extension': extension,
+    });
+  }
+
+  AvatarTblCompanion copyWith(
+      {Value<int>? id, Value<int>? organizationId, Value<Uint8List?>? bytes, Value<String>? extension}) {
+    return AvatarTblCompanion(
+      id: id ?? this.id,
+      organizationId: organizationId ?? this.organizationId,
+      bytes: bytes ?? this.bytes,
+      extension: extension ?? this.extension,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (organizationId.present) {
+      map['organization_id'] = Variable<int>(organizationId.value);
+    }
+    if (bytes.present) {
+      map['bytes'] = Variable<Uint8List>(bytes.value);
+    }
+    if (extension.present) {
+      map['extension'] = Variable<String>(extension.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AvatarTblCompanion(')
+          ..write('id: $id, ')
+          ..write('organizationId: $organizationId, ')
+          ..write('bytes: $bytes, ')
+          ..write('extension: $extension')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class SettingsTbl extends Table with TableInfo<SettingsTbl, SettingsTblData> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -3735,6 +3972,9 @@ abstract class _$Database extends GeneratedDatabase {
   late final IntermediaryTbl intermediaryTbl = IntermediaryTbl(this);
   late final Index intermediaryAccountIdIdx = Index('intermediary_account_id_idx',
       'CREATE INDEX IF NOT EXISTS intermediary_account_id_idx ON intermediary_tbl (account_id)');
+  late final AvatarTbl avatarTbl = AvatarTbl(this);
+  late final Index avatarOrganizationIdIdx = Index('avatar_organization_id_idx',
+      'CREATE INDEX IF NOT EXISTS avatar_organization_id_idx ON avatar_tbl (organization_id)');
   late final SettingsTbl settingsTbl = SettingsTbl(this);
   late final Trigger settingsMetaUpdatedAtTrig = Trigger(
       'CREATE TRIGGER IF NOT EXISTS settings_meta_updated_at_trig AFTER UPDATE ON settings_tbl BEGIN UPDATE settings_tbl SET meta_updated_at = strftime(\'%s\', \'now\') WHERE user_id = NEW.user_id;END',
@@ -3791,6 +4031,8 @@ abstract class _$Database extends GeneratedDatabase {
         accountOrganizationIdIdx,
         intermediaryTbl,
         intermediaryAccountIdIdx,
+        avatarTbl,
+        avatarOrganizationIdIdx,
         settingsTbl,
         settingsMetaUpdatedAtTrig,
         logTbl,
@@ -3870,6 +4112,18 @@ abstract class _$Database extends GeneratedDatabase {
             on: TableUpdateQuery.onTableName('account_tbl', limitUpdateKind: UpdateKind.update),
             result: [
               TableUpdate('intermediary_tbl', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('organization_tbl', limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('avatar_tbl', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('organization_tbl', limitUpdateKind: UpdateKind.update),
+            result: [
+              TableUpdate('avatar_tbl', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
@@ -4838,6 +5092,109 @@ class $IntermediaryTblOrderingComposer extends OrderingComposer<_$Database, Inte
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
+typedef $AvatarTblInsertCompanionBuilder = AvatarTblCompanion Function({
+  Value<int> id,
+  required int organizationId,
+  Value<Uint8List?> bytes,
+  required String extension,
+});
+typedef $AvatarTblUpdateCompanionBuilder = AvatarTblCompanion Function({
+  Value<int> id,
+  Value<int> organizationId,
+  Value<Uint8List?> bytes,
+  Value<String> extension,
+});
+
+class $AvatarTblTableManager extends RootTableManager<
+    _$Database,
+    AvatarTbl,
+    AvatarTblData,
+    $AvatarTblFilterComposer,
+    $AvatarTblOrderingComposer,
+    $AvatarTblProcessedTableManager,
+    $AvatarTblInsertCompanionBuilder,
+    $AvatarTblUpdateCompanionBuilder> {
+  $AvatarTblTableManager(_$Database db, AvatarTbl table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $AvatarTblFilterComposer(ComposerState(db, table)),
+          orderingComposer: $AvatarTblOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) => $AvatarTblProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<int> organizationId = const Value.absent(),
+            Value<Uint8List?> bytes = const Value.absent(),
+            Value<String> extension = const Value.absent(),
+          }) =>
+              AvatarTblCompanion(
+            id: id,
+            organizationId: organizationId,
+            bytes: bytes,
+            extension: extension,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required int organizationId,
+            Value<Uint8List?> bytes = const Value.absent(),
+            required String extension,
+          }) =>
+              AvatarTblCompanion.insert(
+            id: id,
+            organizationId: organizationId,
+            bytes: bytes,
+            extension: extension,
+          ),
+        ));
+}
+
+class $AvatarTblProcessedTableManager extends ProcessedTableManager<
+    _$Database,
+    AvatarTbl,
+    AvatarTblData,
+    $AvatarTblFilterComposer,
+    $AvatarTblOrderingComposer,
+    $AvatarTblProcessedTableManager,
+    $AvatarTblInsertCompanionBuilder,
+    $AvatarTblUpdateCompanionBuilder> {
+  $AvatarTblProcessedTableManager(super.$state);
+}
+
+class $AvatarTblFilterComposer extends FilterComposer<_$Database, AvatarTbl> {
+  $AvatarTblFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<Uint8List> get bytes => $state.composableBuilder(
+      column: $state.table.bytes, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get extension => $state.composableBuilder(
+      column: $state.table.extension,
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $AvatarTblOrderingComposer extends OrderingComposer<_$Database, AvatarTbl> {
+  $AvatarTblOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get organizationId => $state.composableBuilder(
+      column: $state.table.organizationId,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<Uint8List> get bytes => $state.composableBuilder(
+      column: $state.table.bytes,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get extension => $state.composableBuilder(
+      column: $state.table.extension,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
 typedef $SettingsTblInsertCompanionBuilder = SettingsTblCompanion Function({
   required String userId,
   required String jsonData,
@@ -5466,6 +5823,7 @@ class _$DatabaseManager {
   $ContactTblTableManager get contactTbl => $ContactTblTableManager(_db, _db.contactTbl);
   $AccountTblTableManager get accountTbl => $AccountTblTableManager(_db, _db.accountTbl);
   $IntermediaryTblTableManager get intermediaryTbl => $IntermediaryTblTableManager(_db, _db.intermediaryTbl);
+  $AvatarTblTableManager get avatarTbl => $AvatarTblTableManager(_db, _db.avatarTbl);
   $SettingsTblTableManager get settingsTbl => $SettingsTblTableManager(_db, _db.settingsTbl);
   $LogTblTableManager get logTbl => $LogTblTableManager(_db, _db.logTbl);
   $LogPrefixTblTableManager get logPrefixTbl => $LogPrefixTblTableManager(_db, _db.logPrefixTbl);

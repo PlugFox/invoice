@@ -29,7 +29,7 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
     T extract<T>(String key, T Function() fallback) {
       final path = key.split('.');
       if (path.isEmpty) return fallback();
-      Object? obj = invoice;
+      Object? obj = context;
       for (final part in path) {
         if (obj is Map) {
           obj = obj[part];
@@ -44,8 +44,8 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
     }
 
     final doc = pw.Document(
-      title: extract('title', () => 'Resume'),
-      subject: extract('subject', () => 'Resume'),
+      title: extract('title', () => 'Invoice'),
+      subject: extract('subject', () => 'Invoice'),
       producer: extract('producer', () => ''),
       author: extract('author', () => ''),
       creator: extract('author', () => ''),
@@ -81,22 +81,15 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
         case final pw.ImageProvider value:
           logo = value;
         default:
-          logo = await rootBundle
-              .load('assets/images/qyre_logo.png')
-              .then<pw.MemoryImage>((bytes) => pw.MemoryImage(bytes.buffer.asUint8List()));
+          /* logo = await rootBundle
+              .load('assets/images/logo.png')
+              .then<pw.MemoryImage>((bytes) => pw.MemoryImage(bytes.buffer.asUint8List())); */
           context['logo'] = logo;
       }
     } on Object catch (_, __) {
       logo = null;
     }
 
-    // Suplier
-    final supplierContact = extract<Map<String, Object?>>('supplier.contact', () => <String, Object?>{});
-    final supplierAddress = extract<Map<String, Object?>>('supplier.address', () => <String, Object?>{});
-
-    // Items
-    final items =
-        extract<List<Object?>>('items', () => <Object>[]).whereType<Map<String, Object?>>().toList(growable: false);
     doc.addPage(
       pw.MultiPage(
         pageTheme: pageTheme,
@@ -107,8 +100,7 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
         ),
         // --- Page Footer --- //
         footer: (context) => _InvoiceTemplate$Simple$PageFooter(
-          supplierAddress: supplierAddress,
-          supplierContact: supplierContact,
+          invoice: invoice,
           color: PdfColor.fromInt(color),
         ),
         // --- Body --- //
@@ -136,7 +128,7 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
 
           // --- Invoices table --- //
           pw.SizedBox(height: 24),
-          _InvoiceTemplate$Simple$InvoicesTable(items: items),
+          _InvoiceTemplate$Simple$InvoicesTable(invoice: invoice),
 
           // --- Terms and conditions --- //
           /* if (data['termsAndConditions'] case final String? value)
@@ -244,10 +236,10 @@ class _InvoiceTemplate$Simple$InvoiceDescription extends pw.StatelessWidget {
 
 class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
   _InvoiceTemplate$Simple$InvoicesTable({
-    required this.items,
+    required this.invoice,
   });
 
-  final List<Map<String, Object?>> items;
+  final Invoice invoice;
 
   @override
   pw.Widget build(pw.Context context) => pw.DefaultTextStyle(
@@ -260,37 +252,21 @@ class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
           context: context,
           defaultColumnWidth: const pw.IntrinsicColumnWidth(flex: 1),
           columnWidths: <int, pw.TableColumnWidth>{
-            0: const pw.FlexColumnWidth(5),
-            1: const pw.FixedColumnWidth(75),
-            2: const pw.FixedColumnWidth(100),
-            3: const pw.FixedColumnWidth(75),
-            4: const pw.FixedColumnWidth(100),
+            0: const pw.FixedColumnWidth(50),
+            1: const pw.FlexColumnWidth(5),
+            2: const pw.FixedColumnWidth(150),
           },
           border: pw.TableBorder.all(),
           headerAlignments: <int, pw.AlignmentGeometry>{
             0: pw.Alignment.center,
             1: pw.Alignment.center,
             2: pw.Alignment.center,
-            3: pw.Alignment.center,
-            4: pw.Alignment.center,
           },
           rowDecoration: const pw.BoxDecoration(color: PdfColors.grey300),
           oddRowDecoration: const pw.BoxDecoration(color: PdfColors.white),
           headers: <pw.Widget>[
-            pw.Padding(
-              padding: const pw.EdgeInsets.only(left: 16),
-              child: pw.Text(
-                'Description',
-                textAlign: pw.TextAlign.left,
-                style: pw.TextStyle(
-                  fontSize: 12,
-                  height: 1,
-                  fontWeight: pw.FontWeight.bold,
-                ),
-              ),
-            ),
             pw.Text(
-              'Quantity',
+              'No.',
               textAlign: pw.TextAlign.center,
               style: pw.TextStyle(
                 fontSize: 12,
@@ -299,8 +275,8 @@ class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
               ),
             ),
             pw.Text(
-              'Unit Price',
-              textAlign: pw.TextAlign.center,
+              'Description',
+              textAlign: pw.TextAlign.left,
               style: pw.TextStyle(
                 fontSize: 12,
                 height: 1,
@@ -308,68 +284,41 @@ class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
               ),
             ),
             pw.Text(
-              'Disc.',
+              'Amount',
               textAlign: pw.TextAlign.center,
               style: pw.TextStyle(
                 fontSize: 12,
                 height: 1,
                 fontWeight: pw.FontWeight.bold,
-              ),
-            ),
-            pw.Padding(
-              padding: const pw.EdgeInsets.only(right: 6),
-              child: pw.Text(
-                'Cost',
-                textAlign: pw.TextAlign.center,
-                style: pw.TextStyle(
-                  fontSize: 12,
-                  height: 1,
-                  fontWeight: pw.FontWeight.bold,
-                ),
               ),
             ),
           ],
           cellAlignments: <int, pw.AlignmentGeometry>{
-            0: pw.Alignment.centerLeft,
-            1: pw.Alignment.center,
-            2: pw.Alignment.center,
-            3: pw.Alignment.center,
-            4: pw.Alignment.centerRight,
+            0: pw.Alignment.center,
+            1: pw.Alignment.centerLeft,
+            2: pw.Alignment.centerRight,
           },
           data: <List<pw.Widget>>[
             // --- Rows --- //
-            for (final row in items)
+            for (final service in invoice.services)
               <pw.Widget>[
+                pw.Text(
+                  service.number.toString(),
+                  maxLines: 1,
+                  textAlign: pw.TextAlign.center,
+                ),
                 pw.Padding(
-                  padding: const pw.EdgeInsets.only(left: 16),
+                  padding: const pw.EdgeInsets.only(left: 8),
                   child: pw.Text(
-                    row['description']?.toString() ?? '',
+                    service.name,
                     maxLines: 1,
                     textAlign: pw.TextAlign.left,
                   ),
                 ),
-                pw.Text(
-                  row['quantity']?.toString() ?? '1',
-                  maxLines: 1,
-                  textAlign: pw.TextAlign.center,
-                ),
-                pw.Text(
-                  row['unitPrice']?.toString() ?? '',
-                  maxLines: 1,
-                  textAlign: pw.TextAlign.center,
-                ),
-                pw.Text(
-                  switch (row['discount']) {
-                    final Map<String, Object?> map when map.containsKey('value') => '${map['value']}%',
-                    _ => '',
-                  },
-                  maxLines: 1,
-                  textAlign: pw.TextAlign.center,
-                ),
                 pw.Padding(
-                  padding: const pw.EdgeInsets.only(right: 16),
+                  padding: const pw.EdgeInsets.only(right: 8),
                   child: pw.Text(
-                    row['total']?.toString() ?? '',
+                    service.amount.toString(),
                     maxLines: 1,
                     textAlign: pw.TextAlign.right,
                   ),
@@ -441,13 +390,11 @@ class _InvoiceTemplate$Simple$PageHeader extends pw.StatelessWidget {
 
 class _InvoiceTemplate$Simple$PageFooter extends pw.StatelessWidget {
   _InvoiceTemplate$Simple$PageFooter({
-    required this.supplierAddress,
-    required this.supplierContact,
+    required this.invoice,
     this.color,
   });
 
-  final Map<String, Object?> supplierAddress;
-  final Map<String, Object?> supplierContact;
+  final Invoice invoice;
   final PdfColor? color;
 
   @override
@@ -490,11 +437,11 @@ class _InvoiceTemplate$Simple$PageFooter extends pw.StatelessWidget {
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: <pw.Widget>[
                           pw.Text('Address', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                          if (supplierAddress['country'] case final String value) pw.Text(value),
+                          /* if (supplierAddress['country'] case final String value) pw.Text(value),
                           if (supplierAddress['state'] case final String value) pw.Text(value),
                           if (supplierAddress['city'] case final String value) pw.Text(value),
                           if (supplierAddress['street'] case final String value) pw.Text(value),
-                          if (supplierAddress['zipCode'] case final String value) pw.Text(value),
+                          if (supplierAddress['zipCode'] case final String value) pw.Text(value), */
                         ],
                       ),
                     ),
@@ -506,7 +453,7 @@ class _InvoiceTemplate$Simple$PageFooter extends pw.StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: <pw.Widget>[
-                          if (supplierContact['phone'] case final String value) ...[
+                          /* if (supplierContact['phone'] case final String value) ...[
                             pw.Text('Phone', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
                             pw.Text(value),
                             pw.SizedBox(height: 4),
@@ -514,7 +461,7 @@ class _InvoiceTemplate$Simple$PageFooter extends pw.StatelessWidget {
                           if (supplierContact['email'] case final String value) ...[
                             pw.Text('Email', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
                             pw.Text(value),
-                          ],
+                          ], */
                         ],
                       ),
                     ),

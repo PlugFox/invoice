@@ -251,13 +251,14 @@ class _InvoicePositionDelegate extends MultiChildLayoutDelegate {
               math.max(size.width - maxScreenLayoutWidth - padding, size.width / 2),
               (maxHeight - padding * 2) * 210 / 297 + padding,
             ),
-            maxHeight - padding * 2,
+            maxHeight /* - padding * 2 */,
           ),
         ),
       );
       final formSize =
           layoutChild(formId, BoxConstraints.loose(Size(size.width - previewSize.width - padding, size.height)));
       positionChild(formId, Offset.zero);
+      //positionChild(previewId, Offset(formSize.width, (size.height - previewSize.height) / 2));
       positionChild(previewId, Offset(formSize.width, (size.height - previewSize.height) / 2));
     }
   }
@@ -605,29 +606,19 @@ class _PreviewInvoiceState extends State<_PreviewInvoice> {
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) => constraints.biggest.width == 0
             ? const SizedBox.shrink()
-            : AspectRatio(
-                aspectRatio: 210 / 297,
-                child: Card(
-                  elevation: 4,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ValueListenableBuilder<Uint8List?>(
-                    valueListenable: _pdf,
-                    builder: (context, bytes, _) {
-                      if (bytes == null) return const Center(child: CircularProgressIndicator());
-                      return PdfPreviewCustom(
-                        build: (_) => bytes,
-                        maxPageWidth: 880,
-                        padding: const EdgeInsets.fromLTRB(8, 16, 16, 16),
-                        scrollViewDecoration: const BoxDecoration(),
-                        loadingWidget: const CircularProgressIndicator(),
-                        pageFormat: PdfPageFormat.a4,
-                      );
-                    },
-                  ),
-                ),
+            : ValueListenableBuilder<Uint8List?>(
+                valueListenable: _pdf,
+                builder: (context, bytes, _) {
+                  if (bytes == null) return const Center(child: CircularProgressIndicator());
+                  return PdfPreviewCustom(
+                    build: (_) => bytes,
+                    maxPageWidth: 880,
+                    padding: const EdgeInsets.fromLTRB(8, 16, 16, 16),
+                    scrollViewDecoration: const BoxDecoration(),
+                    loadingWidget: const CircularProgressIndicator(),
+                    pageFormat: PdfPageFormat.a4,
+                  );
+                },
               ),
       );
 }
