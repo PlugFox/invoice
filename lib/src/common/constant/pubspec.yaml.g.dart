@@ -125,12 +125,12 @@ sealed class Pubspec {
   static final DateTime timestamp = DateTime.utc(
     2024,
     6,
-    22,
-    11,
     23,
-    53,
-    613,
-    156,
+    9,
+    58,
+    9,
+    973,
+    944,
   );
 
   /// Name
@@ -419,7 +419,7 @@ sealed class Pubspec {
     'octopus': r'^0.0.8',
     'meta': r'any',
     'json_annotation': r'^4.8.1',
-    'collection': r'any',
+    'collection': r'^1.18.0',
     'async': r'any',
     'path': r'any',
     'convert': r'any',
@@ -429,16 +429,19 @@ sealed class Pubspec {
     'url_launcher': r'^6.2.2',
     'money2': r'^5.0.1',
     'l': r'^5.0.0-pre.2',
+    'web': r'^0.5.1',
     'win32': r'^5.4.0',
     'window_manager': r'^0.3.8',
     'control': r'^0.1.0',
     'shared_preferences': r'^2.2.2',
     'drift': r'^2.16.0',
-    'sqlite3_flutter_libs': r'^0.5.20',
+    'sqlite3_flutter_libs': r'^0.5.24',
     'dio': r'^5.4.2+1',
     'dio_smart_retry': r'^6.0.0',
     'cupertino_icons': r'^1.0.5',
     'drift_db_viewer': r'^2.0.0',
+    'pdf': r'^3.10.8',
+    'printing': r'^5.12.0',
   };
 
   /// Developer dependencies

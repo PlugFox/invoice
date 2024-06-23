@@ -163,6 +163,8 @@ mixin _DatabaseKeyValueMixin on _$Database implements IKeyValueStorage {
         int vint => KvTblCompanion.insert(k: key, vint: Value(vint)),
         double vdouble => KvTblCompanion.insert(k: key, vdouble: Value(vdouble)),
         bool vbool => KvTblCompanion.insert(k: key, vbool: Value(vbool ? 1 : 0)),
+        Uint8List vbytes => KvTblCompanion.insert(k: key, vblob: Value(vbytes)),
+        List<int> vbytes => KvTblCompanion.insert(k: key, vblob: Value(Uint8List.fromList(vbytes))),
         _ => null,
       };
 
@@ -172,7 +174,7 @@ mixin _DatabaseKeyValueMixin on _$Database implements IKeyValueStorage {
         _$store
           ..clear()
           ..addAll(<String, Object>{
-            for (final kv in values) kv.k: kv.vstring ?? kv.vint ?? kv.vdouble ?? kv.vbool == 1,
+            for (final kv in values) kv.k: kv.vstring ?? kv.vint ?? kv.vdouble ?? kv.vblob ?? kv.vbool == 1,
           });
       });
 

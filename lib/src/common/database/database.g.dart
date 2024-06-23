@@ -3329,6 +3329,9 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
   static const VerificationMeta _vboolMeta = VerificationMeta('vbool');
   late final GeneratedColumn<int> vbool = GeneratedColumn<int>('vbool', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false, $customConstraints: '');
+  static const VerificationMeta _vblobMeta = VerificationMeta('vblob');
+  late final GeneratedColumn<Uint8List> vblob = GeneratedColumn<Uint8List>('vblob', aliasedName, true,
+      type: DriftSqlType.blob, requiredDuringInsert: false, $customConstraints: '');
   static const VerificationMeta _metaCreatedAtMeta = VerificationMeta('metaCreatedAt');
   late final GeneratedColumn<int> metaCreatedAt = GeneratedColumn<int>('meta_created_at', aliasedName, false,
       type: DriftSqlType.int,
@@ -3342,7 +3345,7 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
       $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
       defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'));
   @override
-  List<GeneratedColumn> get $columns => [k, vstring, vint, vdouble, vbool, metaCreatedAt, metaUpdatedAt];
+  List<GeneratedColumn> get $columns => [k, vstring, vint, vdouble, vbool, vblob, metaCreatedAt, metaUpdatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -3369,6 +3372,9 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
     if (data.containsKey('vbool')) {
       context.handle(_vboolMeta, vbool.isAcceptableOrUnknown(data['vbool']!, _vboolMeta));
     }
+    if (data.containsKey('vblob')) {
+      context.handle(_vblobMeta, vblob.isAcceptableOrUnknown(data['vblob']!, _vblobMeta));
+    }
     if (data.containsKey('meta_created_at')) {
       context.handle(
           _metaCreatedAtMeta, metaCreatedAt.isAcceptableOrUnknown(data['meta_created_at']!, _metaCreatedAtMeta));
@@ -3391,6 +3397,7 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
       vint: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}vint']),
       vdouble: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}vdouble']),
       vbool: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}vbool']),
+      vblob: attachedDatabase.typeMapping.read(DriftSqlType.blob, data['${effectivePrefix}vblob']),
       metaCreatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_created_at'])!,
       metaUpdatedAt: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meta_updated_at'])!,
     );
@@ -3423,9 +3430,10 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
   /// Boolean
   final int? vbool;
 
-  /// req Created date (unixtime in seconds)
-  ///vblob BLOB,
   /// Binary
+  final Uint8List? vblob;
+
+  /// req Created date (unixtime in seconds)
   final int metaCreatedAt;
 
   /// req Updated date (unixtime in seconds)
@@ -3436,6 +3444,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
       this.vint,
       this.vdouble,
       this.vbool,
+      this.vblob,
       required this.metaCreatedAt,
       required this.metaUpdatedAt});
   @override
@@ -3454,6 +3463,9 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
     if (!nullToAbsent || vbool != null) {
       map['vbool'] = Variable<int>(vbool);
     }
+    if (!nullToAbsent || vblob != null) {
+      map['vblob'] = Variable<Uint8List>(vblob);
+    }
     map['meta_created_at'] = Variable<int>(metaCreatedAt);
     map['meta_updated_at'] = Variable<int>(metaUpdatedAt);
     return map;
@@ -3466,6 +3478,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
       vint: vint == null && nullToAbsent ? const Value.absent() : Value(vint),
       vdouble: vdouble == null && nullToAbsent ? const Value.absent() : Value(vdouble),
       vbool: vbool == null && nullToAbsent ? const Value.absent() : Value(vbool),
+      vblob: vblob == null && nullToAbsent ? const Value.absent() : Value(vblob),
       metaCreatedAt: Value(metaCreatedAt),
       metaUpdatedAt: Value(metaUpdatedAt),
     );
@@ -3479,6 +3492,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
       vint: serializer.fromJson<int?>(json['vint']),
       vdouble: serializer.fromJson<double?>(json['vdouble']),
       vbool: serializer.fromJson<int?>(json['vbool']),
+      vblob: serializer.fromJson<Uint8List?>(json['vblob']),
       metaCreatedAt: serializer.fromJson<int>(json['meta_created_at']),
       metaUpdatedAt: serializer.fromJson<int>(json['meta_updated_at']),
     );
@@ -3492,6 +3506,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
       'vint': serializer.toJson<int?>(vint),
       'vdouble': serializer.toJson<double?>(vdouble),
       'vbool': serializer.toJson<int?>(vbool),
+      'vblob': serializer.toJson<Uint8List?>(vblob),
       'meta_created_at': serializer.toJson<int>(metaCreatedAt),
       'meta_updated_at': serializer.toJson<int>(metaUpdatedAt),
     };
@@ -3503,6 +3518,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
           Value<int?> vint = const Value.absent(),
           Value<double?> vdouble = const Value.absent(),
           Value<int?> vbool = const Value.absent(),
+          Value<Uint8List?> vblob = const Value.absent(),
           int? metaCreatedAt,
           int? metaUpdatedAt}) =>
       KvTblData(
@@ -3511,6 +3527,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
         vint: vint.present ? vint.value : this.vint,
         vdouble: vdouble.present ? vdouble.value : this.vdouble,
         vbool: vbool.present ? vbool.value : this.vbool,
+        vblob: vblob.present ? vblob.value : this.vblob,
         metaCreatedAt: metaCreatedAt ?? this.metaCreatedAt,
         metaUpdatedAt: metaUpdatedAt ?? this.metaUpdatedAt,
       );
@@ -3522,6 +3539,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
           ..write('vint: $vint, ')
           ..write('vdouble: $vdouble, ')
           ..write('vbool: $vbool, ')
+          ..write('vblob: $vblob, ')
           ..write('metaCreatedAt: $metaCreatedAt, ')
           ..write('metaUpdatedAt: $metaUpdatedAt')
           ..write(')'))
@@ -3529,7 +3547,8 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
   }
 
   @override
-  int get hashCode => Object.hash(k, vstring, vint, vdouble, vbool, metaCreatedAt, metaUpdatedAt);
+  int get hashCode =>
+      Object.hash(k, vstring, vint, vdouble, vbool, $driftBlobEquality.hash(vblob), metaCreatedAt, metaUpdatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3539,6 +3558,7 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
           other.vint == this.vint &&
           other.vdouble == this.vdouble &&
           other.vbool == this.vbool &&
+          $driftBlobEquality.equals(other.vblob, this.vblob) &&
           other.metaCreatedAt == this.metaCreatedAt &&
           other.metaUpdatedAt == this.metaUpdatedAt);
 }
@@ -3549,6 +3569,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
   final Value<int?> vint;
   final Value<double?> vdouble;
   final Value<int?> vbool;
+  final Value<Uint8List?> vblob;
   final Value<int> metaCreatedAt;
   final Value<int> metaUpdatedAt;
   final Value<int> rowid;
@@ -3558,6 +3579,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     this.vint = const Value.absent(),
     this.vdouble = const Value.absent(),
     this.vbool = const Value.absent(),
+    this.vblob = const Value.absent(),
     this.metaCreatedAt = const Value.absent(),
     this.metaUpdatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -3568,6 +3590,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     this.vint = const Value.absent(),
     this.vdouble = const Value.absent(),
     this.vbool = const Value.absent(),
+    this.vblob = const Value.absent(),
     this.metaCreatedAt = const Value.absent(),
     this.metaUpdatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -3578,6 +3601,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     Expression<int>? vint,
     Expression<double>? vdouble,
     Expression<int>? vbool,
+    Expression<Uint8List>? vblob,
     Expression<int>? metaCreatedAt,
     Expression<int>? metaUpdatedAt,
     Expression<int>? rowid,
@@ -3588,6 +3612,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
       if (vint != null) 'vint': vint,
       if (vdouble != null) 'vdouble': vdouble,
       if (vbool != null) 'vbool': vbool,
+      if (vblob != null) 'vblob': vblob,
       if (metaCreatedAt != null) 'meta_created_at': metaCreatedAt,
       if (metaUpdatedAt != null) 'meta_updated_at': metaUpdatedAt,
       if (rowid != null) 'rowid': rowid,
@@ -3600,6 +3625,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
       Value<int?>? vint,
       Value<double?>? vdouble,
       Value<int?>? vbool,
+      Value<Uint8List?>? vblob,
       Value<int>? metaCreatedAt,
       Value<int>? metaUpdatedAt,
       Value<int>? rowid}) {
@@ -3609,6 +3635,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
       vint: vint ?? this.vint,
       vdouble: vdouble ?? this.vdouble,
       vbool: vbool ?? this.vbool,
+      vblob: vblob ?? this.vblob,
       metaCreatedAt: metaCreatedAt ?? this.metaCreatedAt,
       metaUpdatedAt: metaUpdatedAt ?? this.metaUpdatedAt,
       rowid: rowid ?? this.rowid,
@@ -3633,6 +3660,9 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     if (vbool.present) {
       map['vbool'] = Variable<int>(vbool.value);
     }
+    if (vblob.present) {
+      map['vblob'] = Variable<Uint8List>(vblob.value);
+    }
     if (metaCreatedAt.present) {
       map['meta_created_at'] = Variable<int>(metaCreatedAt.value);
     }
@@ -3653,6 +3683,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
           ..write('vint: $vint, ')
           ..write('vdouble: $vdouble, ')
           ..write('vbool: $vbool, ')
+          ..write('vblob: $vblob, ')
           ..write('metaCreatedAt: $metaCreatedAt, ')
           ..write('metaUpdatedAt: $metaUpdatedAt, ')
           ..write('rowid: $rowid')
@@ -5283,6 +5314,7 @@ typedef $KvTblInsertCompanionBuilder = KvTblCompanion Function({
   Value<int?> vint,
   Value<double?> vdouble,
   Value<int?> vbool,
+  Value<Uint8List?> vblob,
   Value<int> metaCreatedAt,
   Value<int> metaUpdatedAt,
   Value<int> rowid,
@@ -5293,6 +5325,7 @@ typedef $KvTblUpdateCompanionBuilder = KvTblCompanion Function({
   Value<int?> vint,
   Value<double?> vdouble,
   Value<int?> vbool,
+  Value<Uint8List?> vblob,
   Value<int> metaCreatedAt,
   Value<int> metaUpdatedAt,
   Value<int> rowid,
@@ -5313,6 +5346,7 @@ class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, 
             Value<int?> vint = const Value.absent(),
             Value<double?> vdouble = const Value.absent(),
             Value<int?> vbool = const Value.absent(),
+            Value<Uint8List?> vblob = const Value.absent(),
             Value<int> metaCreatedAt = const Value.absent(),
             Value<int> metaUpdatedAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -5323,6 +5357,7 @@ class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, 
             vint: vint,
             vdouble: vdouble,
             vbool: vbool,
+            vblob: vblob,
             metaCreatedAt: metaCreatedAt,
             metaUpdatedAt: metaUpdatedAt,
             rowid: rowid,
@@ -5333,6 +5368,7 @@ class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, 
             Value<int?> vint = const Value.absent(),
             Value<double?> vdouble = const Value.absent(),
             Value<int?> vbool = const Value.absent(),
+            Value<Uint8List?> vblob = const Value.absent(),
             Value<int> metaCreatedAt = const Value.absent(),
             Value<int> metaUpdatedAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -5343,6 +5379,7 @@ class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, 
             vint: vint,
             vdouble: vdouble,
             vbool: vbool,
+            vblob: vblob,
             metaCreatedAt: metaCreatedAt,
             metaUpdatedAt: metaUpdatedAt,
             rowid: rowid,
@@ -5374,6 +5411,9 @@ class $KvTblFilterComposer extends FilterComposer<_$Database, KvTbl> {
   ColumnFilters<int> get vbool => $state.composableBuilder(
       column: $state.table.vbool, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
 
+  ColumnFilters<Uint8List> get vblob => $state.composableBuilder(
+      column: $state.table.vblob, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
+
   ColumnFilters<int> get metaCreatedAt => $state.composableBuilder(
       column: $state.table.metaCreatedAt,
       builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
@@ -5402,6 +5442,10 @@ class $KvTblOrderingComposer extends OrderingComposer<_$Database, KvTbl> {
 
   ColumnOrderings<int> get vbool => $state.composableBuilder(
       column: $state.table.vbool,
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<Uint8List> get vblob => $state.composableBuilder(
+      column: $state.table.vblob,
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 
   ColumnOrderings<int> get metaCreatedAt => $state.composableBuilder(
