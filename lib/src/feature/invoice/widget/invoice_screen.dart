@@ -371,12 +371,12 @@ class _InvoiceHeaderButtons extends StatelessWidget {
               const Spacer(),
               /* const VerticalDivider(),
               const Spacer(), */
-              const SizedBox.square(
+              SizedBox.square(
                 dimension: 48,
                 child: IconButton(
-                  icon: Icon(Icons.print),
+                  icon: const Icon(Icons.print),
                   tooltip: 'Print invoice',
-                  onPressed: null,
+                  onPressed: () => context.findAncestorStateOfType<_InvoiceScaffoldState>()?._pdfController.layout(),
                 ),
               ),
               /* const SizedBox(width: 8),
@@ -398,12 +398,12 @@ class _InvoiceHeaderButtons extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const SizedBox.square(
+              SizedBox.square(
                 dimension: 48,
                 child: IconButton(
-                  icon: Icon(Icons.file_download),
+                  icon: const Icon(Icons.file_download),
                   tooltip: 'Download pdf',
-                  onPressed: null,
+                  onPressed: () => context.findAncestorStateOfType<_InvoiceScaffoldState>()?._pdfController.share(),
                 ),
               ),
               const SizedBox.square(

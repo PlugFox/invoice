@@ -142,14 +142,54 @@ class InvoicePDFController with ChangeNotifier implements ValueListenable<Invoic
   }
 
   /// Share the PDF
-  Future<bool> share() => Printing.sharePdf(
-        bytes: _state.pdf,
+  Future<void> share([Map<String, Object?>? context]) async {
+    if (_isDisposed) return;
+    final mutableContext = <String, Object?>{
+      ..._state.context,
+      ...?context,
+    };
+    _setState(
+      InvoicePDFState(
+        template: _state.template,
+        invoice: value.invoice,
+        pdf: _state.pdf,
+        context: UnmodifiableMapView<String, Object?>(mutableContext),
+        loading: true,
+        error: _state.error,
+      ),
+    );
+    try {
+      /* final json = const JsonEncoder.withIndent('  ').convert(snapshot.toJson());
+      print(json); */
+      final newPdf = await _state.template.buildPDF(value.invoice, mutableContext);
+      await Printing.sharePdf(
+        bytes: newPdf,
         filename: 'invoice.pdf',
         /* bounds: bounds,
         body: body,
         subject: subject,
         emails: emails, */
       );
+      _setState(
+        InvoicePDFState(
+          template: _state.template,
+          invoice: _state.invoice,
+          pdf: newPdf,
+          context: UnmodifiableMapView<String, Object?>(mutableContext),
+        ),
+      );
+    } on Object catch (error, _) {
+      _setState(
+        InvoicePDFState(
+          template: _state.template,
+          invoice: _state.invoice,
+          pdf: _state.pdf,
+          context: _state.context,
+          error: kDebugMode ? error.toString() : 'An error occurred while generating the PDF.',
+        ),
+      );
+    }
+  }
 
   /// Print the PDF
   Future<bool> layout([Map<String, Object?>? context]) async {
