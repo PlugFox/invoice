@@ -97,10 +97,27 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
         // --- Page Header --- //
         header: (context) => pw.SizedBox(height: PdfPageFormat.inch * 0.5),
         // --- Page Footer --- //
-        footer: (context) => _InvoiceTemplate$Simple$PageFooter(
-          invoice: invoice,
-          color: PdfColor.fromInt(color),
-        ),
+        footer: (context) => context.pagesCount == 1
+            ? pw.SizedBox(
+                height: PdfPageFormat.inch * 0.75,
+              )
+            : pw.Padding(
+                padding: const pw.EdgeInsets.only(
+                  bottom: PdfPageFormat.inch * 0.5,
+                  top: PdfPageFormat.inch * 0.25,
+                  right: PdfPageFormat.inch * 0.5,
+                  left: PdfPageFormat.inch * 0.5,
+                ),
+                child: pw.Align(
+                  alignment: pw.Alignment.centerRight,
+                  child: pw.Text(
+                    '${context.pageNumber}/${context.pagesCount}',
+                    style: const pw.TextStyle(
+                      color: PdfColors.black,
+                    ),
+                  ),
+                ),
+              ),
         // --- Body --- //
         build: (context) => <pw.Widget>[
           // --- Invoice Header --- //
@@ -110,6 +127,18 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
             logo: logo,
             color: PdfColor.fromInt(color),
           ),
+
+          pw.SizedBox(height: PdfPageFormat.inch * 0.25),
+
+          // --- Organization --- //
+
+          if (invoice.organization case Organization organization)
+            pw.Padding(
+              padding: const pw.EdgeInsets.symmetric(horizontal: PdfPageFormat.inch * 0.5),
+              child: _InvoiceTemplate$Simple$InvoiceOrganization(
+                organization: organization,
+              ),
+            ),
 
           pw.SizedBox(height: PdfPageFormat.inch * 0.25),
 
@@ -125,10 +154,14 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
           pw.SizedBox(height: PdfPageFormat.inch * 0.25),
 
           // --- Invoices table --- //
-          pw.Padding(
-            padding: const pw.EdgeInsets.symmetric(horizontal: PdfPageFormat.inch * 0.5),
-            child: _InvoiceTemplate$Simple$InvoicesTable(invoice: invoice),
-          ),
+          if (invoice.services.isNotEmpty) ...<pw.Widget>[
+            pw.Padding(
+              padding: const pw.EdgeInsets.symmetric(horizontal: PdfPageFormat.inch * 0.5),
+              child: _InvoiceTemplate$Simple$InvoicesTable(invoice: invoice),
+            ),
+            pw.SizedBox(height: PdfPageFormat.inch * 0.25),
+            _InvoiceTemplate$Simple$InvoicesTotal(invoice: invoice),
+          ],
 
           // --- Terms and conditions --- //
           /* if (data['termsAndConditions'] case final String? value)
@@ -168,6 +201,75 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
       );
 }
 
+class _InvoiceTemplate$Simple$InvoiceOrganization extends pw.StatelessWidget {
+  _InvoiceTemplate$Simple$InvoiceOrganization({
+    required this.organization,
+  });
+
+  final Organization organization;
+
+  @override
+  pw.Widget build(pw.Context context) => pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: <pw.Widget>[
+          pw.Text(
+            organization.name,
+            style: pw.TextStyle(
+              fontSize: 14,
+              fontWeight: pw.FontWeight.bold,
+              height: 1,
+            ),
+          ),
+          if (organization.address case String address when address.isNotEmpty)
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(top: 4),
+              child: pw.RichText(
+                text: pw.TextSpan(
+                  text: 'Address: ',
+                  style: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                    height: 1,
+                  ),
+                  children: <pw.TextSpan>[
+                    pw.TextSpan(
+                      text: address,
+                      style: pw.TextStyle(
+                        fontSize: 12,
+                        fontWeight: pw.FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (organization.tax case String tax when tax.isNotEmpty)
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(top: 4),
+              child: pw.RichText(
+                text: pw.TextSpan(
+                  text: 'Tax identification number: ',
+                  style: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                    height: 1,
+                  ),
+                  children: <pw.TextSpan>[
+                    pw.TextSpan(
+                      text: tax,
+                      style: pw.TextStyle(
+                        fontSize: 12,
+                        fontWeight: pw.FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      );
+}
+
 class _InvoiceTemplate$Simple$InvoiceDescription extends pw.StatelessWidget {
   _InvoiceTemplate$Simple$InvoiceDescription({
     required this.text,
@@ -176,7 +278,14 @@ class _InvoiceTemplate$Simple$InvoiceDescription extends pw.StatelessWidget {
   final String text;
 
   @override
-  pw.Widget build(pw.Context context) => pw.Text(text);
+  pw.Widget build(pw.Context context) => pw.Text(
+        text,
+        textAlign: pw.TextAlign.justify,
+        style: pw.TextStyle(
+          fontSize: 12,
+          fontWeight: pw.FontWeight.normal,
+        ),
+      );
 }
 
 class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
@@ -189,7 +298,7 @@ class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
   @override
   pw.Widget build(pw.Context context) => pw.DefaultTextStyle(
         style: pw.TextStyle(
-          fontSize: 10,
+          fontSize: 12,
           height: 1,
           fontWeight: pw.FontWeight.normal,
         ),
@@ -201,7 +310,11 @@ class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
             1: const pw.FlexColumnWidth(5),
             2: const pw.FixedColumnWidth(150),
           },
-          border: pw.TableBorder.all(),
+          border: pw.TableBorder.all(
+            color: PdfColors.white,
+            width: 2,
+            style: pw.BorderStyle.solid,
+          ),
           headerAlignments: <int, pw.AlignmentGeometry>{
             0: pw.Alignment.center,
             1: pw.Alignment.center,
@@ -290,7 +403,57 @@ class _InvoiceTemplate$Simple$InvoicesTable extends pw.StatelessWidget {
       );
 }
 
-class _InvoiceTemplate$Simple$TextBlock extends pw.StatelessWidget {
+class _InvoiceTemplate$Simple$InvoicesTotal extends pw.StatelessWidget {
+  _InvoiceTemplate$Simple$InvoicesTotal({
+    required this.invoice,
+  });
+
+  final Invoice invoice;
+
+  @override
+  pw.Widget build(pw.Context context) => pw.Align(
+        alignment: pw.Alignment.centerRight,
+        child: pw.SizedBox(
+          height: 40,
+          child: pw.DecoratedBox(
+            decoration: const pw.BoxDecoration(
+              color: PdfColors.blueGrey800,
+              shape: pw.BoxShape.rectangle,
+              borderRadius: pw.BorderRadius.horizontal(left: pw.Radius.circular(20)),
+            ),
+            child: pw.Padding(
+              padding: const pw.EdgeInsets.fromLTRB(16, 8, PdfPageFormat.inch * 0.5, 8),
+              child: pw.Row(
+                mainAxisSize: pw.MainAxisSize.min,
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                crossAxisAlignment: pw.CrossAxisAlignment.center,
+                children: <pw.Widget>[
+                  pw.Text(
+                    'Total:',
+                    style: pw.TextStyle(
+                      color: PdfColors.white,
+                      fontSize: 14,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.SizedBox(width: 8),
+                  pw.Text(
+                    invoice.total.toString(),
+                    style: pw.TextStyle(
+                      color: PdfColors.white,
+                      fontSize: 14,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+/* class _InvoiceTemplate$Simple$TextBlock extends pw.StatelessWidget {
   _InvoiceTemplate$Simple$TextBlock({
     required this.label,
     required this.text,
@@ -324,7 +487,7 @@ class _InvoiceTemplate$Simple$TextBlock extends pw.StatelessWidget {
             ),
           ),
       };
-}
+} */
 
 class _InvoiceTemplate$Simple$PageHeader extends pw.StatelessWidget {
   _InvoiceTemplate$Simple$PageHeader({
@@ -426,7 +589,7 @@ class _InvoiceTemplate$Simple$PageHeader extends pw.StatelessWidget {
       );
 }
 
-class _InvoiceTemplate$Simple$PageFooter extends pw.StatelessWidget {
+/* class _InvoiceTemplate$Simple$PageFooter extends pw.StatelessWidget {
   _InvoiceTemplate$Simple$PageFooter({
     required this.invoice,
     this.color,
@@ -511,4 +674,4 @@ class _InvoiceTemplate$Simple$PageFooter extends pw.StatelessWidget {
           ),
         ),
       );
-}
+} */
