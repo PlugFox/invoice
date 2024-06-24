@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:invoice/src/common/router/routes.dart';
-import 'package:invoice/src/feature/authentication/model/user.dart';
 import 'package:octopus/octopus.dart';
 
 /// Check routes always contain the home route at the first position.
@@ -9,7 +8,7 @@ import 'package:octopus/octopus.dart';
 class HomeGuard extends OctopusGuard {
   HomeGuard();
 
-  static final String _homeName = Routes.home.name;
+  static final String _homeName = Routes.invoices.name;
 
   @override
   FutureOr<OctopusState> call(
@@ -19,7 +18,7 @@ class HomeGuard extends OctopusGuard {
   ) {
     // If the user is not authenticated, do nothing.
     // The home route should not be in the state.
-    if (context['user'] case User user) if (!user.isAuthenticated) return state;
+    //if (context['user'] case User user) if (!user.isAuthenticated) return state;
 
     // Home route should be the first route in the state
     // and should be only one in whole state.
@@ -33,5 +32,5 @@ class HomeGuard extends OctopusGuard {
   /// Change the state of the nested navigation.
   OctopusState _fix(OctopusState$Mutable state) => state
     ..clear()
-    ..putIfAbsent(_homeName, () => Routes.home.node());
+    ..putIfAbsent(_homeName, () => Routes.invoices.node());
 }

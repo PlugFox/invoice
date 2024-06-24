@@ -2,11 +2,11 @@
 
 # Check flutter version
 version:
-	@flutter --version
+	@fvm flutter --version
 
 # Check flutter doctor
 doctor:
-	@flutter doctor
+	@fvm flutter doctor
 
 # Clean all generated files
 clean:
@@ -15,7 +15,7 @@ clean:
 
 # Get dependencies
 get:
-	@flutter pub get
+	@fvm flutter pub get
 
 # Generate assets
 fluttergen:
@@ -26,7 +26,7 @@ fluttergen:
 l10n:
 	@dart pub global activate intl_utils
 	@(dart pub global run intl_utils:generate)
-	@(flutter gen-l10n --arb-dir lib/src/common/localization --output-dir lib/src/common/localization/generated --template-arb-file intl_en.arb)
+	@(fvm flutter gen-l10n --arb-dir lib/src/common/localization --output-dir lib/src/common/localization/generated --template-arb-file intl_en.arb)
 
 # Build runner
 build_runner:
@@ -35,6 +35,7 @@ build_runner:
 # Generate code
 codegen: get fluttergen l10n build_runner format
 
+# Format and fix code
 fix: format
 	@dart fix --apply lib
 
@@ -43,26 +44,25 @@ gen: codegen
 
 # Upgrade dependencies
 upgrade:
-	@flutter pub upgrade
+	@fvm flutter pub upgrade
 
 # Upgrade to major versions
 upgrade-major:
-	@flutter pub upgrade --major-versions
+	@fvm flutter pub upgrade --major-versions
 
 # Check outdated dependencies
 outdated: get
-	@flutter pub outdated
+	@fvm flutter pub outdated
 
 # Check outdated dependencies
 dependencies: upgrade
-	@flutter pub outdated --dependency-overrides \
+	@fvm flutter pub outdated --dependency-overrides \
 		--dev-dependencies --prereleases --show-all --transitive
 
 # Format code
 format:
-	@dart format --fix -l 80 .
-	@(dart format --fix -l 80 .)
-
+	@dart format --fix -l 120 .
+	@(dart format --fix -l 120 .)
 
 # Analyze code
 analyze: get format
@@ -72,8 +72,14 @@ analyze: get format
 check: analyze
 	@dart pub publish --dry-run
 	@dart pub global activate pana
-	@pana --json --no-warning --line-length 80 > log.pana.json
+	@pana --json --no-warning --line-length 120 > log.pana.json
 
 # Publish package
 publish:
 	@dart pub publish
+
+# Install pods
+# sudo gem install cocoapods
+pod-install:
+	@(cd ios && pod install)
+	@(cd macos && pod install)

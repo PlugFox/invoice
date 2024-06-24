@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Dependencies",
+      "label": "dart:pub:get",
       "type": "shell",
       "command": [
         "flutter pub get"
@@ -14,10 +14,26 @@
       "problemMatcher": []
     },
     {
-      "label": "Format",
+      "label": "dart:build_runner:dir",
       "type": "shell",
       "command": [
-        "dart format --fix -l 120"
+        "dart run build_runner build --build-filter '${fileDirname}/*.dart'",
+        "&& dart format --fix -l 120 '${fileDirname}'"
+      ],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "dependsOn": [
+        "dart:pub:get"
+      ]
+    },
+    {
+      "label": "dart:format",
+      "type": "shell",
+      "command": [
+        "dart format --fix -l 120 lib test"
       ],
       "group": {
         "kind": "none",
@@ -26,10 +42,10 @@
       "problemMatcher": []
     },
     {
-      "label": "Codegeneration",
+      "label": "dart:build_runner:all",
       "type": "shell",
       "dependsOn": [
-        "Dependencies"
+        "dart:pub:get"
       ],
       "command": [
         "dart run build_runner build --delete-conflicting-outputs"

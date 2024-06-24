@@ -13,10 +13,12 @@ import 'package:invoice/src/common/util/dio_proxy.dart';
 import 'package:invoice/src/common/util/http_log_interceptor.dart';
 import 'package:invoice/src/common/util/log_buffer.dart';
 import 'package:invoice/src/common/util/screen_util.dart';
-import 'package:invoice/src/feature/authentication/controller/authentication_controller.dart';
-import 'package:invoice/src/feature/authentication/data/authentication_repository.dart';
 import 'package:invoice/src/feature/initialization/data/app_migrator.dart';
 import 'package:invoice/src/feature/initialization/data/platform/platform_initialization.dart';
+import 'package:invoice/src/feature/invoice/data/invoices_local_data_provider.dart';
+import 'package:invoice/src/feature/invoice/data/invoices_repository.dart';
+import 'package:invoice/src/feature/organizations/data/organizations_data_provider.dart';
+import 'package:invoice/src/feature/organizations/data/organizations_repository.dart';
 import 'package:l/l.dart';
 import 'package:platform_info/platform_info.dart';
 import 'package:rxdart/rxdart.dart';
@@ -126,14 +128,14 @@ final Map<String, _InitializationStep> _initializationSteps = <String, _Initiali
       // TODO(plugfox): add dedupe interceptor
     ]);
   },
-  'Prepare authentication controller': (dependencies) =>
-      dependencies.authenticationController = AuthenticationController(
-        repository: AuthenticationRepositoryImpl(
-          sharedPreferences: dependencies.sharedPreferences,
-        ),
-      ),
-  'Restore last user': (dependencies) => dependencies.authenticationController.restore(),
   'Initialize localization': (_) {},
+  'Create organizations repository': (dependencies) =>
+      dependencies.organizationsRepository = OrganizationsRepositoryImpl(
+        localDataProvider: OrganizationsLocalDataProviderDriftImpl(db: dependencies.database),
+      ),
+  'Prepare invoices repository': (dependencies) => dependencies.invoicesRepository = InvoicesRepositoryImpl(
+        localDataProvider: InvoicesLocalDataProviderDriftImpl(db: dependencies.database),
+      ),
   'Collect logs': (dependencies) async {
     await (dependencies.database.select<LogTbl, LogTblData>(dependencies.database.logTbl)
           ..orderBy([(tbl) => OrderingTerm(expression: tbl.time, mode: OrderingMode.desc)])

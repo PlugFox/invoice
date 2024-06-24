@@ -1,7 +1,7 @@
 .PHONY: build-web deploy-web serve-web build-android build-windows
 
 build-web:
-	@flutter build web --release --dart-define-from-file=config/production.json --no-source-maps --pwa-strategy offline-first --web-renderer auto --web-resources-cdn --base-href /
+	@fvm flutter build web --release --dart-define-from-file=config/production.json --no-source-maps --pwa-strategy offline-first --web-renderer auto --web-resources-cdn --base-href /
 
 deploy-web: build-web
 	@firebase deploy
@@ -17,7 +17,7 @@ serve-web: build-web
 	@firebase serve --only hosting -p 8080
 
 build-android:
-	@flutter build apk --release --dart-define-from-file=config/production.json
+	@fvm flutter build apk --release --dart-define-from-file=config/production.json
 
 build-windows:
-	@flutter build windows --release --dart-define-from-file=config/production.json
+	@fvm flutter build windows --release --dart-define-from-file=config/production.json

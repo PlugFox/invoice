@@ -18,8 +18,7 @@ class Sizer extends SingleChildRenderObjectWidget {
   final bool dispatchNotification;
 
   @override
-  RenderObject createRenderObject(BuildContext context) =>
-      _SizerRenderObject((size) {
+  RenderObject createRenderObject(BuildContext context) => _SizerRenderObject((size) {
         final fn = onSizeChanged;
         if (fn != null) {
           SchedulerBinding.instance.addPostFrameCallback((_) => fn(size));
@@ -35,8 +34,7 @@ class _SizerRenderObject extends RenderProxyBox {
   _SizerRenderObject(this.onLayoutChangedCallback);
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) =>
-      super.debugFillProperties(
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) => super.debugFillProperties(
         properties..add(StringProperty('oldSize', size.toString())),
       );
 

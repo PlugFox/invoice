@@ -20,8 +20,7 @@ extension StreamExtension<Input> on Stream<Input> {
 /// {@macro stream.chunker}
 extension ChunkerExtension on Stream<List<int>> {
   /// {@macro stream.chunker}
-  Stream<td.Uint8List> chunker(int size) =>
-      transform<td.Uint8List>(Chunker(size));
+  Stream<td.Uint8List> chunker(int size) => transform<td.Uint8List>(Chunker(size));
 }
 
 /// {@template stream.relieve_stream_transformer}
@@ -47,9 +46,7 @@ class _RelieveStreamTransformer<T> extends StreamTransformerBase<T, T> {
 
   @override
   Stream<T> bind(Stream<T> stream) {
-    final controller = stream.isBroadcast
-        ? StreamController<T>.broadcast(sync: true)
-        : StreamController<T>(sync: true);
+    final controller = stream.isBroadcast ? StreamController<T>.broadcast(sync: true) : StreamController<T>(sync: true);
     return (controller..onListen = () => _onListen(stream, controller)).stream;
   }
 

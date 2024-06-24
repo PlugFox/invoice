@@ -23,7 +23,7 @@
       "env": {}
     },
     {
-      "name": "Run DEV App (Debug, Memmory database)",
+      "name": "Run DEV App (Debug, Memory database)",
       "type": "dart",
       "request": "launch",
       "cwd": "${workspaceFolder}",
@@ -34,7 +34,7 @@
       "env": {}
     },
     {
-      "name": "Run DEV web server (Debug)",
+      "name": "Run DEV Web Server (Debug)",
       "type": "dart",
       "request": "launch",
       "cwd": "${workspaceFolder}",

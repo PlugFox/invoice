@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:invoice/src/common/localization/localization.dart';
+import 'package:platform_info/platform_info.dart';
 import 'package:window_manager/window_manager.dart';
 
 /// {@template window_scope}
@@ -28,20 +29,19 @@ class WindowScope extends StatefulWidget {
 
 class _WindowScopeState extends State<WindowScope> {
   @override
-  Widget build(BuildContext context) =>
-      kIsWeb || io.Platform.isAndroid || io.Platform.isIOS
-          ? widget.child
-          : Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const _WindowTitle(),
-                Expanded(
-                  child: widget.child,
-                ),
-              ],
-            );
+  Widget build(BuildContext context) => kIsWeb || io.Platform.isAndroid || io.Platform.isIOS
+      ? widget.child
+      : Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const _WindowTitle(),
+            Expanded(
+              child: widget.child,
+            ),
+          ],
+        );
 }
 
 class _WindowTitle extends StatefulWidget {
@@ -116,8 +116,7 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
                       child: Center(
                         child: AnimatedSwitcher(
                           duration: const Duration(milliseconds: 250),
-                          transitionBuilder: (child, animation) =>
-                              FadeTransition(
+                          transitionBuilder: (child, animation) => FadeTransition(
                             opacity: animation,
                             child: ScaleTransition(
                               scale: animation,
@@ -125,28 +124,22 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
                             ),
                           ),
                           child: Text(
-                            context
-                                    .findAncestorWidgetOfExactType<
-                                        WindowScope>()
-                                    ?.title ??
-                                Localization.of(context).app,
+                            context.findAncestorWidgetOfExactType<WindowScope>()?.title ?? Localization.of(context).app,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(height: 1),
+                            style: Theme.of(context).textTheme.labelLarge?.copyWith(height: 1),
                           ),
                         ),
                       ),
                     );
                   },
                 ),
-                _WindowButtons$Windows(
-                  isFullScreen: _isFullScreen,
-                  isAlwaysOnTop: _isAlwaysOnTop,
-                  setAlwaysOnTop: setAlwaysOnTop,
-                ),
+                if (platform.isWindows)
+                  _WindowButtons$Windows(
+                    isFullScreen: _isFullScreen,
+                    isAlwaysOnTop: _isAlwaysOnTop,
+                    setAlwaysOnTop: setAlwaysOnTop,
+                  ),
               ],
             ),
           ),
@@ -191,12 +184,14 @@ class _WindowButtons$Windows extends StatelessWidget {
               icon: Icons.minimize,
             ),
 
-            /* ValueListenableBuilder<bool>(
+            // Set full screen
+            ValueListenableBuilder<bool>(
               valueListenable: _isFullScreen,
               builder: (context, isFullScreen, _) => _WindowButton(
-                    onPressed: () => windowManager.setFullScreen(!isFullScreen),
-                    icon: isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
-                  )), */
+                onPressed: () => windowManager.setFullScreen(!isFullScreen),
+                icon: isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+              ),
+            ),
 
             // Close
             _WindowButton(

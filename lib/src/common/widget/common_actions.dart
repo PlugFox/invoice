@@ -3,8 +3,6 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:invoice/src/common/widget/history_button.dart';
-import 'package:invoice/src/feature/account/widget/profile_icon_button.dart';
-import 'package:invoice/src/feature/authentication/widget/log_out_button.dart';
 import 'package:invoice/src/feature/developer/widget/developer_button.dart';
 
 class CommonActions extends ListBase<Widget> {
@@ -12,9 +10,9 @@ class CommonActions extends ListBase<Widget> {
       : _actions = <Widget>[
           ...?actions,
           if (kDebugMode) const DeveloperButton(),
-          const HistoryButton(),
-          const ProfileIconButton(),
-          const LogOutButton(),
+          if (kDebugMode) const HistoryButton(),
+          //const SettingsIconButton(),
+          //const LogOutButton(),
         ];
 
   final List<Widget> _actions;

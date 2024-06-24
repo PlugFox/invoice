@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:invoice/src/feature/account/widget/profile_screen.dart';
-import 'package:invoice/src/feature/account/widget/settings_dialog.dart';
-import 'package:invoice/src/feature/authentication/widget/signin_screen.dart';
-import 'package:invoice/src/feature/authentication/widget/signup_screen.dart';
+import 'package:invoice/src/feature/developer/widget/about_screen.dart';
 import 'package:invoice/src/feature/developer/widget/developer_screen.dart';
-import 'package:invoice/src/feature/home/widget/home_screen.dart';
+import 'package:invoice/src/feature/invoice/widget/invoice_screen.dart';
+import 'package:invoice/src/feature/invoice/widget/invoices_screen.dart';
+import 'package:invoice/src/feature/organizations/widget/organizations_screen.dart';
+import 'package:invoice/src/feature/settings/widget/settings_screen.dart';
 import 'package:octopus/octopus.dart';
 
 enum Routes with OctopusRoute {
-  signin('signin', title: 'Sign-In'),
-  signup('signup', title: 'Sign-Up'),
-  home('home', title: 'Octopus'),
-  profile('profile', title: 'Profile'),
-  developer('developer', title: 'Developer'),
-  settingsDialog('settings-dialog', title: 'Settings');
+  invoices('invoices', title: 'Invoices'),
+  invoice('invoice', title: 'Invoice'),
+  organizations('organizations', title: 'Organizations'),
+  settings('settings', title: 'Settings'),
+  about('about', title: 'About'),
+  developer('developer', title: 'Developer');
 
   const Routes(this.name, {this.title});
 
@@ -25,11 +25,11 @@ enum Routes with OctopusRoute {
 
   @override
   Widget builder(BuildContext context, OctopusState state, OctopusNode node) => switch (this) {
-        Routes.signin => const SignInScreen(),
-        Routes.signup => const SignUpScreen(),
-        Routes.home => const HomeScreen(),
-        Routes.profile => const ProfileScreen(),
+        Routes.invoices => const InvoicesScreen(),
+        Routes.invoice => InvoiceScreen(id: node.arguments['id']),
+        Routes.organizations => const OrganizationsScreen(),
+        Routes.settings => const SettingsScreen(),
+        Routes.about => const AboutScreen(),
         Routes.developer => const DeveloperScreen(),
-        Routes.settingsDialog => const SettingsDialog(),
       };
 }

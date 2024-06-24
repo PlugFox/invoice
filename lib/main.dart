@@ -7,21 +7,26 @@ import 'package:invoice/src/common/widget/app.dart';
 import 'package:invoice/src/common/widget/app_error.dart';
 import 'package:invoice/src/feature/initialization/data/initialization.dart';
 import 'package:invoice/src/feature/initialization/widget/inherited_dependencies.dart';
+import 'package:invoice/src/feature/settings/widget/settings_scope.dart';
+import 'package:octopus/octopus.dart';
+import 'package:platform_info/platform_info.dart';
 
 void main() => appZone(
       () async {
         // Splash screen
-        final initializationProgress =
-            ValueNotifier<({int progress, String message})>(
-                (progress: 0, message: ''));
+        final initializationProgress = ValueNotifier<({int progress, String message})>((progress: 0, message: ''));
         /* runApp(SplashScreen(progress: initializationProgress)); */
         $initializeApp(
-          onProgress: (progress, message) => initializationProgress.value =
-              (progress: progress, message: message),
+          onProgress: (progress, message) => initializationProgress.value = (progress: progress, message: message),
           onSuccess: (dependencies) => runApp(
             InheritedDependencies(
               dependencies: dependencies,
-              child: const App(),
+              child: SettingsScope(
+                child: NoAnimationScope(
+                  noAnimation: platform.isWeb || platform.isDesktop,
+                  child: const App(),
+                ),
+              ),
             ),
           ),
           onError: (error, stackTrace) {

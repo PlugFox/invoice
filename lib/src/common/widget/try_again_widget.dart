@@ -29,8 +29,7 @@ class TryAgainWidget extends StatelessWidget {
               > 40 => const EdgeInsets.all(4),
               _ => EdgeInsets.zero,
             },
-            tooltip:
-                MaterialLocalizations.of(context).refreshIndicatorSemanticLabel,
+            tooltip: MaterialLocalizations.of(context).refreshIndicatorSemanticLabel,
             color: Theme.of(context).colorScheme.error,
             icon: const Icon(Icons.refresh),
           ),

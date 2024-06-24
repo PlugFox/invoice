@@ -124,13 +124,13 @@ sealed class Pubspec {
   /// Build date and time (UTC)
   static final DateTime timestamp = DateTime.utc(
     2024,
-    2,
-    29,
-    17,
-    15,
-    5,
-    755,
-    842,
+    6,
+    23,
+    9,
+    58,
+    9,
+    973,
+    944,
   );
 
   /// Name
@@ -165,7 +165,7 @@ sealed class Pubspec {
   /// Think of the description as the sales pitch for your package.
   /// Users see it when they [browse for packages](https://pub.dev/packages).
   /// The description is plain text: no markdown or HTML.
-  static const String description = r'Invoice Builder';
+  static const String description = r'Invoice Generator';
 
   /// Homepage
   ///
@@ -348,8 +348,8 @@ sealed class Pubspec {
 
   /// Environment
   static const Map<String, String> environment = <String, String>{
-    'sdk': '>=3.2.3 <4.0.0',
-    'flutter': '>=3.2.3 <4.0.0',
+    'sdk': '>=3.3.0 <4.0.0',
+    'flutter': '>=3.3.0 <4.0.0',
   };
 
   /// Platforms
@@ -416,27 +416,32 @@ sealed class Pubspec {
       'sdk': r'flutter',
     },
     'intl': r'any',
-    'octopus': r'^0.0.0',
+    'octopus': r'^0.0.8',
     'meta': r'any',
-    'collection': r'any',
+    'json_annotation': r'^4.8.1',
+    'collection': r'^1.18.0',
     'async': r'any',
     'path': r'any',
     'convert': r'any',
-    'path_provider': r'^2.1.1',
+    'path_provider': r'^2.1.2',
     'platform_info': r'^4.0.2',
     'rxdart': r'^0.28.0-dev.0',
     'url_launcher': r'^6.2.2',
+    'money2': r'^5.0.1',
     'l': r'^5.0.0-pre.2',
-    'win32': r'^5.1.1',
-    'window_manager': r'^0.3.4',
-    'control': r'^0.0.1-pre.0',
+    'web': r'^0.5.1',
+    'win32': r'^5.4.0',
+    'window_manager': r'^0.3.8',
+    'control': r'^0.1.0',
     'shared_preferences': r'^2.2.2',
-    'drift': r'^2.14.1',
-    'sqlite3_flutter_libs': r'^0.5.18',
-    'dio': r'^5.4.0',
+    'drift': r'^2.16.0',
+    'sqlite3_flutter_libs': r'^0.5.24',
+    'dio': r'^5.4.2+1',
     'dio_smart_retry': r'^6.0.0',
     'cupertino_icons': r'^1.0.5',
     'drift_db_viewer': r'^2.0.0',
+    'pdf': r'^3.10.8',
+    'printing': r'^5.12.0',
   };
 
   /// Developer dependencies
@@ -447,13 +452,14 @@ sealed class Pubspec {
     'integration_test': <String, Object>{
       'sdk': r'flutter',
     },
-    'flutter_lints': r'^3.0.1',
+    'flutter_lints': r'^4.0.0',
     'build_runner': r'^2.4.6',
     'drift_dev': r'^2.14.1',
     'pubspec_generator': r'^4.1.0-pre.1',
     'flutter_gen_runner': r'^5.3.2',
+    'json_serializable': r'^6.7.1',
     'flutter_launcher_icons': r'^0.13.1',
-    'flutter_native_splash': r'^2.3.8',
+    'flutter_native_splash': r'^2.4.0',
   };
 
   /// Dependency overrides
@@ -513,6 +519,9 @@ sealed class Pubspec {
       'uses-material-design': true,
       'shaders': <Object>[
         r'assets/shaders/shimmer.frag',
+      ],
+      'assets': <Object>[
+        r'assets/icons/',
       ],
     },
     'flutter_intl': <String, Object>{
