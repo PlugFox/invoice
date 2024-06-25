@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:invoice/src/feature/invoice/model/invoice.dart';
 import 'package:invoice/src/feature/invoice/model/template.dart';
 import 'package:money2/money2.dart';
@@ -161,10 +162,11 @@ class InvoicePDFController with ChangeNotifier implements ValueListenable<Invoic
     try {
       /* final json = const JsonEncoder.withIndent('  ').convert(snapshot.toJson());
       print(json); */
+      final dateFormat = DateFormat('d MMMM yyyy');
       final newPdf = await _state.template.buildPDF(value.invoice, mutableContext);
       await Printing.sharePdf(
         bytes: newPdf,
-        filename: 'invoice.pdf',
+        filename: '${_state.invoice.organization?.name} - ${dateFormat.format(_state.invoice.issuedAt)} invoice.pdf',
         /* bounds: bounds,
         body: body,
         subject: subject,
@@ -209,12 +211,13 @@ class InvoicePDFController with ChangeNotifier implements ValueListenable<Invoic
       ),
     );
     try {
+      final dateFormat = DateFormat('d MMMM yyyy');
       final result = Printing.layoutPdf(
         onLayout: (format) => _state.template.buildPDF(
           _state.invoice,
           mutableContext,
         ),
-        name: 'invoice.pdf',
+        name: '${_state.invoice.organization?.name} - ${dateFormat.format(_state.invoice.issuedAt)} invoice.pdf',
         format: switch (_state.template.format) {
           InvoiceTemplateFormat.a4 => PdfPageFormat.a4,
           InvoiceTemplateFormat.letter => PdfPageFormat.letter,

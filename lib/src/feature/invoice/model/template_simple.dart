@@ -43,12 +43,14 @@ class InvoiceTemplate$Simple extends InvoiceTemplate {
       };
     }
 
+    final dateFormat = DateFormat('d MMMM yyyy');
     final doc = pw.Document(
-      title: extract('title', () => 'Invoice'),
-      subject: extract('subject', () => 'Invoice'),
-      producer: extract('producer', () => ''),
-      author: extract('author', () => ''),
-      creator: extract('author', () => ''),
+      title: extract('title', () => '${invoice.organization?.name} - ${dateFormat.format(invoice.issuedAt)} invoice'),
+      subject: extract('subject',
+          () => '${invoice.organization?.name} - ${dateFormat.format(invoice.issuedAt)} invoice ${invoice.number}'),
+      producer: extract('producer', () => invoice.organization?.name ?? ''),
+      author: extract('author', () => invoice.organization?.name ?? ''),
+      creator: extract('author', () => invoice.organization?.name ?? ''),
       keywords: extract('keywords', () => 'invoice'),
       theme: await InvoicesPDFResourcesHelper().getThemeDataFromFont(font),
       /* compress: ,
