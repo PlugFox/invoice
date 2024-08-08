@@ -366,6 +366,25 @@ class InvoiceTblData extends DataClass implements Insertable<InvoiceTblData> {
         total: total ?? this.total,
         description: description.present ? description.value : this.description,
       );
+  InvoiceTblData copyWithCompanion(InvoiceTblCompanion data) {
+    return InvoiceTblData(
+      id: data.id.present ? data.id.value : this.id,
+      deleted: data.deleted.present ? data.deleted.value : this.deleted,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      issuedAt: data.issuedAt.present ? data.issuedAt.value : this.issuedAt,
+      dueAt: data.dueAt.present ? data.dueAt.value : this.dueAt,
+      paidAt: data.paidAt.present ? data.paidAt.value : this.paidAt,
+      organizationId: data.organizationId.present ? data.organizationId.value : this.organizationId,
+      counterpartyId: data.counterpartyId.present ? data.counterpartyId.value : this.counterpartyId,
+      number: data.number.present ? data.number.value : this.number,
+      status: data.status.present ? data.status.value : this.status,
+      currency: data.currency.present ? data.currency.value : this.currency,
+      total: data.total.present ? data.total.value : this.total,
+      description: data.description.present ? data.description.value : this.description,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('InvoiceTblData(')
@@ -749,6 +768,16 @@ class ServiceTblData extends DataClass implements Insertable<ServiceTblData> {
         name: name ?? this.name,
         amount: amount ?? this.amount,
       );
+  ServiceTblData copyWithCompanion(ServiceTblCompanion data) {
+    return ServiceTblData(
+      id: data.id.present ? data.id.value : this.id,
+      invoiceId: data.invoiceId.present ? data.invoiceId.value : this.invoiceId,
+      number: data.number.present ? data.number.value : this.number,
+      name: data.name.present ? data.name.value : this.name,
+      amount: data.amount.present ? data.amount.value : this.amount,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ServiceTblData(')
@@ -1105,6 +1134,20 @@ class OrganizationTblData extends DataClass implements Insertable<OrganizationTb
         tax: tax.present ? tax.value : this.tax,
         description: description.present ? description.value : this.description,
       );
+  OrganizationTblData copyWithCompanion(OrganizationTblCompanion data) {
+    return OrganizationTblData(
+      id: data.id.present ? data.id.value : this.id,
+      deleted: data.deleted.present ? data.deleted.value : this.deleted,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      type: data.type.present ? data.type.value : this.type,
+      name: data.name.present ? data.name.value : this.name,
+      address: data.address.present ? data.address.value : this.address,
+      tax: data.tax.present ? data.tax.value : this.tax,
+      description: data.description.present ? data.description.value : this.description,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('OrganizationTblData(')
@@ -1435,6 +1478,16 @@ class ContactTblData extends DataClass implements Insertable<ContactTblData> {
         value: value ?? this.value,
         description: description.present ? description.value : this.description,
       );
+  ContactTblData copyWithCompanion(ContactTblCompanion data) {
+    return ContactTblData(
+      id: data.id.present ? data.id.value : this.id,
+      organizationId: data.organizationId.present ? data.organizationId.value : this.organizationId,
+      type: data.type.present ? data.type.value : this.type,
+      value: data.value.present ? data.value.value : this.value,
+      description: data.description.present ? data.description.value : this.description,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ContactTblData(')
@@ -1771,6 +1824,19 @@ class AccountTblData extends DataClass implements Insertable<AccountTblData> {
         beneficiary: beneficiary.present ? beneficiary.value : this.beneficiary,
         description: description.present ? description.value : this.description,
       );
+  AccountTblData copyWithCompanion(AccountTblCompanion data) {
+    return AccountTblData(
+      id: data.id.present ? data.id.value : this.id,
+      organizationId: data.organizationId.present ? data.organizationId.value : this.organizationId,
+      name: data.name.present ? data.name.value : this.name,
+      address: data.address.present ? data.address.value : this.address,
+      swift: data.swift.present ? data.swift.value : this.swift,
+      iban: data.iban.present ? data.iban.value : this.iban,
+      beneficiary: data.beneficiary.present ? data.beneficiary.value : this.beneficiary,
+      description: data.description.present ? data.description.value : this.description,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('AccountTblData(')
@@ -2101,6 +2167,17 @@ class IntermediaryTblData extends DataClass implements Insertable<IntermediaryTb
         swift: swift.present ? swift.value : this.swift,
         description: description.present ? description.value : this.description,
       );
+  IntermediaryTblData copyWithCompanion(IntermediaryTblCompanion data) {
+    return IntermediaryTblData(
+      id: data.id.present ? data.id.value : this.id,
+      accountId: data.accountId.present ? data.accountId.value : this.accountId,
+      name: data.name.present ? data.name.value : this.name,
+      address: data.address.present ? data.address.value : this.address,
+      swift: data.swift.present ? data.swift.value : this.swift,
+      description: data.description.present ? data.description.value : this.description,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('IntermediaryTblData(')
@@ -2367,6 +2444,15 @@ class AvatarTblData extends DataClass implements Insertable<AvatarTblData> {
         bytes: bytes.present ? bytes.value : this.bytes,
         extension: extension ?? this.extension,
       );
+  AvatarTblData copyWithCompanion(AvatarTblCompanion data) {
+    return AvatarTblData(
+      id: data.id.present ? data.id.value : this.id,
+      organizationId: data.organizationId.present ? data.organizationId.value : this.organizationId,
+      bytes: data.bytes.present ? data.bytes.value : this.bytes,
+      extension: data.extension.present ? data.extension.value : this.extension,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('AvatarTblData(')
@@ -2629,6 +2715,16 @@ class SettingsTblData extends DataClass implements Insertable<SettingsTblData> {
         metaCreatedAt: metaCreatedAt ?? this.metaCreatedAt,
         metaUpdatedAt: metaUpdatedAt ?? this.metaUpdatedAt,
       );
+  SettingsTblData copyWithCompanion(SettingsTblCompanion data) {
+    return SettingsTblData(
+      userId: data.userId.present ? data.userId.value : this.userId,
+      jsonData: data.jsonData.present ? data.jsonData.value : this.jsonData,
+      memo: data.memo.present ? data.memo.value : this.memo,
+      metaCreatedAt: data.metaCreatedAt.present ? data.metaCreatedAt.value : this.metaCreatedAt,
+      metaUpdatedAt: data.metaUpdatedAt.present ? data.metaUpdatedAt.value : this.metaUpdatedAt,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('SettingsTblData(')
@@ -2904,6 +3000,16 @@ class LogTblData extends DataClass implements Insertable<LogTblData> {
         message: message ?? this.message,
         stack: stack.present ? stack.value : this.stack,
       );
+  LogTblData copyWithCompanion(LogTblCompanion data) {
+    return LogTblData(
+      id: data.id.present ? data.id.value : this.id,
+      time: data.time.present ? data.time.value : this.time,
+      level: data.level.present ? data.level.value : this.level,
+      message: data.message.present ? data.message.value : this.message,
+      stack: data.stack.present ? data.stack.value : this.stack,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('LogTblData(')
@@ -3150,6 +3256,15 @@ class LogPrefixTblData extends DataClass implements Insertable<LogPrefixTblData>
         word: word ?? this.word,
         len: len ?? this.len,
       );
+  LogPrefixTblData copyWithCompanion(LogPrefixTblCompanion data) {
+    return LogPrefixTblData(
+      prefix: data.prefix.present ? data.prefix.value : this.prefix,
+      logId: data.logId.present ? data.logId.value : this.logId,
+      word: data.word.present ? data.word.value : this.word,
+      len: data.len.present ? data.len.value : this.len,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('LogPrefixTblData(')
@@ -3423,6 +3538,16 @@ class CharacteristicTblData extends DataClass implements Insertable<Characterist
         metaCreatedAt: metaCreatedAt ?? this.metaCreatedAt,
         metaUpdatedAt: metaUpdatedAt ?? this.metaUpdatedAt,
       );
+  CharacteristicTblData copyWithCompanion(CharacteristicTblCompanion data) {
+    return CharacteristicTblData(
+      type: data.type.present ? data.type.value : this.type,
+      id: data.id.present ? data.id.value : this.id,
+      data: data.data.present ? data.data.value : this.data,
+      metaCreatedAt: data.metaCreatedAt.present ? data.metaCreatedAt.value : this.metaCreatedAt,
+      metaUpdatedAt: data.metaUpdatedAt.present ? data.metaUpdatedAt.value : this.metaUpdatedAt,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CharacteristicTblData(')
@@ -3768,6 +3893,19 @@ class KvTblData extends DataClass implements Insertable<KvTblData> {
         metaCreatedAt: metaCreatedAt ?? this.metaCreatedAt,
         metaUpdatedAt: metaUpdatedAt ?? this.metaUpdatedAt,
       );
+  KvTblData copyWithCompanion(KvTblCompanion data) {
+    return KvTblData(
+      k: data.k.present ? data.k.value : this.k,
+      vstring: data.vstring.present ? data.vstring.value : this.vstring,
+      vint: data.vint.present ? data.vint.value : this.vint,
+      vdouble: data.vdouble.present ? data.vdouble.value : this.vdouble,
+      vbool: data.vbool.present ? data.vbool.value : this.vbool,
+      vblob: data.vblob.present ? data.vblob.value : this.vblob,
+      metaCreatedAt: data.metaCreatedAt.present ? data.metaCreatedAt.value : this.metaCreatedAt,
+      metaUpdatedAt: data.metaUpdatedAt.present ? data.metaUpdatedAt.value : this.metaUpdatedAt,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('KvTblData(')
@@ -3931,7 +4069,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
 
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
-  _$DatabaseManager get managers => _$DatabaseManager(this);
+  $DatabaseManager get managers => $DatabaseManager(this);
   late final InvoiceTbl invoiceTbl = InvoiceTbl(this);
   late final Index invoiceCreatedAtIdx =
       Index('invoice_created_at_idx', 'CREATE INDEX IF NOT EXISTS invoice_created_at_idx ON invoice_tbl (created_at)');
@@ -4160,7 +4298,7 @@ abstract class _$Database extends GeneratedDatabase {
       );
 }
 
-typedef $InvoiceTblInsertCompanionBuilder = InvoiceTblCompanion Function({
+typedef $InvoiceTblCreateCompanionBuilder = InvoiceTblCompanion Function({
   Value<int> id,
   Value<int> deleted,
   Value<int> createdAt,
@@ -4199,8 +4337,7 @@ class $InvoiceTblTableManager extends RootTableManager<
     InvoiceTblData,
     $InvoiceTblFilterComposer,
     $InvoiceTblOrderingComposer,
-    $InvoiceTblProcessedTableManager,
-    $InvoiceTblInsertCompanionBuilder,
+    $InvoiceTblCreateCompanionBuilder,
     $InvoiceTblUpdateCompanionBuilder> {
   $InvoiceTblTableManager(_$Database db, InvoiceTbl table)
       : super(TableManagerState(
@@ -4208,8 +4345,7 @@ class $InvoiceTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $InvoiceTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $InvoiceTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $InvoiceTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> deleted = const Value.absent(),
             Value<int> createdAt = const Value.absent(),
@@ -4241,7 +4377,7 @@ class $InvoiceTblTableManager extends RootTableManager<
             total: total,
             description: description,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> deleted = const Value.absent(),
             Value<int> createdAt = const Value.absent(),
@@ -4274,18 +4410,6 @@ class $InvoiceTblTableManager extends RootTableManager<
             description: description,
           ),
         ));
-}
-
-class $InvoiceTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    InvoiceTbl,
-    InvoiceTblData,
-    $InvoiceTblFilterComposer,
-    $InvoiceTblOrderingComposer,
-    $InvoiceTblProcessedTableManager,
-    $InvoiceTblInsertCompanionBuilder,
-    $InvoiceTblUpdateCompanionBuilder> {
-  $InvoiceTblProcessedTableManager(super.$state);
 }
 
 class $InvoiceTblFilterComposer extends FilterComposer<_$Database, InvoiceTbl> {
@@ -4402,7 +4526,7 @@ class $InvoiceTblOrderingComposer extends OrderingComposer<_$Database, InvoiceTb
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $ServiceTblInsertCompanionBuilder = ServiceTblCompanion Function({
+typedef $ServiceTblCreateCompanionBuilder = ServiceTblCompanion Function({
   Value<int> id,
   required int invoiceId,
   required int number,
@@ -4423,8 +4547,7 @@ class $ServiceTblTableManager extends RootTableManager<
     ServiceTblData,
     $ServiceTblFilterComposer,
     $ServiceTblOrderingComposer,
-    $ServiceTblProcessedTableManager,
-    $ServiceTblInsertCompanionBuilder,
+    $ServiceTblCreateCompanionBuilder,
     $ServiceTblUpdateCompanionBuilder> {
   $ServiceTblTableManager(_$Database db, ServiceTbl table)
       : super(TableManagerState(
@@ -4432,8 +4555,7 @@ class $ServiceTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $ServiceTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $ServiceTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $ServiceTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> invoiceId = const Value.absent(),
             Value<int> number = const Value.absent(),
@@ -4447,7 +4569,7 @@ class $ServiceTblTableManager extends RootTableManager<
             name: name,
             amount: amount,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int invoiceId,
             required int number,
@@ -4462,18 +4584,6 @@ class $ServiceTblTableManager extends RootTableManager<
             amount: amount,
           ),
         ));
-}
-
-class $ServiceTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    ServiceTbl,
-    ServiceTblData,
-    $ServiceTblFilterComposer,
-    $ServiceTblOrderingComposer,
-    $ServiceTblProcessedTableManager,
-    $ServiceTblInsertCompanionBuilder,
-    $ServiceTblUpdateCompanionBuilder> {
-  $ServiceTblProcessedTableManager(super.$state);
 }
 
 class $ServiceTblFilterComposer extends FilterComposer<_$Database, ServiceTbl> {
@@ -4519,7 +4629,7 @@ class $ServiceTblOrderingComposer extends OrderingComposer<_$Database, ServiceTb
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $OrganizationTblInsertCompanionBuilder = OrganizationTblCompanion Function({
+typedef $OrganizationTblCreateCompanionBuilder = OrganizationTblCompanion Function({
   Value<int> id,
   Value<int> deleted,
   Value<int> createdAt,
@@ -4548,8 +4658,7 @@ class $OrganizationTblTableManager extends RootTableManager<
     OrganizationTblData,
     $OrganizationTblFilterComposer,
     $OrganizationTblOrderingComposer,
-    $OrganizationTblProcessedTableManager,
-    $OrganizationTblInsertCompanionBuilder,
+    $OrganizationTblCreateCompanionBuilder,
     $OrganizationTblUpdateCompanionBuilder> {
   $OrganizationTblTableManager(_$Database db, OrganizationTbl table)
       : super(TableManagerState(
@@ -4557,8 +4666,7 @@ class $OrganizationTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $OrganizationTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $OrganizationTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $OrganizationTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> deleted = const Value.absent(),
             Value<int> createdAt = const Value.absent(),
@@ -4580,7 +4688,7 @@ class $OrganizationTblTableManager extends RootTableManager<
             tax: tax,
             description: description,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> deleted = const Value.absent(),
             Value<int> createdAt = const Value.absent(),
@@ -4603,18 +4711,6 @@ class $OrganizationTblTableManager extends RootTableManager<
             description: description,
           ),
         ));
-}
-
-class $OrganizationTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    OrganizationTbl,
-    OrganizationTblData,
-    $OrganizationTblFilterComposer,
-    $OrganizationTblOrderingComposer,
-    $OrganizationTblProcessedTableManager,
-    $OrganizationTblInsertCompanionBuilder,
-    $OrganizationTblUpdateCompanionBuilder> {
-  $OrganizationTblProcessedTableManager(super.$state);
 }
 
 class $OrganizationTblFilterComposer extends FilterComposer<_$Database, OrganizationTbl> {
@@ -4689,7 +4785,7 @@ class $OrganizationTblOrderingComposer extends OrderingComposer<_$Database, Orga
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $ContactTblInsertCompanionBuilder = ContactTblCompanion Function({
+typedef $ContactTblCreateCompanionBuilder = ContactTblCompanion Function({
   Value<int> id,
   required int organizationId,
   required int type,
@@ -4710,8 +4806,7 @@ class $ContactTblTableManager extends RootTableManager<
     ContactTblData,
     $ContactTblFilterComposer,
     $ContactTblOrderingComposer,
-    $ContactTblProcessedTableManager,
-    $ContactTblInsertCompanionBuilder,
+    $ContactTblCreateCompanionBuilder,
     $ContactTblUpdateCompanionBuilder> {
   $ContactTblTableManager(_$Database db, ContactTbl table)
       : super(TableManagerState(
@@ -4719,8 +4814,7 @@ class $ContactTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $ContactTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $ContactTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $ContactTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> organizationId = const Value.absent(),
             Value<int> type = const Value.absent(),
@@ -4734,7 +4828,7 @@ class $ContactTblTableManager extends RootTableManager<
             value: value,
             description: description,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int organizationId,
             required int type,
@@ -4749,18 +4843,6 @@ class $ContactTblTableManager extends RootTableManager<
             description: description,
           ),
         ));
-}
-
-class $ContactTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    ContactTbl,
-    ContactTblData,
-    $ContactTblFilterComposer,
-    $ContactTblOrderingComposer,
-    $ContactTblProcessedTableManager,
-    $ContactTblInsertCompanionBuilder,
-    $ContactTblUpdateCompanionBuilder> {
-  $ContactTblProcessedTableManager(super.$state);
 }
 
 class $ContactTblFilterComposer extends FilterComposer<_$Database, ContactTbl> {
@@ -4805,7 +4887,7 @@ class $ContactTblOrderingComposer extends OrderingComposer<_$Database, ContactTb
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $AccountTblInsertCompanionBuilder = AccountTblCompanion Function({
+typedef $AccountTblCreateCompanionBuilder = AccountTblCompanion Function({
   Value<int> id,
   required int organizationId,
   required String name,
@@ -4832,8 +4914,7 @@ class $AccountTblTableManager extends RootTableManager<
     AccountTblData,
     $AccountTblFilterComposer,
     $AccountTblOrderingComposer,
-    $AccountTblProcessedTableManager,
-    $AccountTblInsertCompanionBuilder,
+    $AccountTblCreateCompanionBuilder,
     $AccountTblUpdateCompanionBuilder> {
   $AccountTblTableManager(_$Database db, AccountTbl table)
       : super(TableManagerState(
@@ -4841,8 +4922,7 @@ class $AccountTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $AccountTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $AccountTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $AccountTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> organizationId = const Value.absent(),
             Value<String> name = const Value.absent(),
@@ -4862,7 +4942,7 @@ class $AccountTblTableManager extends RootTableManager<
             beneficiary: beneficiary,
             description: description,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int organizationId,
             required String name,
@@ -4883,18 +4963,6 @@ class $AccountTblTableManager extends RootTableManager<
             description: description,
           ),
         ));
-}
-
-class $AccountTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    AccountTbl,
-    AccountTblData,
-    $AccountTblFilterComposer,
-    $AccountTblOrderingComposer,
-    $AccountTblProcessedTableManager,
-    $AccountTblInsertCompanionBuilder,
-    $AccountTblUpdateCompanionBuilder> {
-  $AccountTblProcessedTableManager(super.$state);
 }
 
 class $AccountTblFilterComposer extends FilterComposer<_$Database, AccountTbl> {
@@ -4962,7 +5030,7 @@ class $AccountTblOrderingComposer extends OrderingComposer<_$Database, AccountTb
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $IntermediaryTblInsertCompanionBuilder = IntermediaryTblCompanion Function({
+typedef $IntermediaryTblCreateCompanionBuilder = IntermediaryTblCompanion Function({
   Value<int> id,
   required int accountId,
   required String name,
@@ -4985,8 +5053,7 @@ class $IntermediaryTblTableManager extends RootTableManager<
     IntermediaryTblData,
     $IntermediaryTblFilterComposer,
     $IntermediaryTblOrderingComposer,
-    $IntermediaryTblProcessedTableManager,
-    $IntermediaryTblInsertCompanionBuilder,
+    $IntermediaryTblCreateCompanionBuilder,
     $IntermediaryTblUpdateCompanionBuilder> {
   $IntermediaryTblTableManager(_$Database db, IntermediaryTbl table)
       : super(TableManagerState(
@@ -4994,8 +5061,7 @@ class $IntermediaryTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $IntermediaryTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $IntermediaryTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $IntermediaryTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> accountId = const Value.absent(),
             Value<String> name = const Value.absent(),
@@ -5011,7 +5077,7 @@ class $IntermediaryTblTableManager extends RootTableManager<
             swift: swift,
             description: description,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int accountId,
             required String name,
@@ -5028,18 +5094,6 @@ class $IntermediaryTblTableManager extends RootTableManager<
             description: description,
           ),
         ));
-}
-
-class $IntermediaryTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    IntermediaryTbl,
-    IntermediaryTblData,
-    $IntermediaryTblFilterComposer,
-    $IntermediaryTblOrderingComposer,
-    $IntermediaryTblProcessedTableManager,
-    $IntermediaryTblInsertCompanionBuilder,
-    $IntermediaryTblUpdateCompanionBuilder> {
-  $IntermediaryTblProcessedTableManager(super.$state);
 }
 
 class $IntermediaryTblFilterComposer extends FilterComposer<_$Database, IntermediaryTbl> {
@@ -5092,7 +5146,7 @@ class $IntermediaryTblOrderingComposer extends OrderingComposer<_$Database, Inte
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $AvatarTblInsertCompanionBuilder = AvatarTblCompanion Function({
+typedef $AvatarTblCreateCompanionBuilder = AvatarTblCompanion Function({
   Value<int> id,
   required int organizationId,
   Value<Uint8List?> bytes,
@@ -5105,23 +5159,15 @@ typedef $AvatarTblUpdateCompanionBuilder = AvatarTblCompanion Function({
   Value<String> extension,
 });
 
-class $AvatarTblTableManager extends RootTableManager<
-    _$Database,
-    AvatarTbl,
-    AvatarTblData,
-    $AvatarTblFilterComposer,
-    $AvatarTblOrderingComposer,
-    $AvatarTblProcessedTableManager,
-    $AvatarTblInsertCompanionBuilder,
-    $AvatarTblUpdateCompanionBuilder> {
+class $AvatarTblTableManager extends RootTableManager<_$Database, AvatarTbl, AvatarTblData, $AvatarTblFilterComposer,
+    $AvatarTblOrderingComposer, $AvatarTblCreateCompanionBuilder, $AvatarTblUpdateCompanionBuilder> {
   $AvatarTblTableManager(_$Database db, AvatarTbl table)
       : super(TableManagerState(
           db: db,
           table: table,
           filteringComposer: $AvatarTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $AvatarTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $AvatarTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> organizationId = const Value.absent(),
             Value<Uint8List?> bytes = const Value.absent(),
@@ -5133,7 +5179,7 @@ class $AvatarTblTableManager extends RootTableManager<
             bytes: bytes,
             extension: extension,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int organizationId,
             Value<Uint8List?> bytes = const Value.absent(),
@@ -5146,18 +5192,6 @@ class $AvatarTblTableManager extends RootTableManager<
             extension: extension,
           ),
         ));
-}
-
-class $AvatarTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    AvatarTbl,
-    AvatarTblData,
-    $AvatarTblFilterComposer,
-    $AvatarTblOrderingComposer,
-    $AvatarTblProcessedTableManager,
-    $AvatarTblInsertCompanionBuilder,
-    $AvatarTblUpdateCompanionBuilder> {
-  $AvatarTblProcessedTableManager(super.$state);
 }
 
 class $AvatarTblFilterComposer extends FilterComposer<_$Database, AvatarTbl> {
@@ -5195,7 +5229,7 @@ class $AvatarTblOrderingComposer extends OrderingComposer<_$Database, AvatarTbl>
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $SettingsTblInsertCompanionBuilder = SettingsTblCompanion Function({
+typedef $SettingsTblCreateCompanionBuilder = SettingsTblCompanion Function({
   required String userId,
   required String jsonData,
   Value<String?> memo,
@@ -5218,8 +5252,7 @@ class $SettingsTblTableManager extends RootTableManager<
     SettingsTblData,
     $SettingsTblFilterComposer,
     $SettingsTblOrderingComposer,
-    $SettingsTblProcessedTableManager,
-    $SettingsTblInsertCompanionBuilder,
+    $SettingsTblCreateCompanionBuilder,
     $SettingsTblUpdateCompanionBuilder> {
   $SettingsTblTableManager(_$Database db, SettingsTbl table)
       : super(TableManagerState(
@@ -5227,8 +5260,7 @@ class $SettingsTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $SettingsTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $SettingsTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $SettingsTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> userId = const Value.absent(),
             Value<String> jsonData = const Value.absent(),
             Value<String?> memo = const Value.absent(),
@@ -5244,7 +5276,7 @@ class $SettingsTblTableManager extends RootTableManager<
             metaUpdatedAt: metaUpdatedAt,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String userId,
             required String jsonData,
             Value<String?> memo = const Value.absent(),
@@ -5261,18 +5293,6 @@ class $SettingsTblTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $SettingsTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    SettingsTbl,
-    SettingsTblData,
-    $SettingsTblFilterComposer,
-    $SettingsTblOrderingComposer,
-    $SettingsTblProcessedTableManager,
-    $SettingsTblInsertCompanionBuilder,
-    $SettingsTblUpdateCompanionBuilder> {
-  $SettingsTblProcessedTableManager(super.$state);
 }
 
 class $SettingsTblFilterComposer extends FilterComposer<_$Database, SettingsTbl> {
@@ -5320,7 +5340,7 @@ class $SettingsTblOrderingComposer extends OrderingComposer<_$Database, Settings
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $LogTblInsertCompanionBuilder = LogTblCompanion Function({
+typedef $LogTblCreateCompanionBuilder = LogTblCompanion Function({
   Value<int> id,
   Value<int> time,
   required int level,
@@ -5335,23 +5355,15 @@ typedef $LogTblUpdateCompanionBuilder = LogTblCompanion Function({
   Value<String?> stack,
 });
 
-class $LogTblTableManager extends RootTableManager<
-    _$Database,
-    LogTbl,
-    LogTblData,
-    $LogTblFilterComposer,
-    $LogTblOrderingComposer,
-    $LogTblProcessedTableManager,
-    $LogTblInsertCompanionBuilder,
-    $LogTblUpdateCompanionBuilder> {
+class $LogTblTableManager extends RootTableManager<_$Database, LogTbl, LogTblData, $LogTblFilterComposer,
+    $LogTblOrderingComposer, $LogTblCreateCompanionBuilder, $LogTblUpdateCompanionBuilder> {
   $LogTblTableManager(_$Database db, LogTbl table)
       : super(TableManagerState(
           db: db,
           table: table,
           filteringComposer: $LogTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $LogTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $LogTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> time = const Value.absent(),
             Value<int> level = const Value.absent(),
@@ -5365,7 +5377,7 @@ class $LogTblTableManager extends RootTableManager<
             message: message,
             stack: stack,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> time = const Value.absent(),
             required int level,
@@ -5380,18 +5392,6 @@ class $LogTblTableManager extends RootTableManager<
             stack: stack,
           ),
         ));
-}
-
-class $LogTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    LogTbl,
-    LogTblData,
-    $LogTblFilterComposer,
-    $LogTblOrderingComposer,
-    $LogTblProcessedTableManager,
-    $LogTblInsertCompanionBuilder,
-    $LogTblUpdateCompanionBuilder> {
-  $LogTblProcessedTableManager(super.$state);
 }
 
 class $LogTblFilterComposer extends FilterComposer<_$Database, LogTbl> {
@@ -5435,7 +5435,7 @@ class $LogTblOrderingComposer extends OrderingComposer<_$Database, LogTbl> {
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $LogPrefixTblInsertCompanionBuilder = LogPrefixTblCompanion Function({
+typedef $LogPrefixTblCreateCompanionBuilder = LogPrefixTblCompanion Function({
   required String prefix,
   required int logId,
   required String word,
@@ -5456,8 +5456,7 @@ class $LogPrefixTblTableManager extends RootTableManager<
     LogPrefixTblData,
     $LogPrefixTblFilterComposer,
     $LogPrefixTblOrderingComposer,
-    $LogPrefixTblProcessedTableManager,
-    $LogPrefixTblInsertCompanionBuilder,
+    $LogPrefixTblCreateCompanionBuilder,
     $LogPrefixTblUpdateCompanionBuilder> {
   $LogPrefixTblTableManager(_$Database db, LogPrefixTbl table)
       : super(TableManagerState(
@@ -5465,8 +5464,7 @@ class $LogPrefixTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $LogPrefixTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $LogPrefixTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $LogPrefixTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> prefix = const Value.absent(),
             Value<int> logId = const Value.absent(),
             Value<String> word = const Value.absent(),
@@ -5480,7 +5478,7 @@ class $LogPrefixTblTableManager extends RootTableManager<
             len: len,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String prefix,
             required int logId,
             required String word,
@@ -5495,18 +5493,6 @@ class $LogPrefixTblTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $LogPrefixTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    LogPrefixTbl,
-    LogPrefixTblData,
-    $LogPrefixTblFilterComposer,
-    $LogPrefixTblOrderingComposer,
-    $LogPrefixTblProcessedTableManager,
-    $LogPrefixTblInsertCompanionBuilder,
-    $LogPrefixTblUpdateCompanionBuilder> {
-  $LogPrefixTblProcessedTableManager(super.$state);
 }
 
 class $LogPrefixTblFilterComposer extends FilterComposer<_$Database, LogPrefixTbl> {
@@ -5543,7 +5529,7 @@ class $LogPrefixTblOrderingComposer extends OrderingComposer<_$Database, LogPref
       column: $state.table.len, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $CharacteristicTblInsertCompanionBuilder = CharacteristicTblCompanion Function({
+typedef $CharacteristicTblCreateCompanionBuilder = CharacteristicTblCompanion Function({
   required String type,
   required int id,
   required String data,
@@ -5566,8 +5552,7 @@ class $CharacteristicTblTableManager extends RootTableManager<
     CharacteristicTblData,
     $CharacteristicTblFilterComposer,
     $CharacteristicTblOrderingComposer,
-    $CharacteristicTblProcessedTableManager,
-    $CharacteristicTblInsertCompanionBuilder,
+    $CharacteristicTblCreateCompanionBuilder,
     $CharacteristicTblUpdateCompanionBuilder> {
   $CharacteristicTblTableManager(_$Database db, CharacteristicTbl table)
       : super(TableManagerState(
@@ -5575,8 +5560,7 @@ class $CharacteristicTblTableManager extends RootTableManager<
           table: table,
           filteringComposer: $CharacteristicTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $CharacteristicTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $CharacteristicTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> type = const Value.absent(),
             Value<int> id = const Value.absent(),
             Value<String> data = const Value.absent(),
@@ -5592,7 +5576,7 @@ class $CharacteristicTblTableManager extends RootTableManager<
             metaUpdatedAt: metaUpdatedAt,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String type,
             required int id,
             required String data,
@@ -5609,18 +5593,6 @@ class $CharacteristicTblTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $CharacteristicTblProcessedTableManager extends ProcessedTableManager<
-    _$Database,
-    CharacteristicTbl,
-    CharacteristicTblData,
-    $CharacteristicTblFilterComposer,
-    $CharacteristicTblOrderingComposer,
-    $CharacteristicTblProcessedTableManager,
-    $CharacteristicTblInsertCompanionBuilder,
-    $CharacteristicTblUpdateCompanionBuilder> {
-  $CharacteristicTblProcessedTableManager(super.$state);
 }
 
 class $CharacteristicTblFilterComposer extends FilterComposer<_$Database, CharacteristicTbl> {
@@ -5665,7 +5637,7 @@ class $CharacteristicTblOrderingComposer extends OrderingComposer<_$Database, Ch
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $KvTblInsertCompanionBuilder = KvTblCompanion Function({
+typedef $KvTblCreateCompanionBuilder = KvTblCompanion Function({
   required String k,
   Value<String?> vstring,
   Value<int?> vint,
@@ -5689,15 +5661,14 @@ typedef $KvTblUpdateCompanionBuilder = KvTblCompanion Function({
 });
 
 class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, $KvTblFilterComposer,
-    $KvTblOrderingComposer, $KvTblProcessedTableManager, $KvTblInsertCompanionBuilder, $KvTblUpdateCompanionBuilder> {
+    $KvTblOrderingComposer, $KvTblCreateCompanionBuilder, $KvTblUpdateCompanionBuilder> {
   $KvTblTableManager(_$Database db, KvTbl table)
       : super(TableManagerState(
           db: db,
           table: table,
           filteringComposer: $KvTblFilterComposer(ComposerState(db, table)),
           orderingComposer: $KvTblOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $KvTblProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> k = const Value.absent(),
             Value<String?> vstring = const Value.absent(),
             Value<int?> vint = const Value.absent(),
@@ -5719,7 +5690,7 @@ class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, 
             metaUpdatedAt: metaUpdatedAt,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String k,
             Value<String?> vstring = const Value.absent(),
             Value<int?> vint = const Value.absent(),
@@ -5742,11 +5713,6 @@ class $KvTblTableManager extends RootTableManager<_$Database, KvTbl, KvTblData, 
             rowid: rowid,
           ),
         ));
-}
-
-class $KvTblProcessedTableManager extends ProcessedTableManager<_$Database, KvTbl, KvTblData, $KvTblFilterComposer,
-    $KvTblOrderingComposer, $KvTblProcessedTableManager, $KvTblInsertCompanionBuilder, $KvTblUpdateCompanionBuilder> {
-  $KvTblProcessedTableManager(super.$state);
 }
 
 class $KvTblFilterComposer extends FilterComposer<_$Database, KvTbl> {
@@ -5814,9 +5780,9 @@ class $KvTblOrderingComposer extends OrderingComposer<_$Database, KvTbl> {
       builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class _$DatabaseManager {
+class $DatabaseManager {
   final _$Database _db;
-  _$DatabaseManager(this._db);
+  $DatabaseManager(this._db);
   $InvoiceTblTableManager get invoiceTbl => $InvoiceTblTableManager(_db, _db.invoiceTbl);
   $ServiceTblTableManager get serviceTbl => $ServiceTblTableManager(_db, _db.serviceTbl);
   $OrganizationTblTableManager get organizationTbl => $OrganizationTblTableManager(_db, _db.organizationTbl);

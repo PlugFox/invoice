@@ -11,7 +11,6 @@ doctor:
 # Clean all generated files
 clean:
 	@rm -rf coverage .dart_tool .packages pubspec.lock
-	@(rm -rf coverage .dart_tool .packages pubspec.lock)
 
 # Get dependencies
 get:
@@ -25,8 +24,8 @@ fluttergen:
 # Generate localization
 l10n:
 	@dart pub global activate intl_utils
-	@(dart pub global run intl_utils:generate)
-	@(fvm flutter gen-l10n --arb-dir lib/src/common/localization --output-dir lib/src/common/localization/generated --template-arb-file intl_en.arb)
+	@dart pub global run intl_utils:generate
+	@fvm flutter gen-l10n --arb-dir lib/src/common/localization --output-dir lib/src/common/localization/generated --template-arb-file intl_en.arb
 
 # Build runner
 build_runner:
@@ -62,7 +61,6 @@ dependencies: upgrade
 # Format code
 format:
 	@dart format --fix -l 120 .
-	@(dart format --fix -l 120 .)
 
 # Analyze code
 analyze: get format

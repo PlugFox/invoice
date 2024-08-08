@@ -38,7 +38,7 @@
     "**.pbjson.dart",
     "**/generated/**"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.22.2",
+  "dart.flutterSdkPath": ".fvm/versions/stable",
   "search.exclude": {
     "**/.fvm": true,
     ".dart_tool": true,

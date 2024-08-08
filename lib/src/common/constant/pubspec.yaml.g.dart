@@ -124,13 +124,13 @@ sealed class Pubspec {
   /// Build date and time (UTC)
   static final DateTime timestamp = DateTime.utc(
     2024,
-    6,
-    25,
-    14,
+    8,
+    8,
+    15,
+    2,
     50,
-    37,
-    54,
-    604,
+    623,
+    246,
   );
 
   /// Name
@@ -348,8 +348,8 @@ sealed class Pubspec {
 
   /// Environment
   static const Map<String, String> environment = <String, String>{
-    'sdk': '>=3.3.0 <4.0.0',
-    'flutter': '>=3.3.0 <4.0.0',
+    'sdk': '>=3.4.0 <4.0.0',
+    'flutter': '>=3.4.0 <4.0.0',
   };
 
   /// Platforms
@@ -416,7 +416,7 @@ sealed class Pubspec {
       'sdk': r'flutter',
     },
     'intl': r'any',
-    'octopus': r'^0.0.8',
+    'octopus': r'^0.0.9',
     'meta': r'any',
     'json_annotation': r'^4.8.1',
     'collection': r'^1.18.0',
@@ -429,17 +429,17 @@ sealed class Pubspec {
     'url_launcher': r'^6.2.2',
     'money2': r'^5.0.1',
     'l': r'^5.0.0-pre.2',
-    'web': r'^0.5.1',
+    'web': r'^1.0.0',
     'win32': r'^5.4.0',
-    'window_manager': r'^0.3.8',
+    'window_manager': r'^0.4.0',
     'control': r'^0.1.0',
     'shared_preferences': r'^2.2.2',
-    'drift': r'^2.16.0',
+    'drift': r'^2.19.1+1',
     'sqlite3_flutter_libs': r'^0.5.24',
     'dio': r'^5.4.2+1',
     'dio_smart_retry': r'^6.0.0',
     'cupertino_icons': r'^1.0.5',
-    'drift_db_viewer': r'^2.0.0',
+    'drift_db_viewer': r'^2.1.0',
     'pdf': r'^3.10.8',
     'printing': r'^5.12.0',
   };
@@ -454,7 +454,7 @@ sealed class Pubspec {
     },
     'flutter_lints': r'^4.0.0',
     'build_runner': r'^2.4.6',
-    'drift_dev': r'^2.14.1',
+    'drift_dev': r'^2.19.1',
     'pubspec_generator': r'^4.1.0-pre.1',
     'flutter_gen_runner': r'^5.3.2',
     'json_serializable': r'^6.7.1',
@@ -463,7 +463,9 @@ sealed class Pubspec {
   };
 
   /// Dependency overrides
-  static const Map<String, Object> dependencyOverrides = <String, Object>{};
+  static const Map<String, Object> dependencyOverrides = <String, Object>{
+    'web': r'^1.0.0',
+  };
 
   /// Executables
   ///
